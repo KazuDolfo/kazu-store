@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔥 Kazuya Store - Torneo de Openings Anime 🔥</title>
+  <title>🔥 Kazuya Store - Torneo Anime (OPs & EDs) 🔥</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -16,7 +16,7 @@
     <h1 class="text-2xl sm:text-4xl font-black font-cyber text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-400 to-cyan-400 glow-text-pink">
       KAZUYA STORE
     </h1>
-    <p class="text-xs sm:text-sm text-cyan-300/80 mt-1 font-medium tracking-wide">Torneo de Openings de Anime</p>
+    <p class="text-xs sm:text-sm text-cyan-300/80 mt-1 font-medium tracking-wide">Torneo de Openings & Endings</p>
   </header>
 
   <!-- CONTENEDOR PRINCIPAL -->
@@ -41,6 +41,7 @@
         <div id="anime-results" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-80 overflow-y-auto hidden pr-1"></div>
       </div>
 
+      <!-- PANEL DE TEMAS CON SELECTOR OP / ED -->
       <div id="openings-container" class="glass-cyber p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4 hidden anim-fade-up">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-800/80 pb-4">
           <div>
@@ -48,6 +49,20 @@
             <h2 id="selected-anime-title" class="text-lg sm:text-2xl font-black text-white glow-text-cyan"></h2>
             <p id="openings-count" class="text-xs text-pink-400 mt-0.5 font-bold"></p>
           </div>
+
+          <!-- BOTONES DE FILTRO (OPENINGS / ENDINGS / AMBOS) -->
+          <div class="flex items-center gap-1.5 bg-gray-950/80 p-1.5 rounded-xl border border-gray-800">
+            <button id="filter-op-btn" class="px-3 py-1.5 rounded-lg text-xs font-cyber font-bold bg-pink-600 text-white shadow transition">
+              OPENINGS (OP)
+            </button>
+            <button id="filter-ed-btn" class="px-3 py-1.5 rounded-lg text-xs font-cyber font-bold text-gray-400 hover:text-white transition">
+              ENDINGS (ED)
+            </button>
+            <button id="filter-all-btn" class="px-3 py-1.5 rounded-lg text-xs font-cyber font-bold text-gray-400 hover:text-white transition">
+              TODOS (OP+ED)
+            </button>
+          </div>
+
           <button id="start-tournament-btn" class="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 active:scale-95 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl shadow-xl transition glow-box-cyan clip-btn text-gray-950">
             ⚔️ INICIAR TORNEO
           </button>
@@ -105,7 +120,7 @@
       <div class="space-y-3">
         <div class="text-5xl sm:text-6xl animate-bounce">👑</div>
         <span class="text-[10px] sm:text-xs font-cyber tracking-widest text-yellow-400 uppercase">KAZUYA STORE • CHAMPION</span>
-        <h2 class="text-2xl sm:text-4xl font-black font-cyber text-yellow-400 glow-text-pink">¡OPENING SUPREMO!</h2>
+        <h2 class="text-2xl sm:text-4xl font-black font-cyber text-yellow-400 glow-text-pink">¡CAMPEÓN SUPREMO!</h2>
         <p id="winner-name" class="text-base sm:text-xl font-bold text-white px-2"></p>
         <div class="max-w-xl mx-auto video-wrapper shadow-2xl glow-box-gold">
           <video id="winner-video" controls autoplay playsinline></video>

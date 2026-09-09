@@ -1,10 +1,12 @@
 ﻿/**
- * Torneo de Openings - Kazuya Store
- * Motor con Proxy Streaming para saltar bloqueo 403 de AnimeThemes
+ * Torneo de Openings & Endings - Kazuya Store
+ * Soporte para filtrado dinámico: OP, ED y Torneo Mixto
  */
 const App = (() => {
   const state = {
+    allRawThemes: [],
     currentOpenings: [],
+    selectedFilter: "OP", // 'OP', 'ED', 'ALL'
     tournamentQueue: [],
     nextRoundQueue: [],
     tournamentHistory: [],
@@ -25,6 +27,9 @@ const App = (() => {
     selectedAnimeTitle: document.getElementById("selected-anime-title"),
     openingsCount: document.getElementById("openings-count"),
     openingsList: document.getElementById("openings-list"),
+    filterOpBtn: document.getElementById("filter-op-btn"),
+    filterEdBtn: document.getElementById("filter-ed-btn"),
+    filterAllBtn: document.getElementById("filter-all-btn"),
     startTournamentBtn: document.getElementById("start-tournament-btn"),
     setupSection: document.getElementById("setup-section"),
     tournamentSection: document.getElementById("tournament-section"),
@@ -46,10 +51,8 @@ const App = (() => {
     newTournamentBtn: document.getElementById("new-tournament-btn"),
   };
 
-  // Resuelve la URL para saltar el bloqueo 403 de AnimeThemes
   const getProxiedUrl = (url) => {
     if (!url) return "";
-    // En Vercel usa la función /api/proxy automática
     if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1" && window.location.protocol.startsWith("http")) {
       return `/api/proxy?url=${encodeURIComponent(url)}`;
     }
@@ -110,50 +113,72 @@ const App = (() => {
     state.activeAnimeTitle = anime.name;
     dom.animeResults.classList.add("hidden");
 
-    const themes = anime.animethemes || [];
-    const openings = themes.filter(t => t.type === "OP");
+    state.allRawThemes = anime.animethemes || [];
+    state.selectedFilter = "OP";
+    applyFilter();
+  };
 
-    if (openings.length === 0) {
-      showStatus(`No se encontraron Openings registrados para "${anime.name}".`, "error");
-      return;
+  const applyFilter = () => {
+    let filtered = [];
+
+    if (state.selectedFilter === "OP") {
+      filtered = state.allRawThemes.filter(t => t.type === "OP");
+    } else if (state.selectedFilter === "ED") {
+      filtered = state.allRawThemes.filter(t => t.type === "ED");
+    } else {
+      filtered = state.allRawThemes.filter(t => t.type === "OP" || t.type === "ED");
     }
 
     const ops = [];
-    openings.forEach((op, idx) => {
-      const songTitle = op.song?.title ? ` - ${op.song.title}` : ` Opening ${idx + 1}`;
-      const artist = op.song?.artists?.length ? ` (${op.song.artists[0].name})` : "";
-      const video = op.animethemeentries?.[0]?.videos?.[0]?.link;
+    filtered.forEach((theme, idx) => {
+      const songTitle = theme.song?.title ? ` - ${theme.song.title}` : ` Theme ${idx + 1}`;
+      const artist = theme.song?.artists?.length ? ` (${theme.song.artists[0].name})` : "";
+      const video = theme.animethemeentries?.[0]?.videos?.[0]?.link;
 
       if (video) {
         ops.push({
-          id: op.id || idx + 1,
-          name: `OP ${op.sequence || idx + 1}${songTitle}${artist}`,
+          id: theme.id || idx + 1,
+          type: theme.type,
+          name: `${theme.type} ${theme.sequence || idx + 1}${songTitle}${artist}`,
           videoUrl: video
         });
       }
     });
 
+    state.currentOpenings = ops;
+    updateFilterButtonsUI();
+
     if (ops.length === 0) {
-      showStatus("Los openings encontrados no tienen enlaces de video activos.", "error");
+      showStatus(`No se encontraron ${state.selectedFilter === "OP" ? "Openings" : state.selectedFilter === "ED" ? "Endings" : "Temas"} disponibles para "${state.activeAnimeTitle}".`, "error");
+      renderOpenings();
       return;
     }
 
-    state.currentOpenings = ops;
-    showStatus("✓ Openings listos para la batalla", "success");
+    showStatus("✓ Temas listos para el torneo", "success");
     renderOpenings();
+  };
+
+  const updateFilterButtonsUI = () => {
+    const activeClass = "px-3 py-1.5 rounded-lg text-xs font-cyber font-bold bg-pink-600 text-white shadow transition";
+    const inactiveClass = "px-3 py-1.5 rounded-lg text-xs font-cyber font-bold text-gray-400 hover:text-white transition";
+
+    dom.filterOpBtn.className = state.selectedFilter === "OP" ? activeClass : inactiveClass;
+    dom.filterEdBtn.className = state.selectedFilter === "ED" ? activeClass : inactiveClass;
+    dom.filterAllBtn.className = state.selectedFilter === "ALL" ? activeClass : inactiveClass;
   };
 
   const renderOpenings = () => {
     dom.selectedAnimeTitle.textContent = state.activeAnimeTitle;
-    dom.openingsCount.textContent = `${state.currentOpenings.length} openings listos`;
+    dom.openingsCount.textContent = `${state.currentOpenings.length} temas seleccionados (${state.selectedFilter})`;
     dom.openingsList.innerHTML = "";
 
     state.currentOpenings.forEach((item, index) => {
+      const isOp = item.type === "OP";
       const li = document.createElement("li");
       li.className = "flex items-center justify-between gap-2.5 bg-gray-950/80 border border-pink-500/20 hover:border-pink-500/50 px-3.5 py-2.5 rounded-xl transition shadow-md anim-fade-up";
       li.innerHTML = `
         <div class="flex items-center gap-2.5 flex-1 min-w-0">
-          <span class="text-[10px] sm:text-xs font-cyber font-bold px-2 py-0.5 bg-pink-900/60 border border-pink-500/40 text-pink-300 rounded shrink-0">OP ${index + 1}</span>
+          <span class="text-[10px] sm:text-xs font-cyber font-bold px-2 py-0.5 ${isOp ? 'bg-pink-900/60 text-pink-300 border-pink-500/40' : 'bg-cyan-900/60 text-cyan-300 border-cyan-500/40'} border rounded shrink-0">${item.type} ${index + 1}</span>
           <input type="text" value="${item.name.replace(/"/g, "&quot;")}" class="bg-transparent border-b border-transparent hover:border-gray-600 focus:border-cyan-400 focus:outline-none text-xs sm:text-sm text-gray-200 w-full font-medium" />
         </div>
         <button class="delete-btn text-gray-500 hover:text-red-400 px-2 py-1 transition font-bold text-xs" title="Eliminar">✕</button>
@@ -176,7 +201,7 @@ const App = (() => {
 
   const startTournament = () => {
     if (state.currentOpenings.length < 2) {
-      alert("Se necesitan al menos 2 openings para iniciar el torneo.");
+      alert("Se necesitan al menos 2 temas para iniciar el torneo.");
       return;
     }
 
@@ -338,6 +363,22 @@ const App = (() => {
     dom.searchBtn.addEventListener("click", searchAnime);
     dom.animeInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") searchAnime();
+    });
+
+    // Eventos de Filtro OP / ED / ALL
+    dom.filterOpBtn.addEventListener("click", () => {
+      state.selectedFilter = "OP";
+      applyFilter();
+    });
+
+    dom.filterEdBtn.addEventListener("click", () => {
+      state.selectedFilter = "ED";
+      applyFilter();
+    });
+
+    dom.filterAllBtn.addEventListener("click", () => {
+      state.selectedFilter = "ALL";
+      applyFilter();
     });
 
     dom.startTournamentBtn.addEventListener("click", startTournament);
