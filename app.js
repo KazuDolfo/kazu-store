@@ -1,12 +1,12 @@
 ﻿/**
  * Torneo de Openings & Endings - Kazuya Store
- * Soporte para filtrado dinámico: OP, ED y Torneo Mixto
+ * Motor Optimizado: Single Active Player + Buffer Cleanup + Debounced Retries
  */
 const App = (() => {
   const state = {
     allRawThemes: [],
     currentOpenings: [],
-    selectedFilter: "OP", // 'OP', 'ED', 'ALL'
+    selectedFilter: "OP",
     tournamentQueue: [],
     nextRoundQueue: [],
     tournamentHistory: [],
@@ -64,6 +64,53 @@ const App = (() => {
     dom.searchStatus.className = `text-xs sm:text-sm font-cyber font-medium block anim-fade-up ${
       type === "error" ? "text-red-400" : type === "success" ? "text-cyan-400 glow-text-cyan" : "text-pink-400 glow-text-pink"
     }`;
+  };
+
+  // Limpieza profunda de conexiones de red y buffers
+  const releaseVideoResources = (videoEl) => {
+    if (!videoEl) return;
+    videoEl.pause();
+    videoEl.removeAttribute("src");
+    videoEl.load(); // Libera sockets y buffer del navegador
+    videoEl.dataset.rawUrl = "";
+    videoEl.dataset.retried = "";
+  };
+
+  const stopAllVideos = () => {
+    releaseVideoResources(dom.videoA);
+    releaseVideoResources(dom.videoB);
+    releaseVideoResources(dom.winnerVideo);
+  };
+
+  // Carga perezosa con reintento seguro y debounced
+  const mountVideoLazy = (videoEl, url) => {
+    releaseVideoResources(videoEl);
+    videoEl.dataset.rawUrl = url;
+    videoEl.preload = "none"; // Cero descarga hasta dar play
+    videoEl.src = getProxiedUrl(url);
+
+    // Auto-reintento silencioso si la red se corta
+    videoEl.onerror = () => {
+      const originalUrl = videoEl.dataset.rawUrl;
+      if (originalUrl && !videoEl.dataset.retried) {
+        videoEl.dataset.retried = "true";
+        setTimeout(() => {
+          videoEl.src = getProxiedUrl(originalUrl);
+          videoEl.load();
+        }, 800);
+      }
+    };
+  };
+
+  // Control de reproducción única: pausar el otro video si uno empieza a sonar
+  const setupMutualExclusion = () => {
+    dom.videoA.addEventListener("play", () => {
+      if (!dom.videoB.paused) dom.videoB.pause();
+    });
+
+    dom.videoB.addEventListener("play", () => {
+      if (!dom.videoA.paused) dom.videoA.pause();
+    });
   };
 
   const searchAnime = async () => {
@@ -217,19 +264,6 @@ const App = (() => {
     nextMatch();
   };
 
-  const setVideo = (videoEl, url) => {
-    videoEl.src = getProxiedUrl(url);
-    videoEl.load();
-  };
-
-  const stopVideos = () => {
-    [dom.videoA, dom.videoB, dom.winnerVideo].forEach(v => {
-      v.pause();
-      v.removeAttribute("src");
-      v.load();
-    });
-  };
-
   const nextMatch = () => {
     if (state.tournamentQueue.length === 0) {
       if (state.nextRoundQueue.length === 1) {
@@ -259,10 +293,10 @@ const App = (() => {
     state.currentMatchIndex++;
 
     dom.nameA.textContent = state.currentContenderA.name;
-    setVideo(dom.videoA, state.currentContenderA.videoUrl);
+    mountVideoLazy(dom.videoA, state.currentContenderA.videoUrl);
 
     dom.nameB.textContent = state.currentContenderB.name;
-    setVideo(dom.videoB, state.currentContenderB.videoUrl);
+    mountVideoLazy(dom.videoB, state.currentContenderB.videoUrl);
 
     [dom.cardA, dom.cardB].forEach(card => {
       card.style.animation = 'none';
@@ -280,7 +314,7 @@ const App = (() => {
       winner: winnerContender,
     });
     state.nextRoundQueue.push(winnerContender);
-    stopVideos();
+    stopAllVideos(); // Cancela inmediatamente las descargas del duelo previo
     nextMatch();
   };
 
@@ -355,17 +389,18 @@ const App = (() => {
     dom.tournamentSection.classList.add("hidden");
     dom.winnerSection.classList.remove("hidden");
     dom.winnerName.textContent = winner.name;
-    setVideo(dom.winnerVideo, winner.videoUrl);
+    mountVideoLazy(dom.winnerVideo, winner.videoUrl);
     renderBracket(winner);
   };
 
   const init = () => {
+    setupMutualExclusion();
+
     dom.searchBtn.addEventListener("click", searchAnime);
     dom.animeInput.addEventListener("keypress", (e) => {
       if (e.key === "Enter") searchAnime();
     });
 
-    // Eventos de Filtro OP / ED / ALL
     dom.filterOpBtn.addEventListener("click", () => {
       state.selectedFilter = "OP";
       applyFilter();
@@ -386,13 +421,13 @@ const App = (() => {
     dom.voteBBtn.addEventListener("click", () => handleVote(state.currentContenderB));
 
     dom.cancelTournamentBtn.addEventListener("click", () => {
-      stopVideos();
+      stopAllVideos();
       dom.tournamentSection.classList.add("hidden");
       dom.setupSection.classList.remove("hidden");
     });
 
     dom.newTournamentBtn.addEventListener("click", () => {
-      stopVideos();
+      stopAllVideos();
       dom.winnerSection.classList.add("hidden");
       dom.setupSection.classList.remove("hidden");
     });
