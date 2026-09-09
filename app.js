@@ -1,6 +1,6 @@
 ﻿/**
  * Torneo de Openings & Endings - Kazuya Store
- * Motor Optimizado: Single Active Player + Buffer Cleanup + Debounced Retries
+ * Motor Exclusivo AnimeThemes.moe (API Oficial + Video Streaming 100% Directo)
  */
 const App = (() => {
   const state = {
@@ -66,12 +66,11 @@ const App = (() => {
     }`;
   };
 
-  // Limpieza profunda de conexiones de red y buffers
   const releaseVideoResources = (videoEl) => {
     if (!videoEl) return;
     videoEl.pause();
     videoEl.removeAttribute("src");
-    videoEl.load(); // Libera sockets y buffer del navegador
+    videoEl.load();
     videoEl.dataset.rawUrl = "";
     videoEl.dataset.retried = "";
   };
@@ -82,14 +81,12 @@ const App = (() => {
     releaseVideoResources(dom.winnerVideo);
   };
 
-  // Carga perezosa con reintento seguro y debounced
   const mountVideoLazy = (videoEl, url) => {
     releaseVideoResources(videoEl);
     videoEl.dataset.rawUrl = url;
-    videoEl.preload = "none"; // Cero descarga hasta dar play
+    videoEl.preload = "none";
     videoEl.src = getProxiedUrl(url);
 
-    // Auto-reintento silencioso si la red se corta
     videoEl.onerror = () => {
       const originalUrl = videoEl.dataset.rawUrl;
       if (originalUrl && !videoEl.dataset.retried) {
@@ -102,7 +99,6 @@ const App = (() => {
     };
   };
 
-  // Control de reproducción única: pausar el otro video si uno empieza a sonar
   const setupMutualExclusion = () => {
     dom.videoA.addEventListener("play", () => {
       if (!dom.videoB.paused) dom.videoB.pause();
@@ -113,11 +109,12 @@ const App = (() => {
     });
   };
 
+  // 100% Exclusivo AnimeThemes.moe
   const searchAnime = async () => {
     const query = dom.animeInput.value.trim();
     if (!query) return;
 
-    showStatus("Buscando anime en la base de datos...", "info");
+    showStatus("Buscando en AnimeThemes.moe...", "info");
     dom.animeResults.innerHTML = "";
     dom.animeResults.classList.remove("hidden");
 
@@ -133,7 +130,7 @@ const App = (() => {
     } catch (e) {}
 
     if (animeList.length === 0) {
-      showStatus("No se encontraron animes para esa búsqueda.", "error");
+      showStatus("No se encontraron animes en AnimeThemes.moe.", "error");
       return;
     }
 
@@ -196,12 +193,12 @@ const App = (() => {
     updateFilterButtonsUI();
 
     if (ops.length === 0) {
-      showStatus(`No se encontraron ${state.selectedFilter === "OP" ? "Openings" : state.selectedFilter === "ED" ? "Endings" : "Temas"} disponibles para "${state.activeAnimeTitle}".`, "error");
+      showStatus(`No se encontraron ${state.selectedFilter === "OP" ? "Openings" : state.selectedFilter === "ED" ? "Endings" : "Temas"} con video disponible en AnimeThemes.`, "error");
       renderOpenings();
       return;
     }
 
-    showStatus("✓ Temas listos para el torneo", "success");
+    showStatus("✓ Temas cargados desde AnimeThemes.moe", "success");
     renderOpenings();
   };
 
@@ -216,7 +213,7 @@ const App = (() => {
 
   const renderOpenings = () => {
     dom.selectedAnimeTitle.textContent = state.activeAnimeTitle;
-    dom.openingsCount.textContent = `${state.currentOpenings.length} temas seleccionados (${state.selectedFilter})`;
+    dom.openingsCount.textContent = `${state.currentOpenings.length} temas listos (${state.selectedFilter})`;
     dom.openingsList.innerHTML = "";
 
     state.currentOpenings.forEach((item, index) => {
@@ -314,7 +311,7 @@ const App = (() => {
       winner: winnerContender,
     });
     state.nextRoundQueue.push(winnerContender);
-    stopAllVideos(); // Cancela inmediatamente las descargas del duelo previo
+    stopAllVideos();
     nextMatch();
   };
 
