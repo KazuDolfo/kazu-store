@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔥 Kazuya Store - Torneo de Openings Anime 🔥</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="text-gray-100 min-h-screen flex flex-col selection:bg-pink-500 selection:text-white">
+  <!-- HEADER KAZUYA STORE -->
+  <header class="p-4 sm:p-6 text-center border-b border-pink-500/20 bg-gray-950/80 sticky top-0 z-50 backdrop-blur">
+    <div class="inline-block px-3 py-1 bg-pink-500/10 border border-pink-500/40 rounded-full text-[10px] sm:text-xs font-cyber text-pink-400 mb-1.5 uppercase tracking-widest animate-pulse">
+      ⚡ KAZUYA STORE • BATTLE ROYALE ⚡
+    </div>
+    <h1 class="text-2xl sm:text-4xl font-black font-cyber text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-400 to-cyan-400 glow-text-pink">
+      KAZUYA STORE
+    </h1>
+    <p class="text-xs sm:text-sm text-cyan-300/80 mt-1 font-medium tracking-wide">Torneo de Openings de Anime</p>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="flex-1 max-w-5xl w-full mx-auto p-3 sm:p-6 space-y-6 sm:space-y-8">
+    <!-- SECCIÓN 1: CONFIGURACIÓN Y BÚSQUEDA -->
+    <section id="setup-section" class="space-y-6 anim-fade-up">
+      <div class="glass-cyber p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping"></span>
+          <label for="anime-input" class="block text-xs sm:text-sm font-cyber font-bold uppercase tracking-wider text-pink-400">
+            BUSCAR ANIME
+          </label>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-2">
+          <input id="anime-input" type="text" placeholder="Ej: Naruto, Bleach, Attack on Titan, Jujutsu Kaisen, One Piece..." 
+                 class="flex-1 px-4 py-3 rounded-xl bg-gray-900 border border-pink-500/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400 text-pink-50 placeholder-gray-400 transition shadow-inner font-semibold text-sm" />
+          <button id="search-btn" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl transition shadow-lg glow-box-pink active:scale-95 clip-btn text-white">
+            BUSCAR 🔍
+          </button>
+        </div>
+        <div id="search-status" class="text-xs sm:text-sm font-medium hidden"></div>
+        <div id="anime-results" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-80 overflow-y-auto hidden pr-1"></div>
+      </div>
+
+      <div id="openings-container" class="glass-cyber p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4 hidden anim-fade-up">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-800/80 pb-4">
+          <div>
+            <span class="text-[10px] font-cyber tracking-widest text-cyan-400 uppercase">ANIME SELECCIONADO</span>
+            <h2 id="selected-anime-title" class="text-lg sm:text-2xl font-black text-white glow-text-cyan"></h2>
+            <p id="openings-count" class="text-xs text-pink-400 mt-0.5 font-bold"></p>
+          </div>
+          <button id="start-tournament-btn" class="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 active:scale-95 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl shadow-xl transition glow-box-cyan clip-btn text-gray-950">
+            ⚔️ INICIAR TORNEO
+          </button>
+        </div>
+
+        <ul id="openings-list" class="space-y-2 max-h-96 overflow-y-auto pr-1"></ul>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: DUELOS (VERSUS) -->
+    <section id="tournament-section" class="hidden space-y-4 sm:space-y-6 anim-fade-up">
+      <div class="flex justify-between items-center glass-cyber p-3 sm:p-4 rounded-xl">
+        <div>
+          <span id="round-title" class="text-[10px] sm:text-xs font-cyber font-bold tracking-widest text-pink-400 uppercase"></span>
+          <h2 id="match-title" class="text-lg sm:text-2xl font-black font-cyber text-white glow-text-cyan"></h2>
+        </div>
+        <button id="cancel-tournament-btn" class="px-3 py-1.5 text-xs font-cyber bg-gray-900 border border-gray-700 hover:border-pink-500 text-gray-300 rounded-lg transition active:scale-95">
+          Reiniciar
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
+        <!-- DUELO A -->
+        <div id="card-a" class="glass-cyber p-4 sm:p-5 rounded-2xl flex flex-col justify-between space-y-3 border-2 border-pink-500/40 hover:border-pink-500 transition glow-box-pink anim-slide-left">
+          <div class="space-y-1">
+            <span class="inline-block px-2.5 py-0.5 text-[10px] sm:text-xs font-cyber font-black bg-pink-500/20 text-pink-400 border border-pink-500/40 rounded">OPCIÓN A (LEFT)</span>
+            <h3 id="name-a" class="text-sm sm:text-base font-bold text-white line-clamp-2 min-h-[2.5rem]"></h3>
+          </div>
+          <div class="video-wrapper">
+            <video id="video-a" controls playsinline preload="metadata"></video>
+          </div>
+          <button id="vote-a-btn" class="w-full py-3 bg-gradient-to-r from-pink-600 via-pink-500 to-rose-500 hover:from-pink-500 hover:to-rose-400 active:scale-95 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl text-center shadow-lg transition clip-btn text-white glow-box-pink">
+            VOTAR OPCIÓN A 🔥
+          </button>
+        </div>
+
+        <!-- DUELO B -->
+        <div id="card-b" class="glass-cyber p-4 sm:p-5 rounded-2xl flex flex-col justify-between space-y-3 border-2 border-cyan-500/40 hover:border-cyan-400 transition glow-box-cyan anim-slide-right">
+          <div class="space-y-1">
+            <span class="inline-block px-2.5 py-0.5 text-[10px] sm:text-xs font-cyber font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 rounded">OPCIÓN B (RIGHT)</span>
+            <h3 id="name-b" class="text-sm sm:text-base font-bold text-white line-clamp-2 min-h-[2.5rem]"></h3>
+          </div>
+          <div class="video-wrapper">
+            <video id="video-b" controls playsinline preload="metadata"></video>
+          </div>
+          <button id="vote-b-btn" class="w-full py-3 bg-gradient-to-r from-cyan-500 via-teal-400 to-blue-500 hover:from-cyan-400 hover:to-blue-400 active:scale-95 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl text-center shadow-lg transition clip-btn text-gray-950 glow-box-cyan">
+            VOTAR OPCIÓN B ⚡
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: GANADOR Y BRACKET -->
+    <section id="winner-section" class="hidden text-center py-6 sm:py-8 space-y-6 glass-cyber rounded-2xl p-4 sm:p-6 anim-winner-pop">
+      <div class="space-y-3">
+        <div class="text-5xl sm:text-6xl animate-bounce">👑</div>
+        <span class="text-[10px] sm:text-xs font-cyber tracking-widest text-yellow-400 uppercase">KAZUYA STORE • CHAMPION</span>
+        <h2 class="text-2xl sm:text-4xl font-black font-cyber text-yellow-400 glow-text-pink">¡OPENING SUPREMO!</h2>
+        <p id="winner-name" class="text-base sm:text-xl font-bold text-white px-2"></p>
+        <div class="max-w-xl mx-auto video-wrapper shadow-2xl glow-box-gold">
+          <video id="winner-video" controls autoplay playsinline></video>
+        </div>
+      </div>
+
+      <!-- BRACKET ANIME -->
+      <div class="text-left border-t border-gray-800/80 pt-6 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base sm:text-lg font-cyber font-black text-pink-400 glow-text-pink">🏆 ÁRBOL DE DUELOS (BRACKET)</h3>
+          <span class="text-[10px] sm:text-xs font-cyber text-cyan-400">DESPLAZAR →</span>
+        </div>
+        <div id="bracket-container" class="bracket-wrapper bg-gray-950/80 rounded-xl border border-pink-500/20"></div>
+      </div>
+
+      <div class="pt-2">
+        <button id="new-tournament-btn" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-500 hover:opacity-90 active:scale-95 font-cyber font-bold text-xs sm:text-sm rounded-xl transition shadow-2xl glow-box-pink clip-btn">
+          CREAR NUEVO TORNEO 🔁
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="p-4 text-center border-t border-gray-800 bg-gray-950/90 text-[10px] sm:text-xs text-gray-500 font-cyber">
+    © 2026 KAZUYA STORE • ALL RIGHTS RESERVED
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
