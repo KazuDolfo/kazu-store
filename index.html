@@ -1452,6 +1452,7 @@
                         <div class="kc-admin-inputs">
                             <input type="tel" id="admin-tel-input" placeholder="Ej: 987654321" maxlength="15">
                             <select id="admin-stamps-select">
+                                <option value="0">0 Sellos (Tarjeta Limpia / Reinicio)</option>
                                 <option value="1">1 Sello (Bienvenida)</option>
                                 <option value="2">2 Sellos (1ra Compra)</option>
                                 <option value="3">3 Sellos (2da Compra)</option>
@@ -1791,7 +1792,18 @@
 
         // Leer parámetros de URL si el cliente viene con un enlace personalizado
         const urlParams = new URLSearchParams(window.location.search);
-        let currentStamps = parseInt(urlParams.get('kc')) || parseInt(localStorage.getItem('kazu_stamps')) || 0;
+        let currentStamps = 0;
+        if (urlParams.has('kc')) {
+            currentStamps = parseInt(urlParams.get('kc')) || 0;
+            localStorage.setItem('kazu_stamps', currentStamps);
+            if (currentStamps === 0) {
+                // Al reiniciar explícitamente a 0 desde URL, ya se considera cliente existente
+                localStorage.setItem('kazu_seen_welcome', 'true');
+            }
+        } else if (localStorage.getItem('kazu_stamps') !== null) {
+            currentStamps = parseInt(localStorage.getItem('kazu_stamps')) || 0;
+        }
+
         let currentPhone = urlParams.get('tel') || localStorage.getItem('kazu_tel') || '';
         const hasSeenWelcome = localStorage.getItem('kazu_seen_welcome');
 
@@ -1799,7 +1811,7 @@
 
         function renderKazuCardState() {
             if (kcFloatCounter) kcFloatCounter.textContent = `${currentStamps}/5`;
-            if (kcActivePhone) kcActivePhone.textContent = currentPhone ? `📱 ${currentPhone}` : (currentStamps === 0 ? 'Cliente Nuevo' : 'Cliente Nuevo (Bienvenida)');
+            if (kcActivePhone) kcActivePhone.textContent = currentPhone ? `📱 ${currentPhone}` : (currentStamps === 0 ? 'Cliente Nuevo' : 'Cliente Registrado');
             if (kcStampsPillCount) kcStampsPillCount.textContent = `${currentStamps} / 5 Sellos Activos`;
 
             for (let i = 1; i <= 5; i++) {
