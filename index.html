@@ -1791,17 +1791,15 @@
 
         // Leer parámetros de URL si el cliente viene con un enlace personalizado
         const urlParams = new URLSearchParams(window.location.search);
-        let currentStamps = parseInt(urlParams.get('kc')) || parseInt(localStorage.getItem('kazu_stamps')) || 1;
+        let currentStamps = parseInt(urlParams.get('kc')) || parseInt(localStorage.getItem('kazu_stamps')) || 0;
         let currentPhone = urlParams.get('tel') || localStorage.getItem('kazu_tel') || '';
+        const hasSeenWelcome = localStorage.getItem('kazu_seen_welcome');
 
-        // Limitar entre 1 y 5 sellos
-        currentStamps = Math.max(1, Math.min(5, currentStamps));
-        localStorage.setItem('kazu_stamps', currentStamps);
         if (currentPhone) localStorage.setItem('kazu_tel', currentPhone);
 
         function renderKazuCardState() {
             if (kcFloatCounter) kcFloatCounter.textContent = `${currentStamps}/5`;
-            if (kcActivePhone) kcActivePhone.textContent = currentPhone ? `📱 ${currentPhone}` : 'Cliente Nuevo (Bienvenida)';
+            if (kcActivePhone) kcActivePhone.textContent = currentPhone ? `📱 ${currentPhone}` : (currentStamps === 0 ? 'Cliente Nuevo' : 'Cliente Nuevo (Bienvenida)');
             if (kcStampsPillCount) kcStampsPillCount.textContent = `${currentStamps} / 5 Sellos Activos`;
 
             for (let i = 1; i <= 5; i++) {
@@ -1823,6 +1821,8 @@
             if (kcProgressText) {
                 if (currentStamps === 5) {
                     kcProgressText.innerHTML = '🎉 <strong>¡Felicidades! Completaste tus 5 sellos. Canjea tu premio ahora.</strong>';
+                } else if (currentStamps === 0) {
+                    kcProgressText.textContent = 'Progreso: 0 de 5 sellos (¡Abre tu tarjeta y obtén tu 1er sello gratis!)';
                 } else {
                     const remaining = 5 - currentStamps;
                     kcProgressText.textContent = `Progreso: ${currentStamps} de 5 sellos (¡Faltan ${remaining} ${remaining === 1 ? 'compra' : 'compras'}!)`;
@@ -1840,25 +1840,28 @@
         }
 
         const kcWelcomeGift = document.getElementById('kc-welcome-gift');
-        const hasSeenWelcome = localStorage.getItem('kazu_seen_welcome');
 
         function triggerOpenKcModal() {
-            updateKazuCardWhatsappLink();
-            kcModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
+            // Si es primera vez y está en 0, otorgar en vivo el sello 1 con animación
+            if (!hasSeenWelcome && currentStamps === 0) {
+                currentStamps = 1;
+                localStorage.setItem('kazu_stamps', 1);
+                localStorage.setItem('kazu_seen_welcome', 'true');
+                renderKazuCardState();
 
-            // Animación de impacto de bienvenida al abrir si es primera vez
-            if (!hasSeenWelcome && currentStamps === 1 && kcWelcomeGift) {
-                kcWelcomeGift.style.display = 'block';
+                if (kcWelcomeGift) kcWelcomeGift.style.display = 'block';
                 const firstSlot = document.getElementById('kc-slot-1');
                 if (firstSlot) {
                     firstSlot.classList.remove('stamped');
                     setTimeout(() => {
                         firstSlot.classList.add('stamped', 'stamp-slam-anim');
-                        localStorage.setItem('kazu_seen_welcome', 'true');
-                    }, 400);
+                    }, 350);
                 }
             }
+
+            updateKazuCardWhatsappLink();
+            kcModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         if (openKcBtn && kcModal) openKcBtn.addEventListener('click', triggerOpenKcModal);
