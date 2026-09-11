@@ -1452,14 +1452,15 @@
                         <div class="kc-admin-inputs">
                             <input type="tel" id="admin-tel-input" placeholder="Ej: 987654321" maxlength="15">
                             <select id="admin-stamps-select">
-                                <option value="0">0 Sellos (Tarjeta Limpia / Reinicio)</option>
+                                <option value="0">0 Sellos (Tarjeta Limpia / Reinicio Post-Canje)</option>
                                 <option value="1">1 Sello (Bienvenida)</option>
                                 <option value="2">2 Sellos (1ra Compra)</option>
                                 <option value="3">3 Sellos (2da Compra)</option>
                                 <option value="4">4 Sellos (3ra Compra)</option>
-                                <option value="5">5 Sellos (¡Canje Listo!)</option>
+                                <option value="5">5 Sellos (¡Canje de Premio Listo!)</option>
                             </select>
-                            <button type="button" id="admin-gen-btn" class="kc-copy-btn">📋 Copiar Enlace para WhatsApp</button>
+                            <button type="button" id="admin-gen-btn" class="kc-copy-btn">📋 Generar Enlace</button>
+                            <button type="button" id="admin-reset-btn" class="kc-copy-btn" style="background: rgba(239, 68, 68, 0.25); border-color: rgba(239, 68, 68, 0.5); color: #fca5a5;">🔄 Generar Enlace 0 Sellos</button>
                         </div>
                         <span class="kc-gen-feedback" id="kc-gen-feedback"></span>
                     </div>
@@ -1927,6 +1928,8 @@
             });
         }
 
+        const adminResetBtn = document.getElementById('admin-reset-btn');
+
         if (adminGenBtn) {
             adminGenBtn.addEventListener('click', () => {
                 const tel = adminTelInput.value.trim() || 'Cliente';
@@ -1939,6 +1942,21 @@
                     setTimeout(() => { kcGenFeedback.textContent = ''; }, 4000);
                 }).catch(() => {
                     prompt('Copia el enlace del cliente:', clientUrl);
+                });
+            });
+        }
+
+        if (adminResetBtn) {
+            adminResetBtn.addEventListener('click', () => {
+                const tel = adminTelInput.value.trim() || 'Cliente';
+                const baseUrl = window.location.origin + window.location.pathname;
+                const clientUrl = `${baseUrl}?kc=0&tel=${encodeURIComponent(tel)}`;
+
+                navigator.clipboard.writeText(clientUrl).then(() => {
+                    kcGenFeedback.textContent = `🔄 ¡Enlace de reinicio copiado! (0 sellos limpios para ${tel}). Pégalo en WhatsApp.`;
+                    setTimeout(() => { kcGenFeedback.textContent = ''; }, 4000);
+                }).catch(() => {
+                    prompt('Copia el enlace de reinicio:', clientUrl);
                 });
             });
         }
