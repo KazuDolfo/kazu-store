@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>KazuStore | Servicios Digitales y Cuentas de Streaming en Perú</title>
     
+    <!-- Metadatos de Seguridad & Referrer Policy -->
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
     <!-- Metadatos SEO Técnicos -->
     <meta name="description" content="KazuStore Perú: Venta de cuentas y perfiles de streaming, música, licencias de software y herramientas de IA con garantía total, entrega inmediata y precios en Soles (S/).">
     <meta name="keywords" content="Netflix Peru, Disney+, Max HBO, Prime Video, Spotify Premium, YouTube Premium, Windows 11, Canva Pro, Gemini Pro, IPTV Peru, KazuStore">
@@ -35,20 +39,21 @@
     <!-- Estilos CSS -->
     <link rel="stylesheet" href="styles.css">
 
-    <!-- Schema.org Datos Estructurados (JSON-LD) -->
+    <!-- Schema.org Datos Estructurados (JSON-LD Protegido) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Store",
+      "@type": "OnlineStore",
       "name": "KazuStore",
       "description": "Tienda digital de servicios de streaming, música, sistemas y herramientas de inteligencia artificial en Perú.",
       "url": "https://kazustore.com/",
       "currenciesAccepted": "PEN, USD",
-      "paymentAccepted": "Cash, Bank Transfer, Mobile Payment, Cryptocurrency",
+      "paymentAccepted": "Yape, Plin, Transferencia Bancaria, Binance USDT",
       "priceRange": "S/ 7.00 - S/ 80.00 / $ 2.00 - $ 25.00 USD",
-      "telephone": "+1234567890",
-      "email": "bernardocubas36@gmail.com",
-      "areaServed": "PE"
+      "areaServed": {
+        "@type": "Country",
+        "name": "PE"
+      }
     }
     </script>
 </head>
@@ -1488,8 +1493,13 @@
 
     <!-- Pie de página -->
     <footer role="contentinfo">
-        <p>&copy; 2026 KazuStore. Todos los derechos reservados.</p>
-        <p>Garantía directa en todos los servicios digitales.</p>
+        <p>&copy; 2026 <strong>KazuStore</strong>. Todos los derechos reservados.</p>
+        <p style="font-size: 0.82rem; opacity: 0.75; max-width: 700px; margin: 0.5rem auto;">
+            🛡️ <strong>Deslinde Legal:</strong> KazuStore es un intermediario independiente de soporte digital y suscripciones. Todos los nombres, marcas y logotipos comerciales (Netflix, Spotify, Canva, etc.) pertenecen a sus respectivos propietarios y se usan solo con fines descriptivos.
+        </p>
+        <p style="font-size: 0.85rem; margin-top: 0.5rem;">
+            🔒 Conexión Segura SSL | ⚡ Garantía directa de reemplazo durante el periodo contratado.
+        </p>
     </footer>
 
     <!-- Scripts: Tema + Modal Dinámico -->
