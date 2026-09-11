@@ -1,153 +1,1771 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>🔥 Kazuya Store - Torneo Anime (OPs & EDs) 🔥</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>KazuStore | Servicios Digitales y Cuentas de Streaming en Perú</title>
+    
+    <!-- Metadatos SEO Técnicos -->
+    <meta name="description" content="KazuStore Perú: Venta de cuentas y perfiles de streaming, música, licencias de software y herramientas de IA con garantía total, entrega inmediata y precios en Soles (S/).">
+    <meta name="keywords" content="Netflix Peru, Disney+, Max HBO, Prime Video, Spotify Premium, YouTube Premium, Windows 11, Canva Pro, Gemini Pro, IPTV Peru, KazuStore">
+    <meta name="author" content="KazuStore">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#111827">
+    <link rel="canonical" href="https://kazustore.com/">
+
+    <!-- Open Graph / Redes Sociales -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://kazustore.com/">
+    <meta property="og:title" content="KazuStore | Servicios Digitales y Streaming en Perú">
+    <meta property="og:description" content="Adquiere Netflix, Disney+, Spotify, Windows 11, Canva Pro y más con garantía total y tarifas promocionales por WhatsApp.">
+    <meta property="og:locale" content="es_PE">
+    <meta property="og:site_name" content="KazuStore">
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="KazuStore | Servicios Digitales y Streaming en Perú">
+    <meta name="twitter:description" content="Servicios de streaming y software productivo al mejor precio en Soles.">
+
+    <!-- Preconnect & Carga de Fuentes Optimizada (Evita Bloqueo de Render) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Schema.org Datos Estructurados (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "KazuStore",
+      "description": "Tienda digital de servicios de streaming, música, sistemas y herramientas de inteligencia artificial en Perú.",
+      "url": "https://kazustore.com/",
+      "currenciesAccepted": "PEN, USD",
+      "paymentAccepted": "Cash, Bank Transfer, Mobile Payment, Cryptocurrency",
+      "priceRange": "S/ 7.00 - S/ 80.00 / $ 2.00 - $ 25.00 USD",
+      "telephone": "+1234567890",
+      "email": "bernardocubas36@gmail.com",
+      "areaServed": "PE"
+    }
+    </script>
 </head>
-<body class="text-gray-100 min-h-screen flex flex-col selection:bg-pink-500 selection:text-white">
-  <!-- HEADER KAZUYA STORE -->
-  <header class="p-4 sm:p-6 text-center border-b border-pink-500/20 bg-gray-950/80 sticky top-0 z-50 backdrop-blur">
-    <div class="inline-block px-3 py-1 bg-pink-500/10 border border-pink-500/40 rounded-full text-[10px] sm:text-xs font-cyber text-pink-400 mb-1.5 uppercase tracking-widest animate-pulse">
-      ⚡ KAZUYA STORE • BATTLE ROYALE ⚡
+<body>
+
+    <!-- Canvas de Fondo: Constelaciones y Partículas Interactivas -->
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+    <!-- Encabezado / Barra de Navegación -->
+    <header role="banner">
+        <div class="header-left">
+            <div class="logo">
+                <h1>KazuStore</h1>
+            </div>
+            <button type="button" class="theme-toggle-btn" id="theme-toggle" aria-label="Cambiar entre modo claro y oscuro">
+                🌓 Modo Claro
+            </button>
+            <div class="currency-toggle-wrapper">
+                <button type="button" class="currency-btn active" id="curr-pen" data-curr="PEN" title="Ver precios en Soles (PEN)">🇵🇪 PEN S/</button>
+                <button type="button" class="currency-btn" id="curr-usd" data-curr="USD" title="Ver precios en Dólares (USD)">💵 USD $</button>
+            </div>
+        </div>
+        <nav aria-label="Navegación principal">
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#streaming">Streaming &amp; TV</a></li>
+                <li><a href="#musica">Música</a></li>
+                <li><a href="#ofimatica">Sistemas &amp; Ofimática</a></li>
+                <li><a href="#ia">IA &amp; Herramientas</a></li>
+                <li><a href="#diseno">Diseño &amp; Edición</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#faq">Preguntas Frecuentes</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main role="main">
+        <!-- Hero Minimalista Futurista (Apple / Vercel Style) -->
+        <section id="inicio" aria-labelledby="hero-title" class="hero-futuristic">
+            <div class="hero-pill-badge">
+                <span class="hero-pill-dot"></span>
+                <span>✨ PRECIOS MAYORISTAS &amp; PROMOCIONES 2026</span>
+            </div>
+            
+            <h2 id="hero-title" class="hero-giant-title">
+                Acceso Digital Ilimitado.<br>
+                <span class="gradient-text">Sin Pagar de Más.</span>
+            </h2>
+            
+            <p class="hero-subtitle">
+                Streaming, software y herramientas de IA con activación inmediata, garantía directa y pagos en Soles (S/).
+            </p>
+            
+            <!-- Buscador Central Inteligente Glassmorphism -->
+            <div class="futuristic-search-box">
+                <div class="search-glow-layer"></div>
+                <div class="search-inner-bar">
+                    <span class="search-kbd-icon">⌘K</span>
+                    <input type="text" id="live-search" placeholder="Busca Netflix, Disney+, Spotify, Windows 11, ChatGPT..." aria-label="Buscar servicio en el catálogo" autocomplete="off">
+                    <span class="search-pulse-badge">En vivo</span>
+                </div>
+            </div>
+
+            <!-- Filtros Chips Futuristas -->
+            <div class="futuristic-chips">
+                <a href="#streaming" class="f-chip active"><span class="chip-icon">🎬</span> Streaming</a>
+                <a href="#musica" class="f-chip"><span class="chip-icon">🎵</span> Música</a>
+                <a href="#ofimatica" class="f-chip"><span class="chip-icon">💻</span> Ofimática</a>
+                <a href="#ia" class="f-chip"><span class="chip-icon">🤖</span> IA &amp; Dev</a>
+                <a href="#diseno" class="f-chip"><span class="chip-icon">🎨</span> Diseño</a>
+            </div>
+
+            <!-- Micro Métricas de Confianza Flotantes -->
+            <div class="hero-trust-metrics">
+                <div class="trust-item">⚡ <span>Entrega en <strong>3-5 min</strong></span></div>
+                <div class="trust-item">🛡️ <span>Garantía de <strong>Soporte Total</strong></span></div>
+                <div class="trust-item">💳 <span>Yape, Plin &amp; Transferencias</span></div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: STREAMING Y TV                    -->
+        <!-- ========================================== -->
+        <section id="streaming" aria-labelledby="streaming-title">
+            <h2 id="streaming-title">Streaming y Televisión Digital</h2>
+            <p>Disfruta de tus películas, series y transmisiones en vivo favoritas con tarifas de descuento exclusivas.</p>
+            
+            <!-- Netflix -->
+            <article id="servicio-netflix" aria-labelledby="title-netflix">
+                <figure>
+                    <img src="assets/icons/netflix.svg" alt="Logotipo oficial de Netflix" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-netflix">🎬 NETFLIX PREMIUM 📺</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 15.00</del></span><br>
+                    <strong>🎁 Oferta Primer Mes / Nuevo Cliente: <data value="13.00">S/ 13.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Perfil Privado)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Disfruta de miles de películas, series, documentales y contenido exclusivo de Netflix. Accede a los estrenos más esperados, temporadas completas y los títulos más populares desde cualquier dispositivo.</p>
+                    <ul>
+                        <li>Calidad Ultra HD / 4K y HDR</li>
+                        <li>Perfil privado con PIN personalizado</li>
+                        <li>Compatible con Smart TV, TV Box, celular, tablet y PC</li>
+                        <li>Amplio catálogo global de entretenimiento para toda la familia</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Netflix</h4>
+                    <p>Para garantizar el correcto funcionamiento del servicio para todos los usuarios, es obligatorio cumplir las siguientes reglas:</p>
+                    <ul>
+                        <li>Uso permitido únicamente en 1 dispositivo a la vez.</li>
+                        <li>No eliminar ni crear perfiles adicionales.</li>
+                        <li>No modificar nombres ni fotos de otros perfiles.</li>
+                        <li>No cambiar ni eliminar el PIN asignado.</li>
+                        <li>No cerrar sesión en otros dispositivos de la cuenta.</li>
+                        <li>No modificar correo electrónico, contraseña o método de pago de la cuenta.</li>
+                        <li>Prohibido compartir los datos de acceso con terceros.</li>
+                    </ul>
+                    <p><em>⚠️ El incumplimiento de cualquiera de estas normas anula la garantía de inmediato. Si ves el mensaje "Demasiadas personas usando tu cuenta", comunícate con soporte y espera unos minutos mientras se regulariza.</em></p>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Indica el tipo de dispositivo que usarás (Smart TV, Celular o PC), pasa tu comprobante de pago y te entregamos tu correo, contraseña y número de perfil con su PIN de seguridad.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Netflix%20Premium%20a%20S/%2013.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Netflix Premium por S/ 13.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Disney+ Estándar -->
+            <article id="servicio-disney-estandar" aria-labelledby="title-disney-estandar">
+                <figure>
+                    <img src="assets/icons/disney.svg" alt="Logotipo oficial de Disney Plus" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-disney-estandar">✨ DISNEY+ ESTÁNDAR 🏰</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 10.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="7.00">S/ 7.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Perfil)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Sumérgete en el universo mágico de Disney, Pixar, Marvel, Star Wars, National Geographic y las mejores series juveniles y familiares.</p>
+                    <ul>
+                        <li>Transmisión en Full HD 1080p con audio 5.1</li>
+                        <li>Perfil individual exclusivo</li>
+                        <li>Catálogo completo sin publicidad invasiva</li>
+                        <li>Compatible con Smart TV, consolas, móviles y navegadores</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Disney+ Estándar</h4>
+                    <ul>
+                        <li>1 dispositivo en reproducción simultánea.</li>
+                        <li>No ingresar a los perfiles de otros usuarios.</li>
+                        <li>No alterar contraseñas ni datos del titular de la cuenta.</li>
+                        <li>Prohibido revender o ceder la pantalla a múltiples personas.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu comprobante de pago vía WhatsApp y recibe tus credenciales de inicio de sesión de inmediato.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Disney%2B%20Est%C3%A1ndar%20a%20S/%207.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Disney+ Estándar por S/ 7.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Disney+ Premium con ESPN -->
+            <article id="servicio-disney-premium" aria-labelledby="title-disney-premium">
+                <figure>
+                    <img src="assets/icons/disney.svg" alt="Logotipo de Disney Plus Premium con ESPN" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-disney-premium">🏆 DISNEY+ PREMIUM (CON ESPN Y DEPORTES EN VIVO) ⚽</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 13.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="10.00">S/ 10.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Perfil Privado)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>La experiencia definitiva de entretenimiento: todo el catálogo de Disney+ y Star+ sumado a todos los canales en vivo de ESPN para ver Champions League, Copa Libertadores, F1, UFC, tenis y más.</p>
+                    <ul>
+                        <li>Máxima resolución 4K UHD, HDR10 y Dolby Atmos</li>
+                        <li>Transmisiones deportivas en vivo sin cortes</li>
+                        <li>Perfil propio con control de reproducciones</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Disney+ Premium</h4>
+                    <ul>
+                        <li>1 sola pantalla activa al momento de transmisiones en vivo o películas.</li>
+                        <li>Prohibido cambiar configuración general, idioma global o contraseña.</li>
+                        <li>No crear perfiles adicionales en la cuenta.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu comprobante de pago y te asignamos tu perfil exclusivo al instante.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Disney%2B%20Premium%20con%20ESPN%20a%20S/%2010.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Disney+ Premium con ESPN por S/ 10.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Max Estándar -->
+            <article id="servicio-max" aria-labelledby="title-max">
+                <figure>
+                    <img src="assets/icons/max.png" alt="Logotipo oficial de Max HBO" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-max">🍿 MAX ESTÁNDAR (HBO MAX) 🎥</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 10.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="7.00">S/ 7.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Perfil)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>El hogar de HBO, Warner Bros, Max Originals, el universo DC, Harry Potter, Discovery Channel y series icónicas como Game of Thrones y The Last of Us.</p>
+                    <ul>
+                        <li>Resolución Full HD y sonido envolvente</li>
+                        <li>Perfil asignado para guardar tu lista y progreso</li>
+                        <li>Estrenos directos de cine a tu pantalla</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Max</h4>
+                    <ul>
+                        <li>1 dispositivo reproduciendo contenido a la vez.</li>
+                        <li>No tocar perfiles ajenos ni modificar PINs.</li>
+                        <li>No intentar cambiar el correo principal ni la contraseña.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu constancia de pago por WhatsApp y te enviamos el correo y clave para ingresar a tu perfil de Max.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Max%20Est%C3%A1ndar%20a%20S/%207.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Max Estándar por S/ 7.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Amazon Prime Video -->
+            <article id="servicio-prime" aria-labelledby="title-prime">
+                <figure>
+                    <img src="assets/icons/prime.svg" alt="Logotipo oficial de Amazon Prime Video" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-prime">📦 AMAZON PRIME VIDEO (CUENTA COMPLETA) 👑</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 30.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="25.00">S/ 25.00</data></strong> (<time datetime="P30D">30 Días</time> - Cuenta Total)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Cuenta completa y exclusiva para ti y tu familia. Accede a las aclamadas producciones Amazon Originals (The Boys, Fallout, El Señor de los Anillos) y miles de títulos en cartelera.</p>
+                    <ul>
+                        <li>Hasta 3 pantallas en reproducción simultánea</li>
+                        <li>Control total de creación y edición de perfiles familiares</li>
+                        <li>Calidad 4K Ultra HD y HDR</li>
+                        <li>Posibilidad de activar a tu propio correo o cuenta nueva</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Prime Video Cuenta Completa</h4>
+                    <ul>
+                        <li>Puedes compartir tus perfiles con tu familia o amigos en tus dispositivos.</li>
+                        <li>Prohibido suscribirse a canales de pago adicionales (Channels) con tarjetas asociadas.</li>
+                        <li>No cambiar el correo titular salvo autorización expresa de soporte.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu comprobante e indícanos si prefieres recibir una cuenta nueva o activarla con tu propio correo electrónico.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Amazon%20Prime%20Video%20(Cuenta%20Completa)%20a%20S/%2025.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Amazon Prime Video Cuenta Completa por S/ 25.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Paramount+ -->
+            <article id="servicio-paramount" aria-labelledby="title-paramount">
+                <figure>
+                    <img src="assets/icons/paramount.svg" alt="Logotipo oficial de Paramount Plus" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-paramount">⭐ PARAMOUNT+ PREMIUM 🎬</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 11.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="8.00">S/ 8.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Perfil)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Todo el catálogo de Paramount, Showtime, Nickelodeon, MTV y Comedy Central.</li>
+                        <li>Transmisión de partidos de la Premier League y torneos de fútbol en directo.</li>
+                        <li>Calidad Full HD / 4K.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Paramount+</h4>
+                    <ul>
+                        <li>1 dispositivo a la vez.</li>
+                        <li>No compartir el acceso asignado.</li>
+                        <li>No alterar credenciales ni contraseñas.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu comprobante de pago por WhatsApp y te hacemos entrega inmediata de tus datos de acceso.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Paramount%2B%20a%20S/%208.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Paramount Plus por S/ 8.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Crunchyroll Fan -->
+            <article id="servicio-crunchyroll" aria-labelledby="title-crunchyroll">
+                <figure>
+                    <img src="assets/icons/crunchyroll.svg" alt="Logotipo oficial de Crunchyroll" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-crunchyroll">🍥 CRUNCHYROLL FAN (ANIME ILIMITADO) ⛩️</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 10.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="7.00">S/ 7.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Dispositivo)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>La plataforma definitiva para los amantes del anime. Simulcast una hora después de su emisión en Japón, audio original con subtítulos en español y doblajes exclusivos.</p>
+                    <ul>
+                        <li>Sin ningún tipo de publicidad</li>
+                        <li>Calidad Full HD 1080p</li>
+                        <li>Catálogo completo de series clásicas y estrenos de temporada</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Crunchyroll</h4>
+                    <ul>
+                        <li>1 dispositivo conectado por cuenta.</li>
+                        <li>No cambiar la contraseña ni el correo de la cuenta.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu constancia de pago vía WhatsApp y recibe tu usuario y contraseña de Crunchyroll en minutos.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Crunchyroll%20Fan%20a%20S/%207.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Crunchyroll Fan por S/ 7.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Oleada TV -->
+            <article id="servicio-oleada" aria-labelledby="title-oleada">
+                <figure>
+                    <img src="assets/icons/oleada.svg" alt="Logotipo de Oleada TV" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-oleada">📺 OLEADA TV (CANALES EN VIVO) 📡</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 12.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="9.00">S/ 9.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Dispositivo)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Señales de televisión en vivo nacional e internacional.</li>
+                        <li>Compatible con Android TV, TV Box, Fire TV Stick y Smartphones.</li>
+                        <li>Canales de noticias, películas, infantiles y deportes.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Oleada TV</h4>
+                    <ul>
+                        <li>1 dispositivo activo.</li>
+                        <li>Conexión de internet recomendada de al menos 10 Mbps para evitar buffer.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía comprobante de pago indicando qué dispositivo utilizarás para proporcionarte el enlace de descarga y acceso.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Oleada%20TV%20a%20S/%209.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Oleada TV por S/ 9.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- IPTV -->
+            <article id="servicio-iptv" aria-labelledby="title-iptv">
+                <figure>
+                    <img src="assets/icons/iptv.svg" alt="Logotipo de servicio IPTV" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-iptv">🌐 IPTV LATINO &amp; INTERNACIONAL (1 MES) 🛰️</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 23.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="18.00">S/ 18.00</data></strong> (<time datetime="P30D">30 Días</time> - 1 Conexión)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Más de 2,500 canales en vivo (Fútbol Libre, Fox Sports, ESPN, Directv, Cine y Canales 24/7).</li>
+                        <li>Catálogo VOD con miles de películas y series actualizadas semanalmente.</li>
+                        <li>Compatible con IPTV Smarters, Smart IPTV, SSIPTV, Mag, TV Box y PC.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – IPTV</h4>
+                    <ul>
+                        <li>1 conexión simultánea por suscripción.</li>
+                        <li>No usar la misma lista en múltiples dispositivos al mismo tiempo.</li>
+                        <li>Uso de internet estable (fibra óptica recomendada).</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu comprobante y el nombre de la app IPTV instalada en tu Smart TV o celular para enviarte la URL DNS, usuario y contraseña (o enlace M3U).</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20IPTV%20(1%20Mes)%20a%20S/%2018.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de suscripción IPTV por S/ 18.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Xuper TV -->
+            <article id="servicio-xuper" aria-labelledby="title-xuper">
+                <figure>
+                    <img src="assets/icons/xuper.png" alt="Logotipo de Xuper TV" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-xuper">💎 XUPER TV (ACCESO PERMANENTE) 🚀</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 50.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="35.00">S/ 35.00</data></strong> (Licencia Permanente - Sin Mensualidades)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Aplicación premium de canales en vivo, series y películas sin pagar mensualidad.</li>
+                        <li>Servidores estables con bajo consumo de ancho de banda.</li>
+                        <li>Licencia Permanente y soporte para reinstalación.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Xuper TV</h4>
+                    <ul>
+                        <li>Activación para 1 dispositivo Android (Smart TV Android, TV Box o Móvil).</li>
+                        <li>No transferible a terceros.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu constancia de pago por WhatsApp y te enviamos el archivo APK oficial, tu código de licencia y el video instructivo de instalación.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Xuper%20TV%20(Permanente)%20a%20S/%2035.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Xuper TV Permanente por S/ 35.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: MÚSICA                            -->
+        <!-- ========================================== -->
+        <section id="musica" aria-labelledby="musica-title">
+            <h2 id="musica-title">Música Digital en Alta Calidad</h2>
+            <p>Disfruta de tus listas de reproducción sin publicidad, con descargas offline y precios promocionales.</p>
+
+            <!-- Spotify Premium -->
+            <article id="servicio-spotify" aria-labelledby="title-spotify">
+                <figure>
+                    <img src="assets/icons/spotify.svg" alt="Logotipo oficial de Spotify" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-spotify">🟢 SPOTIFY PREMIUM 🎧</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 12.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="9.00">S/ 9.00</data></strong> (<time datetime="P30D">30 Días</time> - Renovable)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Escucha tus álbumes, canciones y podcasts favoritos donde quieras y cuando quieras, totalmente libre de anuncios publicitarios.</p>
+                    <ul>
+                        <li>Saltos de canción ilimitados</li>
+                        <li>Descargas para reproducción sin conexión a internet</li>
+                        <li>Calidad de audio Very High (320 kbps)</li>
+                        <li>Compatible con Spotify Connect en parlantes y Smart TVs</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Spotify Premium</h4>
+                    <ul>
+                        <li>Cuenta individual de uso personal.</li>
+                        <li>Renovable mes a mes conservando tus playlists y recomendaciones.</li>
+                        <li>No cambiar la región de la cuenta.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu comprobante de pago por WhatsApp e indícanos si deseas una invitación para tu correo o una cuenta nueva activada.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Spotify%20Premium%20a%20S/%209.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Spotify Premium por S/ 9.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- YouTube Premium -->
+            <article id="servicio-youtube" aria-labelledby="title-youtube">
+                <figure>
+                    <img src="assets/icons/youtube.svg" alt="Logotipo oficial de YouTube Premium" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-youtube">🔴 YOUTUBE PREMIUM + YOUTUBE MUSIC 📱</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 13.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="9.00">S/ 9.00</data></strong> (<time datetime="P30D">30 Días</time> - A tu Correo Personal)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Disfruta de YouTube sin anuncios molestos en todos tus dispositivos y accede a la biblioteca musical de YouTube Music.</p>
+                    <ul>
+                        <li>Cero publicidad en videos y música</li>
+                        <li>Reproducción en segundo plano con pantalla apagada en celulares</li>
+                        <li>Descarga de videos en alta definición</li>
+                        <li>Activación directa a tu propia cuenta de Gmail</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – YouTube Premium</h4>
+                    <ul>
+                        <li>Activación mediante grupo familiar oficial de Google.</li>
+                        <li><em>Requisito de Google:</em> Tu cuenta no debe haber cambiado de grupo familiar más de una vez en los últimos 12 meses.</li>
+                        <li>No se requiere contraseña de tu correo, solo aceptar la invitación que llega a tu bandeja.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu <strong>correo electrónico de Gmail</strong> junto al comprobante de pago para enviarte la invitación de inmediato.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20YouTube%20Premium%20a%20S/%209.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de YouTube Premium por S/ 9.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Tidal HiFi -->
+            <article id="servicio-tidal" aria-labelledby="title-tidal">
+                <figure>
+                    <img src="assets/icons/tidal.png" alt="Logotipo oficial de Tidal" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-tidal">🎵 TIDAL HIFI / MASTER 🎚️</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 12.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="9.00">S/ 9.00</data></strong> (<time datetime="P30D">30 Días</time>)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Audio con calidad de estudio Master / Lossless sin compresión (hasta 24-bit, 192 kHz).</li>
+                        <li>Sonido inmersivo Dolby Atmos y Sony 360 Reality Audio.</li>
+                        <li>Más de 100 millones de canciones sin publicidad.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Tidal</h4>
+                    <ul>
+                        <li>1 usuario por cuenta.</li>
+                        <li>No modificar contraseñas ni ajustes de suscripción.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu constancia de pago vía WhatsApp y recibe tus credenciales HiFi al instante.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Tidal%20HiFi%20a%20S/%209.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Tidal HiFi por S/ 9.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Deezer Premium -->
+            <article id="servicio-deezer" aria-labelledby="title-deezer">
+                <figure>
+                    <img src="assets/icons/deezer.png" alt="Logotipo oficial de Deezer" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-deezer">💜 DEEZER PREMIUM 🎼</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 12.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="9.00">S/ 9.00</data></strong> (<time datetime="P30D">30 Días</time>)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Sonido en formato FLAC de alta fidelidad (16 bits, 44,1 kHz).</li>
+                        <li>Función Flow para descubrir música según tus gustos.</li>
+                        <li>Descargas ilimitadas para escuchar offline.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Deezer</h4>
+                    <ul>
+                        <li>Uso personal en tus dispositivos.</li>
+                        <li>No revender ni compartir datos de acceso.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu comprobante por WhatsApp y recibe tus datos de inicio de sesión.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Deezer%20Premium%20a%20S/%209.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Deezer Premium por S/ 9.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: SISTEMAS Y OFIMÁTICA              -->
+        <!-- ========================================== -->
+        <section id="ofimatica" aria-labelledby="ofimatica-title">
+            <h2 id="ofimatica-title">Sistemas y Ofimática</h2>
+            <p>Licencias genuinas de Microsoft con precios directos de distribuidor para nuevos clientes.</p>
+
+            <!-- Windows 11 Pro / Home -->
+            <article id="servicio-win11" aria-labelledby="title-win11">
+                <figure>
+                    <img src="assets/icons/windows.svg" alt="Logotipo de Windows 11" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-win11">💻 WINDOWS 11 PRO / HOME (LICENCIA PERMANENTE) 🪟</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 35.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="25.00">S/ 25.00</data></strong> (Licencia Vitalicia - 1 PC)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Clave alfanumérica original de 25 caracteres para activación permanente del sistema operativo Windows 11.</p>
+                    <ul>
+                        <li>Activación oficial en línea en servidores de Microsoft</li>
+                        <li>Elimina marcas de agua y desbloquea todas las funciones de personalización</li>
+                        <li>Acceso a todas las actualizaciones de seguridad de por vida</li>
+                        <li>Soporta instalaciones limpias de 64 bits en cualquier idioma</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Windows 11</h4>
+                    <ul>
+                        <li>Clave válida para 1 solo equipo (vinculación al hardware).</li>
+                        <li>No reutilizable en otros equipos una vez activada.</li>
+                        <li>Garantía de activación 100% asistida por nuestro equipo.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu comprobante de pago indicando qué versión tienes instalada (<strong>Windows 11 Pro</strong> o <strong>Windows 11 Home</strong>) para enviarte la clave de producto y las instrucciones paso a paso.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Licencia%20Windows%2011%20a%20S/%2025.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Licencia Windows 11 por S/ 25.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Windows 10 Pro / Home -->
+            <article id="servicio-win10" aria-labelledby="title-win10">
+                <figure>
+                    <img src="assets/icons/windows.svg" alt="Logotipo de Windows 10" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-win10">🖥️ WINDOWS 10 PRO / HOME (LICENCIA PERMANENTE) 🪟</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 35.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="25.00">S/ 25.00</data></strong> (Licencia Vitalicia - 1 PC)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Clave genuina de 25 dígitos para activación de por vida.</li>
+                        <li>Habilita Windows Update para máxima protección contra malware.</li>
+                        <li>Compatible con arquitecturas de 32 y 64 bits.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Windows 10</h4>
+                    <ul>
+                        <li>Válido para 1 computadora personal o laptop.</li>
+                        <li>No transferible a otra PC después de activada.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu constancia de pago e indícanos si requieres Windows 10 Pro o Home.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Licencia%20Windows%2010%20a%20S/%2025.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Licencia Windows 10 por S/ 25.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Microsoft 365 -->
+            <article id="servicio-m365" aria-labelledby="title-m365">
+                <figure>
+                    <img src="assets/icons/m365.svg" alt="Logotipo de Microsoft 365" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-m365">📊 MICROSOFT 365 + 1TB ONEDRIVE (1 AÑO) 📁</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 40.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="30.00">S/ 30.00</data></strong> (<time datetime="P1Y">Suscripción por 1 Año</time> - 5 Dispositivos)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Paquete completo de ofimática oficial de Microsoft actualizado permanentemente a las últimas versiones.</p>
+                    <ul>
+                        <li>Aplicaciones completas de escritorio: Word, Excel, PowerPoint, Outlook, OneNote, Access y Publisher</li>
+                        <li>1 TB (1,000 GB) de almacenamiento en la nube OneDrive</li>
+                        <li>Uso simultáneo en hasta 5 dispositivos (PC, Mac, Tablet, iPad, Android e iOS)</li>
+                        <li>Duración: 365 días garantizados</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Microsoft 365</h4>
+                    <ul>
+                        <li>Cuenta privada exclusiva provista con usuario asignado.</li>
+                        <li>Obligatorio cambiar la contraseña temporal en el primer inicio de sesión.</li>
+                        <li>Se sugiere mantener respaldo local de tus proyectos más críticos.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu constancia de pago por WhatsApp y te enviamos tu usuario oficial <code>@...</code> y contraseña temporal con el enlace de descarga directa desde office.com.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Microsoft%20365%20(1%20A%C3%B1o)%20a%20S/%2030.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Microsoft 365 por 1 Año por S/ 30.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: INTELIGENCIA ARTIFICIAL           -->
+        <!-- ========================================== -->
+        <section id="ia" aria-labelledby="ia-title">
+            <h2 id="ia-title">Inteligencia Artificial y Herramientas Productivas</h2>
+            <p>Acelera tu productividad y desarrollo con las herramientas de IA más potentes en oferta exclusiva.</p>
+
+            <!-- Gemini Pro -->
+            <article id="servicio-gemini" aria-labelledby="title-gemini">
+                <figure>
+                    <img src="assets/icons/gemini.svg" alt="Logotipo oficial de Google Gemini" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-gemini">🤖 GEMINI PRO (ACCESO 18 MESES) ⚡</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 45.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="35.00">S/ 35.00</data></strong> (<time datetime="P18M">Acceso Extendido por 18 Meses</time>)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Accede al modelo insignia de Inteligencia Artificial de Google con ventana de contexto ampliada y capacidades multimodales avanzadas.</p>
+                    <ul>
+                        <li>Razonamiento complejo, análisis de grandes documentos y código</li>
+                        <li>Integración con el ecosistema de Google Workspace</li>
+                        <li>Velocidad de procesamiento prioritaria</li>
+                        <li>Duración garantizada de 18 meses</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Gemini Pro</h4>
+                    <ul>
+                        <li>Cuenta o método de activación indicado por nuestro equipo.</li>
+                        <li>Cumplir con las políticas de uso responsable de Google AI.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu comprobante de pago por WhatsApp para proporcionarte las credenciales de acceso y la guía rápida de inicio.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Gemini%20Pro%20(18%20Meses)%20a%20S/%2035.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Gemini Pro por 18 Meses a S/ 35.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- ChatGPT Go -->
+            <article id="servicio-chatgpt" aria-labelledby="title-chatgpt">
+                <figure>
+                    <img src="assets/icons/chatgpt.svg" alt="Logotipo de OpenAI ChatGPT" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-chatgpt">🧠 CHATGPT GO (1 MES) 💬</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 15.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="12.00">S/ 12.00</data></strong> (<time datetime="P30D">30 Días de Acceso</time>)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Respuestas rápidas, generación de textos, resúmenes, traducción y ayuda en programación.</li>
+                        <li>Disponibilidad alta en horarios pico sin restricciones.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – ChatGPT Go</h4>
+                    <ul>
+                        <li>1 usuario por acceso asignado.</li>
+                        <li>Prohibido cambiar datos de seguridad.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu constancia de pago por WhatsApp para recibir los datos de inicio de sesión.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20ChatGPT%20Go%20a%20S/%2012.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de ChatGPT Go por S/ 12.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Lovable Pro -->
+            <article id="servicio-lovable" aria-labelledby="title-lovable">
+                <figure>
+                    <img src="assets/icons/lovable.svg" alt="Logotipo de Lovable Pro" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-lovable">💖 LOVABLE PRO (DESARROLLO ASISTIDO CON IA) 💻</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 27.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="22.00">S/ 22.00</data></strong> (<time datetime="P30D">30 Días</time>)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Crea aplicaciones web funcionales con comandos en lenguaje natural gracias al motor asistido de Lovable.</p>
+                    <ul>
+                        <li>Generación y edición rápida de código fullstack</li>
+                        <li>Exportación e integración con repositorios</li>
+                        <li>Límites y características Pro activos</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Lovable Pro</h4>
+                    <ul>
+                        <li>1 desarrollador / 1 cuenta activa.</li>
+                        <li>No transferir datos a terceros.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu comprobante de pago por WhatsApp para activar tu cuenta Lovable Pro.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Lovable%20Pro%20a%20S/%2022.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Lovable Pro por S/ 22.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- iLovePDF Premium -->
+            <article id="servicio-ilovepdf" aria-labelledby="title-ilovepdf">
+                <figure>
+                    <img src="assets/icons/ilovepdf.svg" alt="Logotipo de iLovePDF" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-ilovepdf">📄 ILOVEPDF PREMIUM (1 AÑO) 📑</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 25.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="18.00">S/ 18.00</data></strong> (<time datetime="P1Y">1 Año Completo</time> - Web, Desktop y Móvil)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Edición de PDF ilimitada, OCR (reconocimiento óptico de caracteres), compresión máxima y conversión a Office.</li>
+                        <li>Uso tanto en plataforma web, móvil como aplicación de escritorio durante 1 año.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – iLovePDF</h4>
+                    <ul>
+                        <li>Uso personal o profesional durante 365 días.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu comprobante de pago vía WhatsApp y recibe tus datos de acceso premium anual.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20iLovePDF%20Premium%20(1%20A%C3%B1o)%20a%20S/%2018.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de iLovePDF Premium por 1 Año a S/ 18.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Miro Panel -->
+            <article id="servicio-miro" aria-labelledby="title-miro">
+                <figure>
+                    <img src="assets/icons/miro.svg" alt="Logotipo de Miro" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-miro">📋 MIRO PANEL (100 MIEMBROS) 🧩</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 95.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="80.00">S/ 80.00</data></strong> (Panel de Equipo Colaborativo)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Pizarra virtual colaborativa infinita para hasta 100 usuarios en tu equipo.</li>
+                        <li>Plantillas ágiles de Scrum, Kanban, User Story Mapping y Wireframing.</li>
+                        <li>Integración con Jira, Trello, Zoom, Slack y Google Drive.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Miro Panel</h4>
+                    <ul>
+                        <li>Gestión administrativa del espacio de trabajo para tu equipo u organización.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía el correo del administrador principal de tu equipo junto al comprobante de pago para configurar el panel.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Miro%20Panel%20(100%20Miembros)%20a%20S/%2080.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Miro Panel para 100 Miembros a S/ 80.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: DISEÑO Y EDICIÓN                  -->
+        <!-- ========================================== -->
+        <section id="diseno" aria-labelledby="diseno-title">
+            <h2 id="diseno-title">Diseño Gráfico y Edición Multimedia</h2>
+            <p>Herramientas de nivel profesional para creadores, diseñadores y técnicos con descuentos únicos.</p>
+
+            <!-- Canva Pro -->
+            <article id="servicio-canva" aria-labelledby="title-canva">
+                <figure>
+                    <img src="assets/icons/canva.svg" alt="Logotipo oficial de Canva" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-canva">🎨 CANVA PRO (1 AÑO A TU CORREO PERSONAL) 🖌️</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 20.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="15.00">S/ 15.00</data></strong> (<time datetime="P1Y">1 Año Completo</time> - 365 Días)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>Lleva tus creaciones visuales al siguiente nivel. Acceso total a todas las herramientas premium de Canva directamente en tu cuenta personal de siempre.</p>
+                    <ul>
+                        <li>Más de 100 millones de fotos, videos, fuentes, ilustraciones y plantillas premium</li>
+                        <li>Quitafondos mágico automático con 1 solo clic en fotos y videos</li>
+                        <li>Redimensión mágica para adaptar diseños a cualquier red social</li>
+                        <li>Kit de marcas con paletas de colores y tipografías personalizadas</li>
+                        <li>1 TB de almacenamiento en la nube de Canva</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Canva Pro</h4>
+                    <ul>
+                        <li>Activación oficial directa a tu propio correo registrado en Canva.</li>
+                        <li>Tus diseños privados anteriores y nuevos se mantienen 100% seguros en tu cuenta.</li>
+                        <li>No se requiere tu contraseña, solo aceptar la invitación que llega a tu correo.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía por WhatsApp tu <strong>correo electrónico registrado en Canva</strong> junto al comprobante de pago para enviarte la invitación Pro de inmediato.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Canva%20Pro%20(1%20A%C3%B1o)%20a%20S/%2015.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Canva Pro por 1 Año a S/ 15.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Adobe Express -->
+            <article id="servicio-express" aria-labelledby="title-express">
+                <figure>
+                    <img src="assets/icons/express.svg" alt="Logotipo oficial de Adobe Express" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-express">📐 ADOBE EXPRESS PREMIUM (6 MESES) ✨</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 30.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="25.00">S/ 25.00</data></strong> (<time datetime="P6M">Suscripción por 6 Meses</time>)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <ul>
+                        <li>Funciones de IA generativa con Adobe Firefly (Relleno Generativo y Texto a Imagen).</li>
+                        <li>Biblioteca completa de más de 20,000 fuentes de Adobe Fonts.</li>
+                        <li>Plantillas de alta calidad y herramientas de programación en redes sociales.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Adobe Express</h4>
+                    <ul>
+                        <li>1 usuario / 1 cuenta activa.</li>
+                        <li>No compartir credenciales con terceros.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Envía tu constancia de pago por WhatsApp para habilitar tu acceso por 6 meses.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Adobe%20Express%20(6%20Meses)%20a%20S/%2025.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Adobe Express por 6 Meses a S/ 25.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- CapCut Pro -->
+            <article id="servicio-capcut" aria-labelledby="title-capcut">
+                <figure>
+                    <img src="assets/icons/capcut.svg" alt="Logotipo oficial de CapCut Pro" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-capcut">🎬 CAPCUT PRO (1 MES) ✂️</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 22.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="18.00">S/ 18.00</data></strong> (<time datetime="P30D">30 Días</time> - PC o Móvil)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>La herramienta de edición de video vertical y horizontal más utilizada por creadores de TikTok, YouTube Shorts e Instagram Reels.</p>
+                    <ul>
+                        <li>Acceso a todas las transiciones, efectos, filtros y stickers Pro</li>
+                        <li>Generador de subtítulos automáticos con IA y traducción</li>
+                        <li>Eliminación de fondos de video y mejora de voz con IA</li>
+                        <li>Exportación en resolución 4K a 60 FPS sin marcas de agua</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – CapCut Pro</h4>
+                    <ul>
+                        <li>Uso en 1 dispositivo a la vez (compatible con PC Windows / Mac o Smartphone).</li>
+                        <li>No cerrar sesión de forma indebida ni cambiar datos de la cuenta.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu comprobante de pago por WhatsApp y te enviamos los datos de inicio de sesión de CapCut Pro.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20CapCut%20Pro%20a%20S/%2018.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de CapCut Pro por S/ 18.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+
+            <!-- Autodesk AutoCAD -->
+            <article id="servicio-autocad" aria-labelledby="title-autocad">
+                <figure>
+                    <img src="assets/icons/autocad.svg" alt="Logotipo oficial de Autodesk AutoCAD" loading="lazy" decoding="async" width="64" height="64">
+                </figure>
+                <h3 id="title-autocad">🏗️ AUTODESK AUTOCAD (1 AÑO) 📐</h3>
+                <p>
+                    <span>Precio Regular: <del>S/ 35.00</del></span><br>
+                    <strong>🎁 Oferta Nuevo Cliente: <data value="25.00">S/ 25.00</data></strong> (<time datetime="P1Y">Licencia por 1 Año Completo</time>)
+                </p>
+                
+                <div>
+                    <h4>ℹ️ Información del Producto</h4>
+                    <p>El estándar de la industria mundial para diseño CAD 2D y 3D en arquitectura, ingeniería civil, mecánica y diseño industrial.</p>
+                    <ul>
+                        <li>Software genuino con descarga directa desde los servidores oficiales de Autodesk</li>
+                        <li>Activación oficial vinculada a tu ID / Correo de estudiante o profesional</li>
+                        <li>Compatible con Windows 10/11 y macOS según la versión requerida</li>
+                        <li>Incluye conjuntos de herramientas especializadas (Architecture, Electrical, Mechanical)</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📌 Condiciones de Uso – Autodesk AutoCAD</h4>
+                    <ul>
+                        <li>Licencia educativa/profesional válida por 365 días continuos.</li>
+                        <li>Activación asignada a 1 usuario personal.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4>📝 Detalle de Solicitud</h4>
+                    <p>Pasa tu <strong>correo registrado en Autodesk</strong> y tu comprobante de pago para asignar la licencia a tu perfil en el portal de Autodesk.</p>
+                </div>
+
+                <a href="https://wa.me/1234567890?text=Hola%20KazuStore,%20deseo%20la%20oferta%20de%20Autodesk%20AutoCAD%20(1%20A%C3%B1o)%20a%20S/%2025.00" target="_blank" rel="noopener noreferrer" aria-label="Adquirir oferta de Autodesk AutoCAD por 1 Año a S/ 25.00 vía WhatsApp">Adquirir Oferta</a>
+            </article>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: ¿POR QUÉ ELEGIR KAZUSTORE?       -->
+        <!-- ========================================== -->
+        <section id="beneficios" aria-labelledby="beneficios-title">
+            <h2 id="beneficios-title">¿Por qué elegir KazuStore?</h2>
+            <p>Brindamos la mejor experiencia de compra digital con respaldo total y precios transparentes en Soles y Dólares.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feat-icon">⚡</span>
+                    <h3>Entrega Rápida</h3>
+                    <p>Recibe tus accesos, credenciales oficiales o enlaces de activación en pocos minutos tras validar tu comprobante.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feat-icon">🛡️</span>
+                    <h3>Garantía Activa y Soporte</h3>
+                    <p>Cuentas 100% estables con asistencia directa durante todo el tiempo contratado para resolver cualquier detalle de forma inmediata.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feat-icon">🔒</span>
+                    <h3>Perfiles y Accesos Privados</h3>
+                    <p>Cuentas optimizadas con PIN individual y configuración privada para que nadie interrumpa tus reproducciones ni altere tu historial.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feat-icon">💳</span>
+                    <h3>Pagos en Soles (S/) y Dólares ($)</h3>
+                    <p>Paga en tu moneda preferida mediante <strong>Yape, Plin, BCP, BBVA, Interbank</strong> o en dólares vía <strong>Binance Pay (USDT)</strong>.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feat-icon">🔄</span>
+                    <h3>Renovación Sin Pérdida de Datos</h3>
+                    <p>En plataformas como Spotify, YouTube, Disney o Max puedes renovar mes a mes conservando tus listas de reproducción, favoritos y perfiles.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feat-icon">💬</span>
+                    <h3>Atención Personalizada 24/7</h3>
+                    <p>Asesoría humana directa por WhatsApp y Telegram para resolver dudas de instalación, configuración en Smart TV y activación.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: PREGUNTAS FRECUENTES (FAQ)        -->
+        <!-- ========================================== -->
+        <section id="faq" aria-labelledby="faq-title" class="faq-modern-section">
+            <div class="faq-header-wrapper">
+                <span class="faq-pill-badge">CENTRO DE AYUDA &amp; TRANSPARENCIA</span>
+                <h2 id="faq-title">Preguntas Frecuentes</h2>
+                <p>Todo lo que necesitas saber antes y después de comprar: garantías, renovación, compatibilidad y entregas.</p>
+            </div>
+            
+            <div class="faq-grid">
+                <details class="faq-card" open>
+                    <summary>
+                        <div class="faq-summary-left">
+                            <span class="faq-icon-box">🎁</span>
+                            <div class="faq-title-wrap">
+                                <span class="faq-category-tag tag-promo">Promociones</span>
+                                <h4>¿Cómo funciona el precio de "Oferta Primer Mes / Nuevo Cliente"?</h4>
+                            </div>
+                        </div>
+                    </summary>
+                    <div class="faq-content">
+                        <p>Es una tarifa con descuento exclusivo para darte la bienvenida en tu primera compra con nosotros a través de este catálogo web.</p>
+                        <ul>
+                            <li>Al hacer clic en <strong>"Adquirir Oferta"</strong>, el mensaje de WhatsApp ya incluye tu precio de descuento garantizado.</li>
+                            <li>La cuenta se entrega lista para usar con vigencia completa de 30 días o según la licencia adquirida.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="faq-card">
+                    <summary>
+                        <div class="faq-summary-left">
+                            <span class="faq-icon-box">🔄</span>
+                            <div class="faq-title-wrap">
+                                <span class="faq-category-tag tag-renew">Renovaciones</span>
+                                <h4>¿Cómo es el proceso si ya soy cliente y deseo renovar?</h4>
+                            </div>
+                        </div>
+                    </summary>
+                    <div class="faq-content">
+                        <p>Al hacer clic en <strong>"Detalles"</strong> de cualquier servicio verás el botón <em>"🔄 Renovar Servicio"</em> con el precio regular transparente.</p>
+                        <ul>
+                            <li><strong>Conserva tus datos:</strong> En Spotify, Max, Disney+ o YouTube mantienes tus listas, perfiles y recomendaciones.</li>
+                            <li>Solo debes pasarnos tu correo o número de perfil anterior al momento de renovar.</li>
+                        </ul>
+                    </div>
+                </details>
+
+                <details class="faq-card">
+                    <summary>
+                        <div class="faq-summary-left">
+                            <span class="faq-icon-box">📺</span>
+                            <div class="faq-title-wrap">
+                                <span class="faq-category-tag tag-tech">Compatibilidad</span>
+                                <h4>¿En qué dispositivos puedo usar mis servicios de streaming?</h4>
+                            </div>
+                        </div>
+                    </summary>
+                    <div class="faq-content">
+                        <p>Totalmente compatibles con Smart TV (Samsung, LG, Android TV, Google TV), Fire Stick, TV Box, PC, tablets y smartphones.</p>
+                        <p><em>⚠️ Recuerda: Para garantizar estabilidad, cada perfil contratado es de uso exclusivo en 1 pantalla activa a la vez.</em></p>
+                    </div>
+                </details>
+
+                <details class="faq-card">
+                    <summary>
+                        <div class="faq-summary-left">
+                            <span class="faq-icon-box">🔑</span>
+                            <div class="faq-title-wrap">
+                                <span class="faq-category-tag tag-software">Software &amp; Licencias</span>
+                                <h4>¿Cómo se entregan las licencias (Windows, Office, AutoCAD)?</h4>
+                            </div>
+                        </div>
+                    </summary>
+                    <div class="faq-content">
+                        <p>Recibes tu clave de producto original de 25 caracteres o credencial institucional con descarga directa desde los servidores oficiales de Microsoft o Autodesk, junto a una guía visual de activación con soporte paso a paso.</p>
+                    </div>
+                </details>
+
+                <details class="faq-card">
+                    <summary>
+                        <div class="faq-summary-left">
+                            <span class="faq-icon-box">🛡️</span>
+                            <div class="faq-title-wrap">
+                                <span class="faq-category-tag tag-guarantee">Garantía</span>
+                                <h4>¿Qué cubre la garantía y qué hago si tengo una duda?</h4>
+                            </div>
+                        </div>
+                    </summary>
+                    <div class="faq-content">
+                        <p>Cubre el 100% del periodo contratado. Si se presenta algún bloqueo de región, cambio de PIN o inconveniente técnico, nuestro equipo de soporte te atiende de inmediato por WhatsApp para restablecer el servicio o darte una reposición.</p>
+                    </div>
+                </details>
+
+                <details class="faq-card">
+                    <summary>
+                        <div class="faq-summary-left">
+                            <span class="faq-icon-box">💳</span>
+                            <div class="faq-title-wrap">
+                                <span class="faq-category-tag tag-payment">Medios de Pago</span>
+                                <h4>¿Cuáles son los métodos de pago y qué moneda aceptan?</h4>
+                            </div>
+                        </div>
+                    </summary>
+                    <div class="faq-content">
+                        <p>Todos los precios están fijados en <strong>Soles Peruanos (S/)</strong> sin cargos ocultos:</p>
+                        <ul>
+                            <li><strong>Billeteras digitales:</strong> Yape y Plin sin comisión.</li>
+                            <li><strong>Bancos nacionales:</strong> BCP, Interbank, BBVA, Scotiabank y Banco de la Nación.</li>
+                            <li><strong>Criptomonedas:</strong> Binance Pay USDT para pagos rápidos internacionales.</li>
+                        </ul>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- SECCIÓN: CONTACTO & SOPORTE DIRECTO        -->
+        <!-- ========================================== -->
+        <section id="contacto" aria-labelledby="contacto-title">
+            <h2 id="contacto-title">Atención y Soporte Directo</h2>
+            <p>¿Tienes dudas específicas o requieres cotización por mayor? Comunícate por nuestros canales oficiales:</p>
+            <address>
+                <p>📲 WhatsApp Oficial: <a href="https://wa.me/1234567890" target="_blank" rel="noopener noreferrer" aria-label="Enviar mensaje a WhatsApp de KazuStore">+1234567890</a></p>
+                <p>✈️ Canal de Telegram: <a href="https://t.me/BernardoHaise23" target="_blank" rel="noopener noreferrer" aria-label="Abrir chat en Telegram con BernardoHaise23">@BernardoHaise23</a></p>
+                <p>✉️ Correo Electrónico: <a href="mailto:bernardocubas36@gmail.com" aria-label="Enviar correo electrónico a bernardocubas36@gmail.com">bernardocubas36@gmail.com</a></p>
+            </address>
+        </section>
+    </main>
+
+    <!-- Modal Emergente Dinámico -->
+    <div class="modal-overlay" id="service-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-header-info">
+                    <img id="modal-icon" src="" alt="Icono del servicio">
+                    <h3 id="modal-title"></h3>
+                </div>
+                <button type="button" class="modal-close-btn" id="modal-close" aria-label="Cerrar detalles">✕</button>
+            </div>
+            
+            <div class="modal-tabs" id="modal-tabs">
+                <button type="button" class="modal-tab-btn active" data-tab="0">ℹ️ Información</button>
+                <button type="button" class="modal-tab-btn" data-tab="1">📌 Condiciones</button>
+                <button type="button" class="modal-tab-btn" data-tab="2">📝 Solicitud</button>
+            </div>
+
+            <div class="modal-body" id="modal-body">
+                <!-- Contenido dinámico inyectado por JS -->
+            </div>
+
+            <div class="modal-footer">
+                <div class="modal-footer-price" id="modal-price"></div>
+                <div class="modal-footer-ctas" id="modal-ctas">
+                    <a href="#" id="modal-cta-new" class="btn-modal-new" target="_blank" rel="noopener noreferrer">
+                        🎁 Primer Mes: <span id="modal-btn-new-price"></span>
+                    </a>
+                    <a href="#" id="modal-cta-renew" class="btn-modal-renew" target="_blank" rel="noopener noreferrer">
+                        🔄 Renovar Servicio: <span id="modal-btn-renew-price"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
-    <h1 class="text-2xl sm:text-4xl font-black font-cyber text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-purple-400 to-cyan-400 glow-text-pink">
-      KAZUYA STORE
-    </h1>
-    <p class="text-xs sm:text-sm text-cyan-300/80 mt-1 font-medium tracking-wide">Torneo de Openings & Endings</p>
-  </header>
 
-  <!-- CONTENEDOR PRINCIPAL -->
-  <main class="flex-1 max-w-5xl w-full mx-auto p-3 sm:p-6 space-y-6 sm:space-y-8">
-    <!-- SECCIÓN 1: CONFIGURACIÓN Y BÚSQUEDA -->
-    <section id="setup-section" class="space-y-6 anim-fade-up">
-      <div class="glass-cyber p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-ping"></span>
-          <label for="anime-input" class="block text-xs sm:text-sm font-cyber font-bold uppercase tracking-wider text-pink-400">
-            BUSCAR ANIME
-          </label>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-2">
-          <input id="anime-input" type="text" placeholder="Ej: Naruto, Bleach, Attack on Titan, Jujutsu Kaisen, One Piece..." 
-                 class="flex-1 px-4 py-3 rounded-xl bg-gray-900 border border-pink-500/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400 text-pink-50 placeholder-gray-400 transition shadow-inner font-semibold text-sm" />
-          <button id="search-btn" class="px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-500 hover:to-purple-500 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl transition shadow-lg glow-box-pink active:scale-95 clip-btn text-white">
-            BUSCAR 🔍
-          </button>
-        </div>
-        <div id="search-status" class="text-xs sm:text-sm font-medium hidden"></div>
-        <div id="anime-results" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 max-h-80 overflow-y-auto hidden pr-1"></div>
-      </div>
+    <!-- Pie de página -->
+    <footer role="contentinfo">
+        <p>&copy; 2026 KazuStore. Todos los derechos reservados.</p>
+        <p>Garantía directa en todos los servicios digitales.</p>
+    </footer>
 
-      <!-- PANEL DE TEMAS CON SELECTOR OP / ED -->
-      <div id="openings-container" class="glass-cyber p-4 sm:p-6 rounded-2xl shadow-2xl space-y-4 hidden anim-fade-up">
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-800/80 pb-4">
-          <div>
-            <span class="text-[10px] font-cyber tracking-widest text-cyan-400 uppercase">ANIME SELECCIONADO</span>
-            <h2 id="selected-anime-title" class="text-lg sm:text-2xl font-black text-white glow-text-cyan"></h2>
-            <p id="openings-count" class="text-xs text-pink-400 mt-0.5 font-bold"></p>
-          </div>
+    <!-- Scripts: Tema + Modal Dinámico -->
+    <script>
+        // Modo Claro / Oscuro
+        const themeBtn = document.getElementById('theme-toggle');
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            themeBtn.textContent = '🌙 Modo Oscuro';
+        }
+        themeBtn.addEventListener('click', () => {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            if (isLight) {
+                document.documentElement.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'dark');
+                themeBtn.textContent = '🌓 Modo Claro';
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+                themeBtn.textContent = '🌙 Modo Oscuro';
+            }
+        });
 
-          <!-- BOTONES DE FILTRO (OPENINGS / ENDINGS / AMBOS) -->
-          <div class="flex items-center gap-1.5 bg-gray-950/80 p-1.5 rounded-xl border border-gray-800">
-            <button id="filter-op-btn" class="px-3 py-1.5 rounded-lg text-xs font-cyber font-bold bg-pink-600 text-white shadow transition">
-              OPENINGS (OP)
-            </button>
-            <button id="filter-ed-btn" class="px-3 py-1.5 rounded-lg text-xs font-cyber font-bold text-gray-400 hover:text-white transition">
-              ENDINGS (ED)
-            </button>
-            <button id="filter-all-btn" class="px-3 py-1.5 rounded-lg text-xs font-cyber font-bold text-gray-400 hover:text-white transition">
-              TODOS (OP+ED)
-            </button>
-          </div>
+        // Modal Emergente y Dinámica de Pestañas
+        const modal = document.getElementById('service-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalTitle = document.getElementById('modal-title');
+        const modalIcon = document.getElementById('modal-icon');
+        const modalBody = document.getElementById('modal-body');
+        const modalPrice = document.getElementById('modal-price');
+        const modalCta = document.getElementById('modal-cta');
+        const tabBtns = document.querySelectorAll('.modal-tab-btn');
 
-          <button id="start-tournament-btn" class="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-cyan-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 active:scale-95 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl shadow-xl transition glow-box-cyan clip-btn text-gray-950">
-            ⚔️ INICIAR TORNEO
-          </button>
-        </div>
+        let currentSectionsData = [];
+        let currentCurrency = localStorage.getItem('kazu_curr') || 'PEN';
+        const USD_RATE = 3.35; // Tasa de cambio fijada a 3.35 para asegurar el valor neto al cambiar a Soles
 
-        <ul id="openings-list" class="space-y-2 max-h-96 overflow-y-auto pr-1"></ul>
-      </div>
-    </section>
+        function formatPrice(amountPen, targetCurr) {
+            if (targetCurr === 'USD') {
+                const usd = (amountPen / USD_RATE).toFixed(2);
+                return `$ ${usd} USD`;
+            }
+            return `S/ ${amountPen.toFixed(2)}`;
+        }
 
-    <!-- SECCIÓN 2: DUELOS (VERSUS) -->
-    <section id="tournament-section" class="hidden space-y-4 sm:space-y-6 anim-fade-up">
-      <div class="flex justify-between items-center glass-cyber p-3 sm:p-4 rounded-xl">
-        <div>
-          <span id="round-title" class="text-[10px] sm:text-xs font-cyber font-bold tracking-widest text-pink-400 uppercase"></span>
-          <h2 id="match-title" class="text-lg sm:text-2xl font-black font-cyber text-white glow-text-cyan"></h2>
-        </div>
-        <button id="cancel-tournament-btn" class="px-3 py-1.5 text-xs font-cyber bg-gray-900 border border-gray-700 hover:border-pink-500 text-gray-300 rounded-lg transition active:scale-95">
-          Reiniciar
-        </button>
-      </div>
+        // Transformar tarjetas con estructura visual moderna de E-Commerce (Badges, Stock, Precios) y guardar datos de modal
+        document.querySelectorAll('section article').forEach((article, index) => {
+            const titleEl = article.querySelector('h3');
+            const title = titleEl ? titleEl.textContent : '';
+            const figure = article.querySelector('figure');
+            const img = figure ? figure.querySelector('img') : null;
+            const imgSrc = img ? img.getAttribute('src') : '';
+            const priceP = article.querySelector(':scope > p');
+            const delEl = priceP ? priceP.querySelector('del') : null;
+            const dataEl = priceP ? priceP.querySelector('data') : null;
+            const timeEl = priceP ? priceP.querySelector('time') : null;
+            const originalCta = article.querySelector(':scope > a');
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-stretch">
-        <!-- DUELO A -->
-        <div id="card-a" class="glass-cyber p-4 sm:p-5 rounded-2xl flex flex-col justify-between space-y-3 border-2 border-pink-500/40 hover:border-pink-500 transition glow-box-pink anim-slide-left">
-          <div class="space-y-1">
-            <span class="inline-block px-2.5 py-0.5 text-[10px] sm:text-xs font-cyber font-black bg-pink-500/20 text-pink-400 border border-pink-500/40 rounded">OPCIÓN A (LEFT)</span>
-            <h3 id="name-a" class="text-sm sm:text-base font-bold text-white line-clamp-2 min-h-[2.5rem]"></h3>
-          </div>
-          <div class="video-wrapper">
-            <video id="video-a" controls playsinline preload="metadata"></video>
-          </div>
-          <button id="vote-a-btn" class="w-full py-3 bg-gradient-to-r from-pink-600 via-pink-500 to-rose-500 hover:from-pink-500 hover:to-rose-400 active:scale-95 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl text-center shadow-lg transition clip-btn text-white glow-box-pink">
-            VOTAR OPCIÓN A 🔥
-          </button>
-        </div>
+            const regText = delEl ? delEl.textContent : 'S/ 0.00';
+            const offText = dataEl ? dataEl.textContent : 'S/ 0.00';
+            const duration = timeEl ? timeEl.textContent : 'Permanente';
 
-        <!-- DUELO B -->
-        <div id="card-b" class="glass-cyber p-4 sm:p-5 rounded-2xl flex flex-col justify-between space-y-3 border-2 border-cyan-500/40 hover:border-cyan-400 transition glow-box-cyan anim-slide-right">
-          <div class="space-y-1">
-            <span class="inline-block px-2.5 py-0.5 text-[10px] sm:text-xs font-cyber font-black bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 rounded">OPCIÓN B (RIGHT)</span>
-            <h3 id="name-b" class="text-sm sm:text-base font-bold text-white line-clamp-2 min-h-[2.5rem]"></h3>
-          </div>
-          <div class="video-wrapper">
-            <video id="video-b" controls playsinline preload="metadata"></video>
-          </div>
-          <button id="vote-b-btn" class="w-full py-3 bg-gradient-to-r from-cyan-500 via-teal-400 to-blue-500 hover:from-cyan-400 hover:to-blue-400 active:scale-95 font-cyber font-bold text-xs sm:text-sm tracking-wider rounded-xl text-center shadow-lg transition clip-btn text-gray-950 glow-box-cyan">
-            VOTAR OPCIÓN B ⚡
-          </button>
-        </div>
-      </div>
-    </section>
+            const numReg = parseFloat(regText.replace(/[^0-9.]/g, '')) || 20;
+            const numOff = parseFloat(offText.replace(/[^0-9.]/g, '')) || 10;
+            const discountPct = Math.round(((numReg - numOff) / numReg) * 100);
 
-    <!-- SECCIÓN 3: GANADOR Y BRACKET -->
-    <section id="winner-section" class="hidden text-center py-6 sm:py-8 space-y-6 glass-cyber rounded-2xl p-4 sm:p-6 anim-winner-pop">
-      <div class="space-y-3">
-        <div class="text-5xl sm:text-6xl animate-bounce">👑</div>
-        <span class="text-[10px] sm:text-xs font-cyber tracking-widest text-yellow-400 uppercase">KAZUYA STORE • CHAMPION</span>
-        <h2 class="text-2xl sm:text-4xl font-black font-cyber text-yellow-400 glow-text-pink">¡CAMPEÓN SUPREMO!</h2>
-        <p id="winner-name" class="text-base sm:text-xl font-bold text-white px-2"></p>
-        <div class="max-w-xl mx-auto video-wrapper shadow-2xl glow-box-gold">
-          <video id="winner-video" controls autoplay playsinline></video>
-        </div>
-      </div>
+            // Guardar contenido de las 3 secciones (Info, Condiciones, Solicitud)
+            const detailDivs = article.querySelectorAll(':scope > div:not(.art-picture-block):not(.art-brand):not(.art-pricing-row):not(.card-actions)');
+            const sections = Array.from(detailDivs).map(d => d.innerHTML);
+            
+            article._modalData = {
+                title: title,
+                iconSrc: imgSrc,
+                numReg: numReg,
+                numOff: numOff,
+                duration: duration,
+                sections: sections
+            };
 
-      <!-- BRACKET ANIME -->
-      <div class="text-left border-t border-gray-800/80 pt-6 space-y-3">
-        <div class="flex items-center justify-between">
-          <h3 class="text-base sm:text-lg font-cyber font-black text-pink-400 glow-text-pink">🏆 ÁRBOL DE DUELOS (BRACKET)</h3>
-          <span class="text-[10px] sm:text-xs font-cyber text-cyan-400">DESPLAZAR →</span>
-        </div>
-        <div id="bracket-container" class="bracket-wrapper bg-gray-950/80 rounded-xl border border-pink-500/20"></div>
-      </div>
+            // 1. Picture Block con Badges
+            const picBlock = document.createElement('div');
+            picBlock.className = 'art-picture-block';
+            picBlock.innerHTML = `
+                <div class="art-badges">
+                    <span class="art-badge badge-new">Nuevo</span>
+                    <span class="art-badge badge-discount">-${discountPct}%</span>
+                    <span class="art-badge badge-offer">Oferta</span>
+                </div>
+            `;
+            if (img) {
+                const imgClone = img.cloneNode(true);
+                imgClone.className = 'detalle-producto archivo-img';
+                picBlock.appendChild(imgClone);
+                figure.remove();
+            }
 
-      <div class="pt-2">
-        <button id="new-tournament-btn" class="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-pink-600 via-purple-600 to-cyan-500 hover:opacity-90 active:scale-95 font-cyber font-bold text-xs sm:text-sm rounded-xl transition shadow-2xl glow-box-pink clip-btn">
-          CREAR NUEVO TORNEO 🔁
-        </button>
-      </div>
-    </section>
-  </main>
+            // 2. Brand & Stock Row
+            const brandRow = document.createElement('div');
+            brandRow.className = 'art-brand';
+            brandRow.innerHTML = `
+                <span class="art-store-name">KazuStore</span>
+                <span class="art-stock" title="Existencias disponibles">
+                    📦 <strong>${45 + (index % 15)} Disp.</strong>
+                </span>
+            `;
 
-  <footer class="p-4 text-center border-t border-gray-800 bg-gray-950/90 text-[10px] sm:text-xs text-gray-500 font-cyber">
-    © 2026 KAZUYA STORE • ALL RIGHTS RESERVED
-  </footer>
+            // 3. Pricing Row
+            const pricingRow = document.createElement('div');
+            pricingRow.className = 'art-pricing-row';
+            pricingRow.innerHTML = `
+                <div class="art-info-tag">
+                    <span class="art-activation-text">⚡ Entrega Rápida</span>
+                    <span class="art-duration-tag">⏱️ ${duration}</span>
+                </div>
+                <div class="art-price-values">
+                    <span class="art-old-price card-old-price">${formatPrice(numReg, currentCurrency)}</span>
+                    <span class="art-new-price card-new-price">${formatPrice(numOff, currentCurrency)}</span>
+                </div>
+            `;
 
-  <script src="app.js"></script>
+            // 4. Botones de Acción
+            const actionsDiv = document.createElement('div');
+            actionsDiv.className = 'card-actions';
+
+            const detailBtn = document.createElement('button');
+            detailBtn.type = 'button';
+            detailBtn.className = 'btn-details';
+            detailBtn.innerHTML = '🔍 Detalles';
+            detailBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openModal(article);
+            });
+
+            const buyBtn = document.createElement('button');
+            buyBtn.type = 'button';
+            buyBtn.className = 'btn-buy-now';
+            buyBtn.textContent = 'COMPRAR';
+            buyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openModal(article);
+            });
+
+            if (originalCta) originalCta.remove();
+
+            actionsDiv.appendChild(detailBtn);
+            actionsDiv.appendChild(buyBtn);
+
+            // Reorganizar el árbol dentro de la tarjeta
+            article.insertBefore(picBlock, titleEl);
+            article.insertBefore(brandRow, titleEl);
+            article.insertBefore(pricingRow, priceP);
+            article.appendChild(actionsDiv);
+
+            article.addEventListener('click', () => openModal(article));
+        });
+
+        function updateAllPrices() {
+            document.querySelectorAll('section article').forEach(article => {
+                if (!article._modalData) return;
+                const d = article._modalData;
+                const oldEl = article.querySelector('.card-old-price');
+                const newEl = article.querySelector('.card-new-price');
+                if (oldEl) oldEl.textContent = formatPrice(d.numReg, currentCurrency);
+                if (newEl) newEl.textContent = formatPrice(d.numOff, currentCurrency);
+            });
+
+            // Actualizar botones de moneda
+            document.querySelectorAll('.currency-btn').forEach(btn => {
+                if (btn.getAttribute('data-curr') === currentCurrency) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        document.getElementById('curr-pen').addEventListener('click', () => {
+            currentCurrency = 'PEN';
+            localStorage.setItem('kazu_curr', 'PEN');
+            updateAllPrices();
+        });
+
+        document.getElementById('curr-usd').addEventListener('click', () => {
+            currentCurrency = 'USD';
+            localStorage.setItem('kazu_curr', 'USD');
+            updateAllPrices();
+        });
+
+        const modalCtaNew = document.getElementById('modal-cta-new');
+        const modalCtaRenew = document.getElementById('modal-cta-renew');
+        const modalBtnNewPrice = document.getElementById('modal-btn-new-price');
+        const modalBtnRenewPrice = document.getElementById('modal-btn-renew-price');
+
+        function openModal(article) {
+            if (!article._modalData) return;
+            const data = article._modalData;
+            
+            const regFormatted = formatPrice(data.numReg, currentCurrency);
+            const offFormatted = formatPrice(data.numOff, currentCurrency);
+
+            modalTitle.textContent = data.title;
+            modalIcon.setAttribute('src', data.iconSrc);
+            modalIcon.setAttribute('alt', data.title);
+            modalPrice.innerHTML = `<span>Precio Regular: <del>${regFormatted}</del></span><br><strong>🎁 Oferta: ${offFormatted}</strong> (${data.duration})`;
+
+            // Precios dinámicos en los botones del modal
+            modalBtnNewPrice.textContent = offFormatted;
+            modalBtnRenewPrice.textContent = regFormatted;
+
+            // Detectar si es licencia única/vitalicia/permanente o suscripción renovable
+            const isPermanent = data.duration.toLowerCase().includes('permanente') || 
+                                data.duration.toLowerCase().includes('vitalicia') || 
+                                data.duration.toLowerCase().includes('18 meses') ||
+                                data.duration.toLowerCase().includes('1 año') ||
+                                data.title.toLowerCase().includes('permanente');
+
+            if (isPermanent) {
+                modalCtaNew.innerHTML = `🎁 Adquirir Oferta: <span id="modal-btn-new-price">${offFormatted}</span>`;
+                modalCtaRenew.style.display = 'none';
+
+                const msgBuy = encodeURIComponent(`Hola KazuStore, deseo adquirir la licencia de ${data.title} a precio promocional de ${offFormatted} (${data.duration}).`);
+                modalCtaNew.setAttribute('href', `https://wa.me/1234567890?text=${msgBuy}`);
+            } else {
+                modalCtaNew.innerHTML = `🎁 Primer Mes: <span id="modal-btn-new-price">${offFormatted}</span>`;
+                modalCtaRenew.innerHTML = `🔄 Renovar Servicio: <span id="modal-btn-renew-price">${regFormatted}</span>`;
+                modalCtaRenew.style.display = 'inline-flex';
+
+                const msgNew = encodeURIComponent(`Hola KazuStore, soy NUEVO CLIENTE y deseo adquirir la oferta de ${data.title} a ${offFormatted} (${data.duration}).`);
+                const msgRenew = encodeURIComponent(`Hola KazuStore, deseo RENOVAR mi servicio de ${data.title} a ${regFormatted} (${data.duration}).`);
+
+                modalCtaNew.setAttribute('href', `https://wa.me/1234567890?text=${msgNew}`);
+                modalCtaRenew.setAttribute('href', `https://wa.me/1234567890?text=${msgRenew}`);
+            }
+
+            currentSectionsData = data.sections;
+
+            switchTab(0);
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function switchTab(index) {
+            tabBtns.forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+            modalBody.innerHTML = currentSectionsData[index] || '<p>Información no disponible.</p>';
+        }
+
+        tabBtns.forEach((btn, idx) => {
+            btn.addEventListener('click', () => switchTab(idx));
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+        });
+
+        // ==========================================================================
+        // FAQ: ACORDEÓN EXCLUSIVO (UX MEJORADA - CIERRA LOS DEMÁS AL ABRIR UNO)
+        // ==========================================================================
+        const faqDetails = document.querySelectorAll('#faq details');
+        faqDetails.forEach((targetDetail) => {
+            targetDetail.addEventListener('toggle', () => {
+                if (targetDetail.open) {
+                    faqDetails.forEach((detail) => {
+                        if (detail !== targetDetail && detail.open) {
+                            detail.removeAttribute('open');
+                        }
+                    });
+                }
+            });
+        });
+
+        // ==========================================================================
+        // BUSCADOR EN TIEMPO REAL
+        // ==========================================================================
+        const searchInput = document.getElementById('live-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase().trim();
+                document.querySelectorAll('section article').forEach(article => {
+                    const title = article.querySelector('h3') ? article.querySelector('h3').textContent.toLowerCase() : '';
+                    if (title.includes(query)) {
+                        article.style.display = 'flex';
+                    } else {
+                        article.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // ==========================================================================
+        // MOTOR DE PARTÍCULAS / CONSTELACIONES INTERACTIVAS
+        // ==========================================================================
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouse = { x: null, y: null, radius: 150 };
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.8;
+                this.speedY = (Math.random() - 0.5) * 0.8;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+
+                // Interacción con mouse
+                if (mouse.x !== null && mouse.y !== null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    if (distance < mouse.radius) {
+                        let force = (mouse.radius - distance) / mouse.radius;
+                        let directionX = (dx / distance) * force * 3;
+                        let directionY = (dy / distance) * force * 3;
+                        this.x -= directionX;
+                        this.y -= directionY;
+                    }
+                }
+            }
+            draw() {
+                const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+                ctx.fillStyle = isLight ? 'rgba(2, 132, 199, 0.7)' : 'rgba(56, 189, 248, 0.75)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            const count = Math.min(Math.floor((canvas.width * canvas.height) / 14000), 90);
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function connectParticles() {
+            const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+            const strokeBase = isLight ? '2, 132, 199' : '56, 189, 248';
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    let dx = particles[a].x - particles[b].x;
+                    let dy = particles[a].y - particles[b].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 110) {
+                        let opacity = 1 - (distance / 110);
+                        ctx.strokeStyle = `rgba(${strokeBase}, ${opacity * 0.25})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.beginPath();
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+            }
+            connectParticles();
+            requestAnimationFrame(animateCanvas);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        resizeCanvas();
+        animateCanvas();
+    </script>
 </body>
 </html>

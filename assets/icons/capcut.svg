@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="64" height="64">
+  <defs>
+    <linearGradient id="capcutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00F2FE"/>
+      <stop offset="100%" stop-color="#4FACFE"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#111111"/>
+  <!-- CapCut signature cutting wedges -->
+  <path d="M30 42 L80 42 L52 86 L30 86 Z" fill="url(#capcutGrad)"/>
+  <path d="M98 86 L48 86 L76 42 L98 42 Z" fill="#FFFFFF"/>
+</svg>

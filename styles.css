@@ -1,0 +1,1415 @@
+/* ==========================================================================
+   KazuStore - Sistema de Diseño E-Commerce Premium (Zodiak Inspired)
+   ========================================================================== */
+
+:root {
+    --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    
+    /* Modo Oscuro - Aurora Vibrante */
+    --bg-main: #0b0f19;
+    --bg-header: rgba(13, 19, 33, 0.85);
+    --bg-card: rgba(17, 24, 39, 0.85);
+    --bg-card-hover: rgba(23, 32, 51, 0.95);
+    --bg-badge-dark: #1f2937;
+    --bg-secondary: rgba(13, 19, 33, 0.9);
+    --bg-modal-overlay: rgba(3, 7, 18, 0.85);
+    
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    
+    --accent: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.35);
+    --accent-hover: #0ea5e9;
+    
+    --primary-gradient: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+    --card-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0.3) 100%);
+    
+    --success: #10b981;
+    --success-bg: rgba(16, 185, 129, 0.15);
+    --danger: #ef4444;
+    --danger-bg: rgba(239, 68, 68, 0.15);
+    --warning: #f59e0b;
+    --star-color: #facc15;
+    
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-hover: rgba(56, 189, 248, 0.5);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.55);
+    --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.25);
+    
+    --btn-buy-bg: #25d366;
+    --btn-buy-hover: #1ebd56;
+    --btn-buy-shadow: 0 4px 15px rgba(37, 211, 102, 0.35);
+    
+    /* Gradiente animado dinámico Oscuro */
+    --aurora-bg: linear-gradient(-45deg, #070a13, #0f172a, #1e1b4b, #0f2b46, #091e3a);
+}
+
+[data-theme="light"] {
+    --bg-main: #f0f4f8;
+    --bg-header: rgba(255, 255, 255, 0.88);
+    --bg-card: rgba(255, 255, 255, 0.9);
+    --bg-card-hover: #ffffff;
+    --bg-badge-dark: #334155;
+    --bg-secondary: rgba(255, 255, 255, 0.95);
+    --bg-modal-overlay: rgba(15, 23, 42, 0.65);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    
+    --accent: #0284c7;
+    --accent-glow: rgba(2, 132, 199, 0.25);
+    --accent-hover: #0369a1;
+    
+    --primary-gradient: linear-gradient(135deg, #0284c7 0%, #4f46e5 100%);
+    --card-gradient: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+    
+    --border-color: #e2e8f0;
+    --border-hover: rgba(2, 132, 199, 0.4);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 45px rgba(0, 0, 0, 0.12);
+    
+    --btn-buy-bg: #16a34a;
+    --btn-buy-hover: #15803d;
+    --btn-buy-shadow: 0 4px 15px rgba(22, 163, 74, 0.25);
+    
+    /* Gradiente animado dinámico Claro */
+    --aurora-bg: linear-gradient(-45deg, #e0f2fe, #ede9fe, #dcfce7, #fef3c7, #e0e7ff);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Transiciones optimizadas solo en elementos interactivos */
+a, button, article, details, input, .f-chip, .feature-card, .faq-card {
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-family: var(--font-family);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    background: var(--aurora-bg);
+    background-size: 400% 400%;
+    animation: auroraFlowGradient 14s ease infinite;
+    background-attachment: fixed;
+    position: relative;
+}
+
+/* Canvas de Red Neuronal / Constelaciones Interactivas */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Efecto de malla sutil */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 1.5px, transparent 1.5px);
+    background-size: 36px 36px;
+    opacity: 0.8;
+}
+
+@keyframes auroraFlowGradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Header */
+header {
+    background-color: var(--bg-header);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow-sm);
+    padding: 0.85rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+}
+
+header h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.theme-toggle-btn {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.45rem 1rem;
+    border-radius: 24px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 700;
+    font-family: var(--font-family);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-toggle-btn:hover {
+    border-color: var(--accent);
+}
+
+.currency-toggle-wrapper {
+    display: inline-flex;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2px;
+    gap: 2px;
+}
+
+.currency-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+    font-family: var(--font-family);
+    padding: 0.35rem 0.75rem;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.currency-btn:hover {
+    color: var(--text-primary);
+}
+
+.currency-btn.active {
+    background: var(--accent);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(56, 189, 248, 0.35);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 8px;
+}
+
+nav a:hover {
+    color: var(--accent);
+    background-color: var(--bg-card);
+}
+
+/* Main Container */
+main {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 2rem 1.25rem;
+    width: 100%;
+}
+
+/* ==========================================================================
+   Hero Minimalista Futurista (Estilo Apple / Vercel Glass)
+   ========================================================================== */
+.hero-futuristic {
+    text-align: center;
+    padding: 3.5rem 1.5rem 2.5rem 1.5rem;
+    position: relative;
+    margin-bottom: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-pill-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    padding: 0.4rem 1.1rem;
+    border-radius: 9999px;
+    margin-bottom: 1.25rem;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.hero-pill-dot {
+    width: 6px;
+    height: 6px;
+    background: #38bdf8;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #38bdf8;
+    animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+}
+
+.hero-giant-title {
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: clamp(0.95rem, 2vw, 1.1rem);
+    color: var(--text-secondary);
+    max-width: 620px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Buscador Central Glassmorphism con Efecto Glow */
+.futuristic-search-box {
+    position: relative;
+    width: 100%;
+    max-width: 620px;
+    margin-bottom: 1.75rem;
+}
+
+.search-glow-layer {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(90deg, #38bdf8, #818cf8, #ec4899, #38bdf8);
+    background-size: 300% 100%;
+    border-radius: 16px;
+    filter: blur(8px);
+    opacity: 0.45;
+    animation: glowSlide 6s linear infinite;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+}
+
+.futuristic-search-box:hover .search-glow-layer,
+.futuristic-search-box:focus-within .search-glow-layer {
+    opacity: 0.85;
+    filter: blur(12px);
+}
+
+@keyframes glowSlide {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+}
+
+.search-inner-bar {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0.6rem 0.35rem 1rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 1;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.search-kbd-icon {
+    font-size: 0.78rem;
+    font-weight: 800;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    margin-right: 0.75rem;
+    user-select: none;
+}
+
+.search-inner-bar input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 0.98rem;
+    font-family: var(--font-family);
+    padding: 0.65rem 0;
+}
+
+.search-inner-bar input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-pulse-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+/* Filtros Chips Futuristas */
+.futuristic-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+    margin-bottom: 2rem;
+}
+
+.f-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 0.45rem 1rem;
+    border-radius: 9999px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(10px);
+}
+
+.f-chip:hover {
+    color: var(--text-primary);
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.2);
+}
+
+.f-chip.active {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.2));
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Micro Métricas de Confianza Flotantes */
+.hero-trust-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.trust-item strong {
+    color: var(--text-primary);
+}
+
+/* Section Styling */
+section {
+    margin-bottom: 4rem;
+}
+
+section > h2 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+}
+
+section > h2::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 24px;
+    background: var(--primary-gradient);
+    border-radius: 4px;
+}
+
+section > p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 1.75rem;
+}
+
+/* Grids */
+#streaming, #musica, #ofimatica, #ia, #diseno {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+#streaming > h2, #streaming > p,
+#musica > h2, #musica > p,
+#ofimatica > h2, #ofimatica > p,
+#ia > h2, #ia > p,
+#diseno > h2, #diseno > p {
+    grid-column: 1 / -1;
+}
+
+/* ==========================================================================
+   CARDS DE PRODUCTO CON BORDE NEÓN ANIMADO (BORDER BEAM FLOW)
+   ========================================================================== */
+article {
+    background: var(--bg-card);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    border: 1px solid var(--border-color);
+}
+
+/* Efecto de haz de luz Neón giratorio en los bordes */
+article::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+        transparent,
+        transparent,
+        transparent,
+        var(--accent),
+        #6366f1,
+        transparent
+    );
+    animation: rotateBorder 6s linear infinite;
+    z-index: -2;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+/* Máscara interior para que el brillo solo se vea en el marco exterior */
+article::after {
+    content: '';
+    position: absolute;
+    inset: 1.5px;
+    background: var(--bg-card);
+    background-image: var(--card-gradient);
+    border-radius: 15px;
+    z-index: -1;
+}
+
+@keyframes rotateBorder {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+article:hover {
+    box-shadow: var(--shadow-md), 0 0 25px rgba(56, 189, 248, 0.35);
+    transform: translateY(-5px);
+}
+
+article:hover::before {
+    opacity: 1;
+    animation-duration: 3s; /* Se acelera al pasar el cursor */
+}
+
+/* Bloque Visual Superior (Picture Block) */
+.art-picture-block {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    max-height: 160px;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 65%, transparent 100%), var(--bg-main);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    margin-bottom: 0.85rem;
+    overflow: hidden;
+}
+
+/* Badges Flotantes */
+.art-badges {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    z-index: 2;
+}
+
+.art-badge {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    letter-spacing: 0.3px;
+}
+
+.badge-new {
+    background-color: var(--success);
+    color: #ffffff;
+}
+
+.badge-discount {
+    background-color: var(--danger);
+    color: #ffffff;
+}
+
+.badge-offer {
+    background-color: var(--bg-badge-dark);
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* Imagen Central Autoajustable y Responsiva */
+article figure {
+    display: contents;
+}
+
+.art-picture-block img {
+    width: 100%;
+    height: 100%;
+    max-width: 85%;
+    max-height: 85%;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 14px rgba(0,0,0,0.3));
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+}
+
+/* Iluminación y realce de íconos oscuros/monocromáticos en modo oscuro */
+:root:not([data-theme="light"]) .art-picture-block img[src*="chatgpt"],
+:root:not([data-theme="light"]) .modal-header-info img[src*="chatgpt"] {
+    filter: invert(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.45));
+}
+
+article:hover .art-picture-block img {
+    transform: scale(1.08);
+}
+
+/* Bloque Marca & Stock */
+.art-brand {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+}
+
+.art-store-name {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.art-stock {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: var(--text-secondary);
+}
+
+.art-stock strong {
+    color: var(--text-primary);
+}
+
+/* Título de Producto */
+article h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+    height: 2.7rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Reviews y Estrellas */
+.art-reviews {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+}
+
+.art-stars {
+    color: var(--star-color);
+    letter-spacing: 1px;
+    font-size: 0.85rem;
+}
+
+.art-review-count {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Bloque de Precios y Beneficio */
+.art-pricing-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    padding: 0.65rem 0.75rem;
+    border-radius: 10px;
+    margin-bottom: 0.85rem;
+    margin-top: auto;
+}
+
+.art-info-tag {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.art-activation-text {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.art-duration-tag {
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.art-price-values {
+    text-align: right;
+}
+
+.art-old-price {
+    font-size: 0.8rem;
+    color: var(--danger);
+    text-decoration: line-through;
+    font-weight: 600;
+    display: block;
+}
+
+.art-new-price {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--success);
+    display: block;
+    line-height: 1.1;
+}
+
+/* Ocultar divs de detalle largos en la card */
+article > div:not(.art-picture-block):not(.art-brand):not(.art-reviews):not(.art-pricing-row):not(.card-actions) {
+    display: none;
+}
+article > p {
+    display: none; /* Se visualiza dentro del bloque estilizado */
+}
+
+/* Acciones en Tarjeta */
+.card-actions {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.btn-details {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 0.4rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-family: var(--font-family);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.btn-details:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--bg-card-hover);
+}
+
+.btn-buy-now {
+    background-color: var(--btn-buy-bg);
+    color: #ffffff;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--btn-buy-shadow);
+}
+
+.btn-buy-now:hover {
+    background-color: var(--btn-buy-hover);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   MODAL INTERACTIVO
+   ========================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--bg-modal-overlay);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    max-width: 640px;
+    width: 100%;
+    max-height: 88vh;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: scale(0.94);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-secondary);
+}
+
+.modal-header-info {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.modal-header-info img {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
+
+.modal-header-info h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.4rem;
+    cursor: pointer;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-close-btn:hover {
+    background: var(--bg-card-hover);
+    color: var(--text-primary);
+}
+
+.modal-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-main);
+    padding: 0 0.75rem;
+}
+
+.modal-tab-btn {
+    background: transparent;
+    border: none;
+    padding: 0.85rem 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 700;
+    font-size: 0.9rem;
+    font-family: var(--font-family);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+}
+
+.modal-tab-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: var(--bg-card);
+}
+
+.modal-body {
+    padding: 1.5rem;
+    overflow-y: auto;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+}
+
+.modal-body h4 {
+    display: none;
+}
+
+.modal-body p {
+    margin-bottom: 0.85rem;
+}
+
+.modal-body ul {
+    list-style-position: inside;
+    margin-bottom: 0.85rem;
+}
+
+.modal-body ul li {
+    margin-bottom: 0.4rem;
+    color: var(--text-primary);
+}
+
+.modal-body em {
+    display: block;
+    background: var(--warning-bg);
+    border-left: 3px solid var(--warning);
+    padding: 0.85rem;
+    border-radius: 0 6px 6px 0;
+    color: var(--text-primary);
+    font-style: normal;
+    font-size: 0.85rem;
+    margin-top: 0.85rem;
+}
+
+.modal-footer {
+    padding: 1.1rem 1.5rem;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.modal-footer-price strong {
+    color: var(--success);
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.modal-footer-price del {
+    color: var(--danger);
+    font-size: 0.9rem;
+    margin-right: 0.4rem;
+}
+
+.modal-footer-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.btn-modal-new {
+    background-color: var(--btn-buy-bg);
+    color: #ffffff !important;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 800;
+    text-decoration: none;
+    font-size: 0.88rem;
+    box-shadow: var(--btn-buy-shadow);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-modal-new:hover {
+    background-color: var(--btn-buy-hover);
+    transform: translateY(-1px);
+}
+
+.btn-modal-renew {
+    background-color: var(--bg-card);
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.88rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.btn-modal-renew:hover {
+    border-color: var(--accent);
+    color: var(--accent) !important;
+    background-color: var(--bg-card-hover);
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   Sección ¿Por qué elegir KazuStore? (Pillars Grid)
+   ========================================================================== */
+#beneficios {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 2.75rem 2rem;
+    border-radius: 22px;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(12px);
+    margin-bottom: 3.5rem;
+}
+
+#beneficios h2 {
+    font-size: 1.85rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+#beneficios > p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.feature-card {
+    background: var(--bg-main);
+    padding: 1.6rem 1.4rem;
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.18);
+}
+
+.feat-icon {
+    font-size: 1.85rem;
+    margin-bottom: 0.85rem;
+    display: inline-block;
+    filter: drop-shadow(0 2px 8px rgba(56, 189, 248, 0.3));
+}
+
+.feature-card h3 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   Sección FAQ Moderno (Glassmorphism & Cards Interactivas)
+   ========================================================================== */
+.faq-modern-section {
+    margin-bottom: 4rem;
+}
+
+.faq-header-wrapper {
+    margin-bottom: 2rem;
+}
+
+.faq-pill-badge {
+    display: inline-block;
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: var(--accent);
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    padding: 0.3rem 0.85rem;
+    border-radius: 20px;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.6rem;
+}
+
+.faq-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.25rem;
+    align-items: start; /* Evita que las tarjetas hermanas se estiren artificialmente */
+}
+
+.faq-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 1.35rem 1.5rem;
+    border-radius: 18px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    align-self: start;
+}
+
+.faq-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+.faq-card[open] {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+    box-shadow: 0 8px 30px rgba(56, 189, 248, 0.14);
+}
+
+.faq-summary-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    width: 90%;
+}
+
+.faq-icon-box {
+    font-size: 1.3rem;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.faq-title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.faq-category-tag {
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    width: fit-content;
+}
+
+.tag-promo { background: rgba(239, 68, 68, 0.15); color: #f87171; }
+.tag-renew { background: rgba(56, 189, 248, 0.15); color: #38bdf8; }
+.tag-tech { background: rgba(168, 85, 247, 0.15); color: #c084fc; }
+.tag-software { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
+.tag-guarantee { background: rgba(16, 185, 129, 0.15); color: #34d399; }
+.tag-payment { background: rgba(245, 158, 11, 0.15); color: #fbbf24; }
+
+.faq-card h4 {
+    font-size: 0.98rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.4;
+    margin: 0;
+}
+
+summary {
+    font-weight: 700;
+    font-size: 0.98rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+summary::-webkit-details-marker {
+    display: none;
+}
+
+summary::after {
+    content: '+';
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: var(--accent);
+    transition: transform 0.25s ease;
+    margin-left: 0.5rem;
+}
+
+.faq-card[open] summary::after {
+    content: '−';
+    transform: rotate(180deg);
+}
+
+.faq-content {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+.faq-content ul {
+    margin-top: 0.5rem;
+    padding-left: 1.1rem;
+}
+
+.faq-content ul li {
+    margin-bottom: 0.35rem;
+    color: var(--text-secondary);
+}
+
+.faq-content strong {
+    color: var(--text-primary);
+}
+
+.faq-content em {
+    display: block;
+    background: var(--warning-bg);
+    border-left: 3px solid var(--warning);
+    padding: 0.6rem 0.85rem;
+    border-radius: 0 6px 6px 0;
+    color: var(--text-primary);
+    font-style: normal;
+    font-size: 0.82rem;
+    margin-top: 0.65rem;
+}
+
+#contacto address {
+    font-style: normal;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    font-size: 0.95rem;
+}
+
+#contacto a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+}
+
+footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: auto;
+}
+
+@media (max-width: 850px) {
+    header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .header-left {
+        justify-content: space-between;
+        width: 100%;
+    }
+    nav ul {
+        justify-content: center;
+        gap: 0.25rem;
+    }
+    #inicio h2 {
+        font-size: 1.75rem;
+    }
+    .modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    .modal-footer a {
+        justify-content: center;
+    }
+}
+
+/* ==========================================================================
+   FRONT-END CHECKLIST COMPLIANCE: A11y, Focus, Motion & Print
+   ========================================================================== */
+
+/* 1. Indicadores de Foco Visibles (Focus-Visible) */
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+/* 2. Accesibilidad y Respeto a prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* 3. Hoja de Estilos de Impresión (Print Stylesheet) */
+@media print {
+    header,
+    footer,
+    .theme-toggle-btn,
+    .card-actions,
+    .modal-overlay,
+    body::before {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    article {
+        border: 1px solid #cccccc !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+    }
+
+    article > div {
+        display: block !important;
+    }
+}

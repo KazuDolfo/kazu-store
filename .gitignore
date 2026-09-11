@@ -1,7 +1,0 @@
-﻿# Logs & Temporales
-node_modules/
-.vercel/
-.env*
-.DS_Store
-Thumbs.db
-*.log

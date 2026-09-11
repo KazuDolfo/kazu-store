@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="64" height="64">
+  <defs>
+    <linearGradient id="cad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E22424"/>
+      <stop offset="100%" stop-color="#9B0000"/>
+    </linearGradient>
+    <linearGradient id="cad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF5C5C"/>
+      <stop offset="100%" stop-color="#D91616"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="28" fill="#1C1C1C"/>
+  <!-- AutoCAD Iconic Red 3D Origami A -->
+  <path d="M64 18 L104 96 L82 108 L64 68 L46 108 L24 96 Z" fill="url(#cad1)"/>
+  <path d="M64 18 L64 68 L46 108 L24 96 Z" fill="url(#cad2)"/>
+  <path d="M48 76 L80 76 L64 38 Z" fill="#FFFFFF"/>
+</svg>
