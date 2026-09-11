@@ -82,6 +82,7 @@
                 <li><a href="#beneficios">Beneficios</a></li>
                 <li><a href="#faq">Preguntas Frecuentes</a></li>
                 <li><a href="#contacto">Contacto</a></li>
+                <li><a href="javascript:void(0)" id="nav-kazucard-link" class="nav-kc-highlight">⭐ KazuCard</a></li>
             </ul>
         </nav>
     </header>
@@ -1352,6 +1353,8 @@
                 </div>
             </div>
         </div>
+    </div>
+
     <!-- Botón Flotante KazuCard Fidelidad -->
     <button type="button" class="kazucard-float-btn" id="open-kazucard" aria-label="Abrir mi Tarjeta KazuCard de Sellos y Recompensas">
         <span class="kc-sparkle">⭐</span>
@@ -1736,6 +1739,7 @@
         // ==========================================================================
         const kcModal = document.getElementById('kazucard-modal');
         const openKcBtn = document.getElementById('open-kazucard');
+        const navKcLink = document.getElementById('nav-kazucard-link');
         const closeKcBtn = document.getElementById('kc-modal-close');
         const kcRewardSelect = document.getElementById('kc-reward-choice');
         const kcWhatsappCta = document.getElementById('kc-whatsapp-cta');
@@ -1746,13 +1750,14 @@
             kcWhatsappCta.setAttribute('href', `https://wa.me/1234567890?text=${msg}`);
         }
 
-        if (openKcBtn && kcModal) {
-            openKcBtn.addEventListener('click', () => {
-                updateKazuCardWhatsappLink();
-                kcModal.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
+        function triggerOpenKcModal() {
+            updateKazuCardWhatsappLink();
+            kcModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
+
+        if (openKcBtn && kcModal) openKcBtn.addEventListener('click', triggerOpenKcModal);
+        if (navKcLink && kcModal) navKcLink.addEventListener('click', triggerOpenKcModal);
 
         if (closeKcBtn && kcModal) {
             closeKcBtn.addEventListener('click', () => {

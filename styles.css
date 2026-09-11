@@ -259,6 +259,22 @@ nav a:hover {
     background-color: var(--bg-card);
 }
 
+.nav-kc-highlight {
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(99, 102, 241, 0.2)) !important;
+    border: 1px solid var(--accent) !important;
+    color: var(--accent) !important;
+    font-weight: 800 !important;
+    border-radius: 20px !important;
+    padding: 0.35rem 0.85rem !important;
+    box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+}
+
+.nav-kc-highlight:hover {
+    background: var(--accent) !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+}
+
 /* Main Container */
 main {
     max-width: 1320px;
