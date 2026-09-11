@@ -1433,23 +1433,33 @@
                     <span class="kc-progress-text" id="kc-progress-text">Progreso: 1 de 5 sellos (¡Faltan 4 compras!)</span>
                 </div>
 
-                <!-- Panel Opcional: Generador Rápido para ti (Administrador) -->
+                <!-- Panel Protegido: Generador Exclusivo para el Administrador -->
                 <details class="kc-admin-tools">
-                    <summary>⚙️ Generador de Enlaces para Clientes (Uso Administrador)</summary>
+                    <summary>🔐 Acceso Administrador (Generar Enlaces)</summary>
                     <div class="kc-admin-box">
-                        <p>Escribe el número del cliente y la cantidad de sellos ganados para copiar su enlace directo:</p>
-                        <div class="kc-admin-inputs">
-                            <input type="tel" id="admin-tel-input" placeholder="Ej: 987654321" maxlength="15">
-                            <select id="admin-stamps-select">
-                                <option value="1">1 Sello (Bienvenida)</option>
-                                <option value="2">2 Sellos (1ra Compra)</option>
-                                <option value="3">3 Sellos (2da Compra)</option>
-                                <option value="4">4 Sellos (3ra Compra)</option>
-                                <option value="5">5 Sellos (¡Canje Listo!)</option>
-                            </select>
-                            <button type="button" id="admin-gen-btn" class="kc-copy-btn">📋 Copiar Enlace para WhatsApp</button>
+                        <div id="kc-admin-lock-screen">
+                            <p>Ingresa tu clave de administrador para desbloquear el generador:</p>
+                            <div class="kc-admin-inputs">
+                                <input type="password" id="admin-pass-input" placeholder="Clave de acceso" autocomplete="off">
+                                <button type="button" id="admin-unlock-btn" class="kc-copy-btn">🔓 Desbloquear</button>
+                            </div>
+                            <span class="kc-gen-feedback" id="kc-pass-error" style="color: var(--danger);"></span>
                         </div>
-                        <span class="kc-gen-feedback" id="kc-gen-feedback"></span>
+                        <div id="kc-admin-generator-panel" style="display: none;">
+                            <p>Escribe el número del cliente y los sellos ganados para copiar su enlace personalizado:</p>
+                            <div class="kc-admin-inputs">
+                                <input type="tel" id="admin-tel-input" placeholder="Ej: 987654321" maxlength="15">
+                                <select id="admin-stamps-select">
+                                    <option value="1">1 Sello (Bienvenida)</option>
+                                    <option value="2">2 Sellos (1ra Compra)</option>
+                                    <option value="3">3 Sellos (2da Compra)</option>
+                                    <option value="4">4 Sellos (3ra Compra)</option>
+                                    <option value="5">5 Sellos (¡Canje Listo!)</option>
+                                </select>
+                                <button type="button" id="admin-gen-btn" class="kc-copy-btn">📋 Copiar Enlace para WhatsApp</button>
+                            </div>
+                            <span class="kc-gen-feedback" id="kc-gen-feedback"></span>
+                        </div>
                     </div>
                 </details>
 
@@ -1854,11 +1864,30 @@
             kcRewardSelect.addEventListener('change', updateKazuCardWhatsappLink);
         }
 
-        // Generador Rápido de Enlaces para ti (Administrador)
+        // Panel Protegido: Generador de Enlaces con Contraseña
+        const ADMIN_PASS = 'KAZU2026'; // Clave de acceso para el panel de administración
+        const adminPassInput = document.getElementById('admin-pass-input');
+        const adminUnlockBtn = document.getElementById('admin-unlock-btn');
+        const kcPassError = document.getElementById('kc-pass-error');
+        const kcAdminLockScreen = document.getElementById('kc-admin-lock-screen');
+        const kcAdminGenPanel = document.getElementById('kc-admin-generator-panel');
+
         const adminTelInput = document.getElementById('admin-tel-input');
         const adminStampsSelect = document.getElementById('admin-stamps-select');
         const adminGenBtn = document.getElementById('admin-gen-btn');
         const kcGenFeedback = document.getElementById('kc-gen-feedback');
+
+        if (adminUnlockBtn) {
+            adminUnlockBtn.addEventListener('click', () => {
+                if (adminPassInput.value === ADMIN_PASS) {
+                    kcAdminLockScreen.style.display = 'none';
+                    kcAdminGenPanel.style.display = 'block';
+                    kcPassError.textContent = '';
+                } else {
+                    kcPassError.textContent = '❌ Clave incorrecta. Acceso restringido.';
+                }
+            });
+        }
 
         if (adminGenBtn) {
             adminGenBtn.addEventListener('click', () => {
