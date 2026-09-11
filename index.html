@@ -1377,9 +1377,18 @@
             </div>
 
             <div class="modal-body kc-body">
+                <!-- Tarjeta de Identificación de Sellos -->
+                <div class="kc-client-banner">
+                    <div class="kc-client-info">
+                        <span class="kc-phone-label">📱 Cuenta KazuCard:</span>
+                        <strong id="kc-active-phone">Cliente Nuevo</strong>
+                    </div>
+                    <span class="kc-stamps-pill" id="kc-stamps-pill-count">1 / 5 Sellos Activos</span>
+                </div>
+
                 <!-- Selector de Recompensa -->
                 <div class="kc-reward-selector">
-                    <label for="kc-reward-choice">🎯 <strong>Elige tu Recompensa Final:</strong></label>
+                    <label for="kc-reward-choice">🎯 <strong>Tu Recompensa Seleccionada:</strong></label>
                     <select id="kc-reward-choice" class="kc-select">
                         <option value="S/ 5.00 de Descuento en tu siguiente Renovación" selected>🎁 S/ 5.00 OFF en tu próxima Renovación</option>
                         <option value="Cupón de Regalo de S/ 5.00 para un Amigo">👥 Cupón de Regalo S/ 5.00 para un Amigo</option>
@@ -1389,27 +1398,27 @@
 
                 <!-- Visualizador de los 5 Sellos -->
                 <div class="kc-stamps-grid">
-                    <div class="kc-stamp stamped" title="Sello 1: ¡Bienvenida de regalo!">
+                    <div class="kc-stamp stamped" id="kc-slot-1" title="Sello 1: ¡Bienvenida de regalo!">
                         <span class="kc-stamp-num">1</span>
                         <span class="kc-stamp-icon">⭐</span>
                         <span class="kc-stamp-label">Bienvenida</span>
                     </div>
-                    <div class="kc-stamp" id="stamp-2" title="Sello 2: Tu primera compra">
+                    <div class="kc-stamp" id="kc-slot-2" title="Sello 2: Tu primera compra">
                         <span class="kc-stamp-num">2</span>
                         <span class="kc-stamp-icon">⚪</span>
                         <span class="kc-stamp-label">Compra 1</span>
                     </div>
-                    <div class="kc-stamp" id="stamp-3" title="Sello 3: Tu segunda compra/renovación">
+                    <div class="kc-stamp" id="kc-slot-3" title="Sello 3: Tu segunda compra/renovación">
                         <span class="kc-stamp-num">3</span>
                         <span class="kc-stamp-icon">⚪</span>
                         <span class="kc-stamp-label">Compra 2</span>
                     </div>
-                    <div class="kc-stamp" id="stamp-4" title="Sello 4: Tu tercera compra/renovación">
+                    <div class="kc-stamp" id="kc-slot-4" title="Sello 4: Tu tercera compra/renovación">
                         <span class="kc-stamp-num">4</span>
                         <span class="kc-stamp-icon">⚪</span>
                         <span class="kc-stamp-label">Compra 3</span>
                     </div>
-                    <div class="kc-stamp kc-stamp-goal" id="stamp-5" title="Sello 5: ¡Meta completada!">
+                    <div class="kc-stamp kc-stamp-goal" id="kc-slot-5" title="Sello 5: ¡Meta completada!">
                         <span class="kc-stamp-num">5</span>
                         <span class="kc-stamp-icon">🎁</span>
                         <span class="kc-stamp-label">¡Premio!</span>
@@ -1423,6 +1432,26 @@
                     </div>
                     <span class="kc-progress-text" id="kc-progress-text">Progreso: 1 de 5 sellos (¡Faltan 4 compras!)</span>
                 </div>
+
+                <!-- Panel Opcional: Generador Rápido para ti (Administrador) -->
+                <details class="kc-admin-tools">
+                    <summary>⚙️ Generador de Enlaces para Clientes (Uso Administrador)</summary>
+                    <div class="kc-admin-box">
+                        <p>Escribe el número del cliente y la cantidad de sellos ganados para copiar su enlace directo:</p>
+                        <div class="kc-admin-inputs">
+                            <input type="tel" id="admin-tel-input" placeholder="Ej: 987654321" maxlength="15">
+                            <select id="admin-stamps-select">
+                                <option value="1">1 Sello (Bienvenida)</option>
+                                <option value="2">2 Sellos (1ra Compra)</option>
+                                <option value="3">3 Sellos (2da Compra)</option>
+                                <option value="4">4 Sellos (3ra Compra)</option>
+                                <option value="5">5 Sellos (¡Canje Listo!)</option>
+                            </select>
+                            <button type="button" id="admin-gen-btn" class="kc-copy-btn">📋 Copiar Enlace para WhatsApp</button>
+                        </div>
+                        <span class="kc-gen-feedback" id="kc-gen-feedback"></span>
+                    </div>
+                </details>
 
                 <!-- Reglas de Uso Transparentes -->
                 <div class="kc-rules-box">
@@ -1735,7 +1764,7 @@
         });
 
         // ==========================================================================
-        // KAZUCARD: LÓGICA INTERACTIVA DE SELLOS Y CANJE POR WHATSAPP
+        // KAZUCARD: LÓGICA DE SELLOS, PARÁMETROS DE URL Y GENERADOR ADMIN
         // ==========================================================================
         const kcModal = document.getElementById('kazucard-modal');
         const openKcBtn = document.getElementById('open-kazucard');
@@ -1743,10 +1772,59 @@
         const closeKcBtn = document.getElementById('kc-modal-close');
         const kcRewardSelect = document.getElementById('kc-reward-choice');
         const kcWhatsappCta = document.getElementById('kc-whatsapp-cta');
+        const kcFloatCounter = document.getElementById('kc-float-counter');
+        const kcActivePhone = document.getElementById('kc-active-phone');
+        const kcStampsPillCount = document.getElementById('kc-stamps-pill-count');
+        const kcProgressFill = document.getElementById('kc-progress-fill');
+        const kcProgressText = document.getElementById('kc-progress-text');
+
+        // Leer parámetros de URL si el cliente viene con un enlace personalizado
+        const urlParams = new URLSearchParams(window.location.search);
+        let currentStamps = parseInt(urlParams.get('kc')) || parseInt(localStorage.getItem('kazu_stamps')) || 1;
+        let currentPhone = urlParams.get('tel') || localStorage.getItem('kazu_tel') || '';
+
+        // Limitar entre 1 y 5 sellos
+        currentStamps = Math.max(1, Math.min(5, currentStamps));
+        localStorage.setItem('kazu_stamps', currentStamps);
+        if (currentPhone) localStorage.setItem('kazu_tel', currentPhone);
+
+        function renderKazuCardState() {
+            if (kcFloatCounter) kcFloatCounter.textContent = `${currentStamps}/5`;
+            if (kcActivePhone) kcActivePhone.textContent = currentPhone ? `📱 ${currentPhone}` : 'Cliente Nuevo (Bienvenida)';
+            if (kcStampsPillCount) kcStampsPillCount.textContent = `${currentStamps} / 5 Sellos Activos`;
+
+            for (let i = 1; i <= 5; i++) {
+                const slot = document.getElementById(`kc-slot-${i}`);
+                if (!slot) continue;
+                if (i <= currentStamps) {
+                    slot.classList.add('stamped');
+                    const icon = slot.querySelector('.kc-stamp-icon');
+                    if (icon) icon.textContent = i === 1 ? '⭐' : (i === 5 ? '🎁' : '✨');
+                } else {
+                    slot.classList.remove('stamped');
+                    const icon = slot.querySelector('.kc-stamp-icon');
+                    if (icon) icon.textContent = i === 5 ? '🎁' : '⚪';
+                }
+            }
+
+            const pct = (currentStamps / 5) * 100;
+            if (kcProgressFill) kcProgressFill.style.width = `${pct}%`;
+            if (kcProgressText) {
+                if (currentStamps === 5) {
+                    kcProgressText.innerHTML = '🎉 <strong>¡Felicidades! Completaste tus 5 sellos. Canjea tu premio ahora.</strong>';
+                } else {
+                    const remaining = 5 - currentStamps;
+                    kcProgressText.textContent = `Progreso: ${currentStamps} de 5 sellos (¡Faltan ${remaining} ${remaining === 1 ? 'compra' : 'compras'}!)`;
+                }
+            }
+        }
+
+        renderKazuCardState();
 
         function updateKazuCardWhatsappLink() {
             const rewardText = kcRewardSelect.value;
-            const msg = encodeURIComponent(`Hola KazuStore, tengo activa mi *KazuCard Fidelidad* (Meta: ${rewardText}) y deseo consultar el registro de mis sellos con mi número de compra.`);
+            const phoneInfo = currentPhone ? ` (Cuenta: ${currentPhone})` : '';
+            const msg = encodeURIComponent(`Hola KazuStore, tengo ${currentStamps}/5 sellos en mi *KazuCard Fidelidad*${phoneInfo} y deseo canjear mi meta: ${rewardText}.`);
             kcWhatsappCta.setAttribute('href', `https://wa.me/1234567890?text=${msg}`);
         }
 
@@ -1774,6 +1852,28 @@
 
         if (kcRewardSelect) {
             kcRewardSelect.addEventListener('change', updateKazuCardWhatsappLink);
+        }
+
+        // Generador Rápido de Enlaces para ti (Administrador)
+        const adminTelInput = document.getElementById('admin-tel-input');
+        const adminStampsSelect = document.getElementById('admin-stamps-select');
+        const adminGenBtn = document.getElementById('admin-gen-btn');
+        const kcGenFeedback = document.getElementById('kc-gen-feedback');
+
+        if (adminGenBtn) {
+            adminGenBtn.addEventListener('click', () => {
+                const tel = adminTelInput.value.trim() || 'Cliente';
+                const stamps = adminStampsSelect.value;
+                const baseUrl = window.location.origin + window.location.pathname;
+                const clientUrl = `${baseUrl}?kc=${stamps}&tel=${encodeURIComponent(tel)}`;
+
+                navigator.clipboard.writeText(clientUrl).then(() => {
+                    kcGenFeedback.textContent = `✅ ¡Enlace copiado! (${stamps} sellos para ${tel}). Pégalo en WhatsApp.`;
+                    setTimeout(() => { kcGenFeedback.textContent = ''; }, 4000);
+                }).catch(() => {
+                    prompt('Copia el enlace del cliente:', clientUrl);
+                });
+            });
         }
 
         // ==========================================================================

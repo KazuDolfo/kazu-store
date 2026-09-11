@@ -1599,6 +1599,111 @@ footer {
     font-weight: 600;
 }
 
+/* Banner Identificador de Cliente */
+.kc-client-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(99, 102, 241, 0.1));
+    border: 1px solid var(--accent);
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+}
+
+.kc-client-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+}
+
+.kc-phone-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+}
+
+.kc-client-info strong {
+    font-size: 0.95rem;
+    color: var(--accent);
+}
+
+.kc-stamps-pill {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.3rem 0.65rem;
+    border-radius: 20px;
+}
+
+/* Panel Administrador para Generar Enlaces */
+.kc-admin-tools {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px dashed var(--border-color);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    font-size: 0.82rem;
+}
+
+.kc-admin-tools summary {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.kc-admin-box {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+.kc-admin-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.kc-admin-inputs input,
+.kc-admin-inputs select {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: var(--font-family);
+    outline: none;
+}
+
+.kc-admin-inputs input {
+    flex: 1;
+    min-width: 130px;
+}
+
+.kc-copy-btn {
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 0.85rem;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    cursor: pointer;
+    font-family: var(--font-family);
+    transition: all 0.2s ease;
+}
+
+.kc-copy-btn:hover {
+    background: var(--accent-hover);
+}
+
+.kc-gen-feedback {
+    color: var(--success);
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
 /* Reglas Claras */
 .kc-rules-box {
     background: var(--bg-main);
