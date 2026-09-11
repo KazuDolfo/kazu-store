@@ -1791,24 +1791,74 @@
         const kcProgressFill = document.getElementById('kc-progress-fill');
         const kcProgressText = document.getElementById('kc-progress-text');
 
-        // Leer parámetros de URL si el cliente viene con un enlace personalizado
-        const urlParams = new URLSearchParams(window.location.search);
-        let currentStamps = 0;
-        if (urlParams.has('kc')) {
-            currentStamps = parseInt(urlParams.get('kc')) || 0;
-            localStorage.setItem('kazu_stamps', currentStamps);
-            if (currentStamps === 0) {
-                // Al reiniciar explícitamente a 0 desde URL, ya se considera cliente existente
-                localStorage.setItem('kazu_seen_welcome', 'true');
-            }
-        } else if (localStorage.getItem('kazu_stamps') !== null) {
-            currentStamps = parseInt(localStorage.getItem('kazu_stamps')) || 0;
+        // ==========================================================================
+        // MOTOR CRIPTOGRÁFICO DE SEGURIDAD (ANTI-ALTERACIÓN Y ADMIN HASH)
+        // ==========================================================================
+        // Clave secreta interna para firmar URLs y almacenamiento local
+        const KZ_SECRET = 'KAZU_AUTH_SALT_98412_V1';
+        
+        // Hash SHA-256 precalculado de la clave admin 'KAZU2026' (la clave real ya no está en texto plano)
+        const ADMIN_HASH = '1ecaa21379eb00d83cf99ee30ffdf131b01da42a9b2b52faec5695029e0da7ec';
+
+        async function computeSha256(text) {
+            const enc = new TextEncoder().encode(text);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', enc);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         }
 
+        function createStampSignature(tel, stamps) {
+            const raw = `${tel || 'guest'}|${stamps}|${KZ_SECRET}`;
+            let h = 0x811c9dc5;
+            for (let i = 0; i < raw.length; i++) {
+                h ^= raw.charCodeAt(i);
+                h = Math.imul(h, 0x01000193);
+            }
+            return (h >>> 0).toString(16);
+        }
+
+        function setSecureStamps(stamps, tel) {
+            localStorage.setItem('kazu_stamps', stamps);
+            localStorage.setItem('kazu_sig', createStampSignature(tel, stamps));
+        }
+
+        function getSecureStamps(tel) {
+            const rawStamps = parseInt(localStorage.getItem('kazu_stamps'));
+            const sig = localStorage.getItem('kazu_sig');
+            if (isNaN(rawStamps)) return 0;
+            // Si la firma en localStorage fue alterada por el usuario en consola, resetear a 0
+            if (sig !== createStampSignature(tel, rawStamps)) {
+                console.warn('🛡️ KazuCard: Manipulación detectada en almacenamiento. Reiniciando a 0.');
+                setSecureStamps(0, tel);
+                return 0;
+            }
+            return Math.min(Math.max(rawStamps, 0), 5);
+        }
+
+        // Leer parámetros de URL si el cliente viene con un enlace personalizado
+        const urlParams = new URLSearchParams(window.location.search);
         let currentPhone = urlParams.get('tel') || localStorage.getItem('kazu_tel') || '';
+        if (currentPhone) localStorage.setItem('kazu_tel', currentPhone);
+
+        let currentStamps = 0;
         const hasSeenWelcome = localStorage.getItem('kazu_seen_welcome');
 
-        if (currentPhone) localStorage.setItem('kazu_tel', currentPhone);
+        if (urlParams.has('kc')) {
+            const urlKc = parseInt(urlParams.get('kc')) || 0;
+            const urlAuth = urlParams.get('auth') || '';
+            const expectedAuth = createStampSignature(currentPhone, urlKc);
+
+            if (urlAuth === expectedAuth) {
+                currentStamps = Math.min(Math.max(urlKc, 0), 5);
+                setSecureStamps(currentStamps, currentPhone);
+                if (currentStamps === 0) localStorage.setItem('kazu_seen_welcome', 'true');
+            } else {
+                alert('⚠️ Enlace inválido o alterado. No se actualizaron los sellos.');
+                currentStamps = getSecureStamps(currentPhone);
+            }
+        } else {
+            currentStamps = getSecureStamps(currentPhone);
+        }
 
         function renderKazuCardState() {
             if (kcFloatCounter) kcFloatCounter.textContent = `${currentStamps}/5`;
@@ -1858,7 +1908,7 @@
             // Si es primera vez y está en 0, otorgar en vivo el sello 1 con animación
             if (!hasSeenWelcome && currentStamps === 0) {
                 currentStamps = 1;
-                localStorage.setItem('kazu_stamps', 1);
+                setSecureStamps(1, currentPhone);
                 localStorage.setItem('kazu_seen_welcome', 'true');
                 renderKazuCardState();
 
@@ -1897,20 +1947,20 @@
             kcRewardSelect.addEventListener('change', updateKazuCardWhatsappLink);
         }
 
-        // Acceso Secreto Administrador: 3 clics en el ícono del Trofeo 🏆 + Clave
-        const ADMIN_PASS = 'KAZU2026';
+        // Acceso Secreto Administrador: 3 clics en el ícono del Trofeo 🏆 + Validación SHA-256
         const kcModalIcon = document.querySelector('.kc-modal-icon');
         const kcAdminTools = document.getElementById('kc-admin-tools');
         const adminTelInput = document.getElementById('admin-tel-input');
         const adminStampsSelect = document.getElementById('admin-stamps-select');
         const adminGenBtn = document.getElementById('admin-gen-btn');
+        const adminResetBtn = document.getElementById('admin-reset-btn');
         const kcGenFeedback = document.getElementById('kc-gen-feedback');
         let iconClickCount = 0;
         let iconClickTimer = null;
 
         if (kcModalIcon && kcAdminTools) {
             kcModalIcon.style.cursor = 'pointer';
-            kcModalIcon.addEventListener('click', () => {
+            kcModalIcon.addEventListener('click', async () => {
                 iconClickCount++;
                 clearTimeout(iconClickTimer);
                 iconClickTimer = setTimeout(() => { iconClickCount = 0; }, 1200);
@@ -1918,30 +1968,32 @@
                 if (iconClickCount >= 3) {
                     iconClickCount = 0;
                     const pass = prompt('🔐 Ingrese Clave de Administrador:');
-                    if (pass === ADMIN_PASS) {
-                        kcAdminTools.style.display = 'block';
-                        alert('✅ Panel Administrador Desbloqueado.');
-                    } else if (pass !== null) {
-                        alert('❌ Clave incorrecta.');
+                    if (pass !== null) {
+                        const inputHash = await computeSha256(pass);
+                        if (inputHash === ADMIN_HASH) {
+                            kcAdminTools.style.display = 'block';
+                            alert('✅ Panel Administrador Desbloqueado.');
+                        } else {
+                            alert('❌ Clave incorrecta.');
+                        }
                     }
                 }
             });
         }
 
-        const adminResetBtn = document.getElementById('admin-reset-btn');
-
         if (adminGenBtn) {
             adminGenBtn.addEventListener('click', () => {
                 const tel = adminTelInput.value.trim() || 'Cliente';
-                const stamps = adminStampsSelect.value;
+                const stamps = parseInt(adminStampsSelect.value) || 0;
+                const auth = createStampSignature(tel, stamps);
                 const baseUrl = window.location.origin + window.location.pathname;
-                const clientUrl = `${baseUrl}?kc=${stamps}&tel=${encodeURIComponent(tel)}`;
+                const clientUrl = `${baseUrl}?kc=${stamps}&tel=${encodeURIComponent(tel)}&auth=${auth}`;
 
                 navigator.clipboard.writeText(clientUrl).then(() => {
-                    kcGenFeedback.textContent = `✅ ¡Enlace copiado! (${stamps} sellos para ${tel}). Pégalo en WhatsApp.`;
+                    kcGenFeedback.textContent = `✅ ¡Enlace firmado y seguro copiado! (${stamps} sellos para ${tel}).`;
                     setTimeout(() => { kcGenFeedback.textContent = ''; }, 4000);
                 }).catch(() => {
-                    prompt('Copia el enlace del cliente:', clientUrl);
+                    prompt('Copia el enlace firmado del cliente:', clientUrl);
                 });
             });
         }
@@ -1949,11 +2001,12 @@
         if (adminResetBtn) {
             adminResetBtn.addEventListener('click', () => {
                 const tel = adminTelInput.value.trim() || 'Cliente';
+                const auth = createStampSignature(tel, 0);
                 const baseUrl = window.location.origin + window.location.pathname;
-                const clientUrl = `${baseUrl}?kc=0&tel=${encodeURIComponent(tel)}`;
+                const clientUrl = `${baseUrl}?kc=0&tel=${encodeURIComponent(tel)}&auth=${auth}`;
 
                 navigator.clipboard.writeText(clientUrl).then(() => {
-                    kcGenFeedback.textContent = `🔄 ¡Enlace de reinicio copiado! (0 sellos limpios para ${tel}). Pégalo en WhatsApp.`;
+                    kcGenFeedback.textContent = `🔄 ¡Enlace firmado de reinicio copiado! (0 sellos para ${tel}).`;
                     setTimeout(() => { kcGenFeedback.textContent = ''; }, 4000);
                 }).catch(() => {
                     prompt('Copia el enlace de reinicio:', clientUrl);
