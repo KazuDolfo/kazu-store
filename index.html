@@ -1352,6 +1352,93 @@
                 </div>
             </div>
         </div>
+    <!-- Botón Flotante KazuCard Fidelidad -->
+    <button type="button" class="kazucard-float-btn" id="open-kazucard" aria-label="Abrir mi Tarjeta KazuCard de Sellos y Recompensas">
+        <span class="kc-sparkle">⭐</span>
+        <span class="kc-btn-text">KazuCard: <strong>Gana Premios</strong></span>
+        <span class="kc-badge-counter" id="kc-float-counter">1/5</span>
+    </button>
+
+    <!-- Modal KazuCard Fidelidad Gamificada -->
+    <div class="modal-overlay" id="kazucard-modal" role="dialog" aria-modal="true" aria-labelledby="kc-modal-title">
+        <div class="modal-content kazucard-modal-content">
+            <div class="modal-header">
+                <div class="modal-header-info">
+                    <span class="kc-modal-icon">🏆</span>
+                    <div>
+                        <h3 id="kc-modal-title">KazuCard Fidelidad</h3>
+                        <p class="kc-modal-sub">Acumula 5 sellos y canjea tu recompensa favorita</p>
+                    </div>
+                </div>
+                <button type="button" class="modal-close-btn" id="kc-modal-close" aria-label="Cerrar KazuCard">✕</button>
+            </div>
+
+            <div class="modal-body kc-body">
+                <!-- Selector de Recompensa -->
+                <div class="kc-reward-selector">
+                    <label for="kc-reward-choice">🎯 <strong>Elige tu Recompensa Final:</strong></label>
+                    <select id="kc-reward-choice" class="kc-select">
+                        <option value="S/ 5.00 de Descuento en tu siguiente Renovación" selected>🎁 S/ 5.00 OFF en tu próxima Renovación</option>
+                        <option value="Cupón de Regalo de S/ 5.00 para un Amigo">👥 Cupón de Regalo S/ 5.00 para un Amigo</option>
+                        <option value="S/ 7.00 de Descuento al renovar 2 Cuentas">⚡ S/ 7.00 OFF al renovar 2 Cuentas Juntas</option>
+                    </select>
+                </div>
+
+                <!-- Visualizador de los 5 Sellos -->
+                <div class="kc-stamps-grid">
+                    <div class="kc-stamp stamped" title="Sello 1: ¡Bienvenida de regalo!">
+                        <span class="kc-stamp-num">1</span>
+                        <span class="kc-stamp-icon">⭐</span>
+                        <span class="kc-stamp-label">Bienvenida</span>
+                    </div>
+                    <div class="kc-stamp" id="stamp-2" title="Sello 2: Tu primera compra">
+                        <span class="kc-stamp-num">2</span>
+                        <span class="kc-stamp-icon">⚪</span>
+                        <span class="kc-stamp-label">Compra 1</span>
+                    </div>
+                    <div class="kc-stamp" id="stamp-3" title="Sello 3: Tu segunda compra/renovación">
+                        <span class="kc-stamp-num">3</span>
+                        <span class="kc-stamp-icon">⚪</span>
+                        <span class="kc-stamp-label">Compra 2</span>
+                    </div>
+                    <div class="kc-stamp" id="stamp-4" title="Sello 4: Tu tercera compra/renovación">
+                        <span class="kc-stamp-num">4</span>
+                        <span class="kc-stamp-icon">⚪</span>
+                        <span class="kc-stamp-label">Compra 3</span>
+                    </div>
+                    <div class="kc-stamp kc-stamp-goal" id="stamp-5" title="Sello 5: ¡Meta completada!">
+                        <span class="kc-stamp-num">5</span>
+                        <span class="kc-stamp-icon">🎁</span>
+                        <span class="kc-stamp-label">¡Premio!</span>
+                    </div>
+                </div>
+
+                <!-- Barra de Progreso Visual -->
+                <div class="kc-progress-wrapper">
+                    <div class="kc-progress-bar">
+                        <div class="kc-progress-fill" id="kc-progress-fill" style="width: 20%;"></div>
+                    </div>
+                    <span class="kc-progress-text" id="kc-progress-text">Progreso: 1 de 5 sellos (¡Faltan 4 compras!)</span>
+                </div>
+
+                <!-- Reglas de Uso Transparentes -->
+                <div class="kc-rules-box">
+                    <h4>📌 Condiciones Claras del Programa:</h4>
+                    <ul>
+                        <li>⭐ <strong>1er Sello Gratis:</strong> Se otorga automáticamente como bienvenida.</li>
+                        <li>🛒 <strong>1 Compra/Renovación = 1 Sello:</strong> Cada pedido que realices suma un nuevo sello en tu historial.</li>
+                        <li>🛡️ <strong>Aplicación del Descuento:</strong> Los cupones aplican sobre el <em>Precio Regular / Renovación</em> y no son acumulables con otras ofertas de primer mes.</li>
+                        <li>📲 <strong>Canje Fácil:</strong> Al completar tus sellos, te generamos un código único para enviarlo por WhatsApp y aplicar tu descuento al instante.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="modal-footer kc-footer">
+                <a href="#" id="kc-whatsapp-cta" class="btn-modal-new kc-cta-btn" target="_blank" rel="noopener noreferrer">
+                    📲 Validar mis Sellos por WhatsApp
+                </a>
+            </div>
+        </div>
     </div>
 
     <!-- Pie de página -->
@@ -1643,6 +1730,46 @@
                 }
             });
         });
+
+        // ==========================================================================
+        // KAZUCARD: LÓGICA INTERACTIVA DE SELLOS Y CANJE POR WHATSAPP
+        // ==========================================================================
+        const kcModal = document.getElementById('kazucard-modal');
+        const openKcBtn = document.getElementById('open-kazucard');
+        const closeKcBtn = document.getElementById('kc-modal-close');
+        const kcRewardSelect = document.getElementById('kc-reward-choice');
+        const kcWhatsappCta = document.getElementById('kc-whatsapp-cta');
+
+        function updateKazuCardWhatsappLink() {
+            const rewardText = kcRewardSelect.value;
+            const msg = encodeURIComponent(`Hola KazuStore, tengo activa mi *KazuCard Fidelidad* (Meta: ${rewardText}) y deseo consultar el registro de mis sellos con mi número de compra.`);
+            kcWhatsappCta.setAttribute('href', `https://wa.me/1234567890?text=${msg}`);
+        }
+
+        if (openKcBtn && kcModal) {
+            openKcBtn.addEventListener('click', () => {
+                updateKazuCardWhatsappLink();
+                kcModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (closeKcBtn && kcModal) {
+            closeKcBtn.addEventListener('click', () => {
+                kcModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            kcModal.addEventListener('click', (e) => {
+                if (e.target === kcModal) {
+                    kcModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        if (kcRewardSelect) {
+            kcRewardSelect.addEventListener('change', updateKazuCardWhatsappLink);
+        }
 
         // ==========================================================================
         // BUSCADOR EN TIEMPO REAL

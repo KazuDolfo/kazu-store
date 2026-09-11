@@ -1369,6 +1369,261 @@ footer {
    FRONT-END CHECKLIST COMPLIANCE: A11y, Focus, Motion & Print
    ========================================================================== */
 
+/* ==========================================================================
+   KAZUCARD: BOTÓN FLOTANTE & MODAL GAMIFICADO DE FIDELIDAD
+   ========================================================================== */
+.kazucard-float-btn {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+    border: 1px solid var(--accent);
+    color: var(--text-primary);
+    padding: 0.65rem 1.15rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 8px 25px rgba(56, 189, 248, 0.35), var(--shadow-md);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: floatGlow 3s ease-in-out infinite;
+}
+
+@keyframes floatGlow {
+    0%, 100% { transform: translateY(0); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.3); }
+    50% { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(56, 189, 248, 0.55); }
+}
+
+.kazucard-float-btn:hover {
+    transform: translateY(-5px) scale(1.03);
+    border-color: #60a5fa;
+}
+
+.kc-sparkle {
+    font-size: 1.1rem;
+    filter: drop-shadow(0 0 8px #facc15);
+}
+
+.kc-btn-text {
+    font-size: 0.86rem;
+    font-family: var(--font-family);
+}
+
+.kc-btn-text strong {
+    color: var(--accent);
+}
+
+.kc-badge-counter {
+    background: var(--accent);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0.2rem 0.55rem;
+    border-radius: 12px;
+}
+
+/* Modal KazuCard */
+.kazucard-modal-content {
+    max-width: 580px;
+}
+
+.kc-modal-icon {
+    font-size: 2rem;
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kc-modal-sub {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.kc-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+}
+
+.kc-reward-selector {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.kc-reward-selector label {
+    font-size: 0.88rem;
+    color: var(--text-primary);
+}
+
+.kc-select {
+    width: 100%;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.65rem 0.85rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: var(--font-family);
+    font-weight: 600;
+    outline: none;
+    cursor: pointer;
+}
+
+.kc-select:focus {
+    border-color: var(--accent);
+}
+
+/* Grilla de Sellos */
+.kc-stamps-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.65rem;
+}
+
+.kc-stamp {
+    background: var(--bg-main);
+    border: 2px dashed var(--border-color);
+    border-radius: 14px;
+    padding: 0.85rem 0.4rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.kc-stamp-num {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    font-size: 0.62rem;
+    color: var(--text-muted);
+    font-weight: 800;
+}
+
+.kc-stamp-icon {
+    font-size: 1.35rem;
+    filter: grayscale(1);
+    opacity: 0.4;
+}
+
+.kc-stamp-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.kc-stamp.stamped {
+    border-style: solid;
+    border-color: var(--accent);
+    background: rgba(56, 189, 248, 0.1);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+.kc-stamp.stamped .kc-stamp-icon {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.kc-stamp.stamped .kc-stamp-label {
+    color: var(--accent);
+}
+
+.kc-stamp-goal {
+    border-color: rgba(234, 179, 8, 0.4);
+    background: rgba(234, 179, 8, 0.05);
+}
+
+/* Barra de Progreso */
+.kc-progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.kc-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--bg-main);
+    border-radius: 9999px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.kc-progress-fill {
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: 9999px;
+    transition: width 0.4s ease;
+}
+
+.kc-progress-text {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    text-align: center;
+    font-weight: 600;
+}
+
+/* Reglas Claras */
+.kc-rules-box {
+    background: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.kc-rules-box h4 {
+    color: var(--text-primary);
+    font-size: 0.86rem;
+    margin-bottom: 0.5rem;
+}
+
+.kc-rules-box ul {
+    padding-left: 1.1rem;
+}
+
+.kc-rules-box ul li {
+    margin-bottom: 0.35rem;
+}
+
+.kc-rules-box strong {
+    color: var(--text-primary);
+}
+
+.kc-rules-box em {
+    color: var(--accent);
+    font-style: normal;
+    font-weight: 700;
+}
+
+.kc-cta-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.85rem;
+    font-size: 0.95rem;
+}
+
 /* 1. Indicadores de Foco Visibles (Focus-Visible) */
 :focus-visible {
     outline: 2px solid var(--accent);
