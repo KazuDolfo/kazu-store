@@ -1377,6 +1377,17 @@
             </div>
 
             <div class="modal-body kc-body">
+                <!-- Notificación Animada de Primer Sello de Regalo -->
+                <div class="kc-welcome-gift-banner" id="kc-welcome-gift" style="display: none;">
+                    <div class="kc-gift-content">
+                        <span class="kc-gift-icon">🎉</span>
+                        <div>
+                            <strong>¡Regalo de Bienvenida Desbloqueado!</strong>
+                            <p>Te hemos otorgado tu <strong>1er Sello Gratis ⭐</strong> para comenzar.</p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Tarjeta de Identificación de Sellos -->
                 <div class="kc-client-banner">
                     <div class="kc-client-info">
@@ -1828,10 +1839,26 @@
             kcWhatsappCta.setAttribute('href', `https://wa.me/1234567890?text=${msg}`);
         }
 
+        const kcWelcomeGift = document.getElementById('kc-welcome-gift');
+        const hasSeenWelcome = localStorage.getItem('kazu_seen_welcome');
+
         function triggerOpenKcModal() {
             updateKazuCardWhatsappLink();
             kcModal.classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            // Animación de impacto de bienvenida al abrir si es primera vez
+            if (!hasSeenWelcome && currentStamps === 1 && kcWelcomeGift) {
+                kcWelcomeGift.style.display = 'block';
+                const firstSlot = document.getElementById('kc-slot-1');
+                if (firstSlot) {
+                    firstSlot.classList.remove('stamped');
+                    setTimeout(() => {
+                        firstSlot.classList.add('stamped', 'stamp-slam-anim');
+                        localStorage.setItem('kazu_seen_welcome', 'true');
+                    }, 400);
+                }
+            }
         }
 
         if (openKcBtn && kcModal) openKcBtn.addEventListener('click', triggerOpenKcModal);

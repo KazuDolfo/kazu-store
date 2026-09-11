@@ -1564,6 +1564,60 @@ footer {
     color: var(--accent);
 }
 
+/* Animación de Impacto para Sello de Bienvenida */
+.stamp-slam-anim {
+    animation: stampSlam 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes stampSlam {
+    0% { transform: scale(2.5) rotate(-20deg); opacity: 0; }
+    50% { transform: scale(0.9) rotate(5deg); opacity: 1; }
+    75% { transform: scale(1.15) rotate(-3deg); }
+    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Banner de Celebración de Bienvenida */
+.kc-welcome-gift-banner {
+    background: linear-gradient(135deg, rgba(234, 179, 8, 0.15), rgba(56, 189, 248, 0.15));
+    border: 1px solid rgba(234, 179, 8, 0.4);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    animation: pulseGlowBox 2s infinite;
+}
+
+@keyframes pulseGlowBox {
+    0%, 100% { box-shadow: 0 0 10px rgba(234, 179, 8, 0.2); }
+    50% { box-shadow: 0 0 20px rgba(234, 179, 8, 0.4); }
+}
+
+.kc-gift-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.kc-gift-icon {
+    font-size: 1.6rem;
+    animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-4px); }
+}
+
+.kc-gift-content strong {
+    font-size: 0.88rem;
+    color: var(--star-color);
+    display: block;
+}
+
+.kc-gift-content p {
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
 .kc-stamp-goal {
     border-color: rgba(234, 179, 8, 0.4);
     background: rgba(234, 179, 8, 0.05);
