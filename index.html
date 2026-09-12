@@ -1807,8 +1807,8 @@
         // Clave secreta interna para firmar URLs y almacenamiento local
         const KZ_SECRET = 'KAZU_AUTH_SALT_98412_V1';
         
-        // Hash SHA-256 precalculado de la clave admin 'KAZU2026' (la clave real ya no está en texto plano)
-        const ADMIN_HASH = '1ecaa21379eb00d83cf99ee30ffdf131b01da42a9b2b52faec5695029e0da7ec';
+        // Hash SHA-256 precalculado de acceso administrativo
+        const ADMIN_HASH = '6a9ac898affc999ce55695e260841a0f48c13d54bf2ed22368ecdc5e2f6fb47a';
 
         async function computeSha256(text) {
             const enc = new TextEncoder().encode(text);
@@ -1979,7 +1979,7 @@
                     iconClickCount = 0;
                     const pass = prompt('🔐 Ingrese Clave de Administrador:');
                     if (pass !== null) {
-                        const inputHash = await computeSha256(pass);
+                        const inputHash = await computeSha256(pass.trim());
                         if (inputHash === ADMIN_HASH) {
                             kcAdminTools.style.display = 'block';
                             alert('✅ Panel Administrador Desbloqueado.');
