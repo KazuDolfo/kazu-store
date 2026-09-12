@@ -50,12 +50,11 @@
       "currenciesAccepted": "PEN, USD",
       "paymentAccepted": "Yape, Plin, Transferencia Bancaria, Binance USDT",
       "priceRange": "S/ 7.00 - S/ 80.00 / $ 2.00 - $ 25.00 USD",
-      "areaServed": {
-        "@type": "Country",
-        "name": "PE"
       }
     }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase.js"></script>
 </head>
 <body>
 
@@ -1449,28 +1448,6 @@
                     <span class="kc-progress-text" id="kc-progress-text">Progreso: 1 de 5 sellos (¡Faltan 4 compras!)</span>
                 </div>
 
-                <!-- Panel Oculto: Generador Exclusivo para ti (Acceso Secreto con Clave) -->
-                <div class="kc-admin-tools" id="kc-admin-tools" style="display: none;">
-                    <div class="kc-admin-box">
-                        <p><strong>🛠️ Panel de Administrador KazuStore</strong></p>
-                        <p>Escribe el número del cliente y los sellos ganados para copiar su enlace personalizado:</p>
-                        <div class="kc-admin-inputs">
-                            <input type="tel" id="admin-tel-input" placeholder="Ej: 987654321" maxlength="15">
-                            <select id="admin-stamps-select">
-                                <option value="0">0 Sellos (Tarjeta Limpia / Reinicio Post-Canje)</option>
-                                <option value="1">1 Sello (Bienvenida)</option>
-                                <option value="2">2 Sellos (1ra Compra)</option>
-                                <option value="3">3 Sellos (2da Compra)</option>
-                                <option value="4">4 Sellos (3ra Compra)</option>
-                                <option value="5">5 Sellos (¡Canje de Premio Listo!)</option>
-                            </select>
-                            <button type="button" id="admin-gen-btn" class="kc-copy-btn">📋 Generar Enlace</button>
-                            <button type="button" id="admin-reset-btn" class="kc-copy-btn" style="background: rgba(239, 68, 68, 0.25); border-color: rgba(239, 68, 68, 0.5); color: #fca5a5;">🔄 Generar Enlace 0 Sellos</button>
-                        </div>
-                        <span class="kc-gen-feedback" id="kc-gen-feedback"></span>
-                    </div>
-                </div>
-
                 <!-- Reglas de Uso Transparentes -->
                 <div class="kc-rules-box">
                     <h4>📌 Condiciones Claras del Programa:</h4>
@@ -1957,70 +1934,12 @@
             kcRewardSelect.addEventListener('change', updateKazuCardWhatsappLink);
         }
 
-        // Acceso Secreto Administrador: 3 clics en el ícono del Trofeo 🏆 + Validación SHA-256
-        const kcModalIcon = document.querySelector('.kc-modal-icon');
-        const kcAdminTools = document.getElementById('kc-admin-tools');
-        const adminTelInput = document.getElementById('admin-tel-input');
-        const adminStampsSelect = document.getElementById('admin-stamps-select');
-        const adminGenBtn = document.getElementById('admin-gen-btn');
-        const adminResetBtn = document.getElementById('admin-reset-btn');
-        const kcGenFeedback = document.getElementById('kc-gen-feedback');
-        let iconClickCount = 0;
-        let iconClickTimer = null;
-
-        if (kcModalIcon && kcAdminTools) {
-            kcModalIcon.style.cursor = 'pointer';
-            kcModalIcon.addEventListener('click', async () => {
-                iconClickCount++;
-                clearTimeout(iconClickTimer);
-                iconClickTimer = setTimeout(() => { iconClickCount = 0; }, 1200);
-
-                if (iconClickCount >= 3) {
-                    iconClickCount = 0;
-                    const pass = prompt('🔐 Ingrese Clave de Administrador:');
-                    if (pass !== null) {
-                        const inputHash = await computeSha256(pass.trim());
-                        if (inputHash === ADMIN_HASH) {
-                            kcAdminTools.style.display = 'block';
-                            alert('✅ Panel Administrador Desbloqueado.');
-                        } else {
-                            alert('❌ Clave incorrecta.');
-                        }
-                    }
+        if (currentPhone && window.kazuDb) {
+            window.kazuDb.getClientCard(currentPhone).then(client => {
+                if (client) {
+                    currentStamps = Math.min(Math.max(client.stamps_balance, 0), 5);
+                    renderKazuCardState();
                 }
-            });
-        }
-
-        if (adminGenBtn) {
-            adminGenBtn.addEventListener('click', () => {
-                const tel = adminTelInput.value.trim() || 'Cliente';
-                const stamps = parseInt(adminStampsSelect.value) || 0;
-                const auth = createStampSignature(tel, stamps);
-                const baseUrl = window.location.origin + window.location.pathname;
-                const clientUrl = `${baseUrl}?kc=${stamps}&tel=${encodeURIComponent(tel)}&auth=${auth}`;
-
-                navigator.clipboard.writeText(clientUrl).then(() => {
-                    kcGenFeedback.textContent = `✅ ¡Enlace firmado y seguro copiado! (${stamps} sellos para ${tel}).`;
-                    setTimeout(() => { kcGenFeedback.textContent = ''; }, 4000);
-                }).catch(() => {
-                    prompt('Copia el enlace firmado del cliente:', clientUrl);
-                });
-            });
-        }
-
-        if (adminResetBtn) {
-            adminResetBtn.addEventListener('click', () => {
-                const tel = adminTelInput.value.trim() || 'Cliente';
-                const auth = createStampSignature(tel, 0);
-                const baseUrl = window.location.origin + window.location.pathname;
-                const clientUrl = `${baseUrl}?kc=0&tel=${encodeURIComponent(tel)}&auth=${auth}`;
-
-                navigator.clipboard.writeText(clientUrl).then(() => {
-                    kcGenFeedback.textContent = `🔄 ¡Enlace firmado de reinicio copiado! (0 sellos para ${tel}).`;
-                    setTimeout(() => { kcGenFeedback.textContent = ''; }, 4000);
-                }).catch(() => {
-                    prompt('Copia el enlace de reinicio:', clientUrl);
-                });
             });
         }
 
