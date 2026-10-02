@@ -612,6 +612,8 @@ const KAZU_CATALOG = [
 const KAZU_CONFIG = {
   storeName: "KazuStore Perú",
   whatsappNumber: "51979380273", // Número oficial
+  telegram: "@BernardoHaise23",
+  email: "bernardocubas36@gmail.com",
   currency: "S/",
   paymentMethods: ["Yape", "Plin", "BCP", "BBVA", "Interbank"],
   supportHours: "Lunes a Domingo: 7:00 AM - 11:50 PM",
