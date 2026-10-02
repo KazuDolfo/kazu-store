@@ -1,0 +1,500 @@
+/**
+ * KazuStore Perú - Módulo de Festividades y Decoraciones por Capas (Frontend Lead 3.0)
+ * Uso: Modifica el atributo en <html data-festivity="navidad"> o <html data-festivity="halloween">
+ */
+
+/* ==========================================================================
+   1. MODO NAVIDAD (data-festivity="navidad")
+   ========================================================================== */
+
+/* Gorrito navideño inclinado en el Logo del Header */
+html[data-festivity="navidad"] .brand-logo {
+  position: relative;
+}
+
+html[data-festivity="navidad"] .brand-logo::before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: -2px; /* Posición intermedia equilibrada sobre la esquina del isotipo */
+  width: 38px;
+  height: 38px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M14 42 C 22 16, 44 14, 52 28 C 50 36, 44 42, 14 42 Z' fill='%23ef4444'/%3E%3Cpath d='M44 26 C 52 20, 58 24, 56 32 C 54 36, 48 36, 44 26 Z' fill='%23dc2626'/%3E%3Ccircle cx='54' cy='32' r='6' fill='%23ffffff' filter='drop-shadow(0 2px 4px rgba(0,0,0,0.3))'/%3E%3Crect x='10' y='38' width='44' height='10' rx='5' fill='%23f8fafc' filter='drop-shadow(0 2px 4px rgba(0,0,0,0.25))'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 10;
+  transform: rotate(-24deg); /* Inclinación más diagonal y natural */
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.45));
+  animation: santaHatFloat 3s ease-in-out infinite alternate;
+}
+
+@keyframes santaHatFloat {
+  0% { transform: rotate(-24deg) translateY(0); }
+  100% { transform: rotate(-18deg) translateY(-3px); }
+}
+
+/* Capa de nieve en el borde superior de cada tarjeta de producto */
+html[data-festivity="navidad"] .product-card::before {
+  content: "" !important;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 14px;
+  width: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 24' preserveAspectRatio='none'%3E%3Cpath d='M0 0 L200 0 L200 6 Q 185 16, 170 8 Q 155 20, 135 7 Q 115 18, 95 6 Q 75 22, 55 7 Q 35 18, 20 8 Q 10 14, 0 6 Z' fill='%23ffffff' opacity='0.96' filter='drop-shadow(0 2px 4px rgba(255,255,255,0.6))'/%3E%3C/svg%3E");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 5;
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+/* Copos de nieve flotantes de fondo */
+html[data-festivity="navidad"] body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  background-image: 
+    radial-gradient(3px 3px at 20px 30px, #ffffff, transparent),
+    radial-gradient(4px 4px at 40px 70px, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2.5px 2.5px at 90px 40px, #ffffff, transparent),
+    radial-gradient(3.5px 3.5px at 160px 120px, rgba(255,255,255,0.85), transparent),
+    radial-gradient(2.5px 2.5px at 220px 80px, #ffffff, transparent),
+    radial-gradient(4px 4px at 280px 140px, rgba(255,255,255,0.9), transparent);
+  background-size: 320px 320px;
+  animation: snowfallAnimation 14s linear infinite;
+  opacity: 0.75;
+}
+
+@keyframes snowfallAnimation {
+  0% { transform: translateY(-320px); }
+  100% { transform: translateY(100vh); }
+}
+
+html[data-festivity="navidad"] .btn-whatsapp-header::after {
+  content: "🎄";
+  font-size: 0.95rem;
+  margin-left: 5px;
+}
+
+/* Carrusel de Hielo Congelado (Navidad - Modo Oscuro) */
+html[data-festivity="navidad"] .infinite-marquee-section {
+  position: relative;
+  background: linear-gradient(180deg, rgba(186, 230, 253, 0.25) 0%, rgba(56, 189, 248, 0.12) 50%, rgba(14, 165, 233, 0.22) 100%) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.6) !important;
+  border-bottom: 2px solid rgba(186, 230, 253, 0.5) !important;
+  box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.4), 0 0 25px rgba(56, 189, 248, 0.35) !important;
+}
+
+/* Carrusel de Hielo Glacial Claro (Navidad - Modo Claro) */
+html[data-festivity="navidad"][data-theme="light"] .infinite-marquee-section {
+  background: linear-gradient(180deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%) !important;
+  border-top: 1px solid #ffffff !important;
+  border-bottom: 2px solid #7dd3fc !important;
+  box-shadow: inset 0 2px 8px rgba(255, 255, 255, 0.9), 0 4px 20px rgba(2, 132, 199, 0.15) !important;
+}
+
+html[data-festivity="navidad"][data-theme="light"] .marquee-item {
+  color: #0369a1 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+html[data-festivity="navidad"][data-theme="light"] .marquee-divider::before {
+  color: #0284c7 !important;
+  text-shadow: 0 0 6px rgba(2, 132, 199, 0.4);
+}
+
+/* Hilera de Carámbanos de Hielo (Icicles) colgando del borde superior del carrusel */
+html[data-festivity="navidad"] .infinite-marquee-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 12' preserveAspectRatio='none'%3E%3Cpath d='M0 0 L100 0 L100 2 Q 95 10, 90 2 Q 82 12, 75 2 Q 68 8, 62 2 Q 52 11, 45 2 Q 35 12, 28 2 Q 18 9, 12 2 Q 5 11, 0 2 Z' fill='%23ffffff' opacity='0.9' filter='drop-shadow(0 2px 3px rgba(56,189,248,0.5))'/%3E%3C/svg%3E");
+  background-size: 80px 10px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+  z-index: 12;
+}
+
+html[data-festivity="navidad"] .marquee-item {
+  color: #e0f2fe !important;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+}
+
+html[data-festivity="navidad"] .marquee-divider {
+  font-size: 0 !important;
+  display: inline-flex;
+  align-items: center;
+}
+
+html[data-festivity="navidad"] .marquee-divider::before {
+  content: "❄";
+  font-size: 0.9rem;
+  color: #38bdf8;
+  text-shadow: 0 0 8px #38bdf8;
+}
+
+/* 3. BUSCADOR FESTIVO NAVIDAD: Esfera Navideña Realista + Bordes Congelados */
+html[data-festivity="navidad"] .search-box-header {
+  position: relative;
+}
+
+html[data-festivity="navidad"] .search-toggle-btn {
+  background: 
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.45) 0%, transparent 35%),
+    radial-gradient(circle at 70% 70%, #7f1d1d 0%, #450a0a 100%),
+    linear-gradient(135deg, #ef4444 0%, #b91c1c 100%) !important;
+  border: 1.5px solid rgba(251, 191, 36, 0.7) !important;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.55), inset 0 2px 6px rgba(255, 255, 255, 0.5) !important;
+  color: #ffffff !important;
+  position: relative;
+}
+
+/* Casquillo metálico dorado y anilla superior de la esfera navideña */
+html[data-festivity="navidad"] .search-box-header::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  right: 14px;
+  width: 14px;
+  height: 8px;
+  background: linear-gradient(90deg, #d97706 0%, #fef08a 50%, #b45309 100%);
+  border-radius: 2px 2px 0 0;
+  border: 1px solid #78350f;
+  box-shadow: 0 -2px 0 1px rgba(253, 224, 71, 0.6);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Bordes Congelados con escarcha al expandir el buscador */
+html[data-festivity="navidad"] .search-box-header input {
+  border: 1.5px solid #7dd3fc !important;
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.4), inset 0 0 12px rgba(186, 230, 253, 0.3) !important;
+  background: rgba(12, 28, 54, 0.92) !important;
+}
+
+html[data-festivity="navidad"][data-theme="light"] .search-box-header input {
+  background: #f0f9ff !important;
+  border: 1.5px solid #38bdf8 !important;
+  box-shadow: 0 4px 20px rgba(2, 132, 199, 0.25), inset 0 0 10px rgba(186, 230, 253, 0.5) !important;
+}
+
+
+/* ==========================================================================
+   2. MODO HALLOWEEN (data-festivity="halloween") - ALTO IMPACTO VISUAL
+   ========================================================================== */
+
+/* Murciélago volando sobre el Logo KazuStore */
+html[data-festivity="halloween"] .brand-logo {
+  position: relative;
+}
+
+html[data-festivity="halloween"] .brand-logo::before {
+  content: "";
+  position: absolute;
+  top: -16px;
+  right: -12px;
+  width: 38px;
+  height: 38px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 24 C 27 16, 18 12, 6 18 C -1 22, 1 34, 10 32 C 15 30, 20 25, 25 30 C 27 32, 27 36, 32 36 C 37 36, 37 32, 39 30 C 44 25, 49 30, 54 32 C 63 34, 65 22, 58 18 C 46 12, 37 16, 32 24 Z' fill='%23a855f7' filter='drop-shadow(0 0 8px %23c084fc)'/%3E%3Ccircle cx='29' cy='28' r='1.8' fill='%23f97316'/%3E%3Ccircle cx='35' cy='28' r='1.8' fill='%23f97316'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 10;
+  animation: batHover 3.5s ease-in-out infinite;
+}
+
+@keyframes batHover {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+  50% { transform: translateY(-6px) rotate(8deg) scale(1.1); }
+}
+
+/* Telaraña prominente en la esquina superior de cada tarjeta de producto */
+html[data-festivity="halloween"] .product-card::before {
+  content: "" !important;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 68px;
+  height: 68px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M0 0 L100 0 L100 100 Z' fill='none'/%3E%3Cpath d='M0 0 Q 50 8, 100 100 M0 0 Q 8 50, 100 100 M0 0 L100 100 M0 0 L65 100 M0 0 L100 65' stroke='%23f97316' stroke-width='2' opacity='0.75' fill='none'/%3E%3Cpath d='M25 0 Q 30 15, 45 45 Q 15 30, 0 25 M50 0 Q 55 30, 75 75 Q 30 55, 0 50 M75 0 Q 80 50, 95 95 Q 50 80, 0 75' stroke='%23fb923c' stroke-width='1.8' opacity='0.65' fill='none'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23c084fc'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 5;
+  animation: none !important;
+  opacity: 0.9 !important;
+}
+
+/* Calabaza flotante y telaraña en la tarjeta en vivo de entrega inmediata */
+html[data-festivity="halloween"] .featured-preview-card::before {
+  content: "🎃";
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 1.6rem;
+  filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.7));
+  animation: pumpkinFloat 3s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 6;
+}
+
+@keyframes pumpkinFloat {
+  0% { transform: translateY(0) rotate(-6deg); }
+  100% { transform: translateY(-5px) rotate(6deg); }
+}
+
+/* Malla de Telarañas Gigantescas y Telaraña Gótica de Fondo */
+html[data-festivity="halloween"] body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  background-image: 
+    /* Telaraña Esquina Superior Izquierda */
+    radial-gradient(circle at 0% 0%, transparent 0, transparent 40px, rgba(168, 85, 247, 0.12) 41px, transparent 43px, transparent 80px, rgba(249, 115, 22, 0.1) 81px, transparent 83px, transparent 130px, rgba(168, 85, 247, 0.08) 131px, transparent 133px, transparent 190px, rgba(249, 115, 22, 0.08) 191px, transparent 193px),
+    /* Telaraña Esquina Superior Derecha */
+    radial-gradient(circle at 100% 0%, transparent 0, transparent 50px, rgba(249, 115, 22, 0.12) 51px, transparent 53px, transparent 100px, rgba(168, 85, 247, 0.1) 101px, transparent 103px, transparent 160px, rgba(249, 115, 22, 0.08) 161px, transparent 163px),
+    /* Telaraña Esquina Inferior Derecha */
+    radial-gradient(circle at 100% 100%, transparent 0, transparent 60px, rgba(168, 85, 247, 0.1) 61px, transparent 63px, transparent 120px, rgba(249, 115, 22, 0.08) 121px, transparent 123px);
+  opacity: 0.9;
+}
+
+/* Partículas fantasmales de fondo + Telaraña flotante (Halloween Glow Particles) */
+html[data-festivity="halloween"] body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+  background-image: 
+    radial-gradient(3px 3px at 30px 50px, #f97316, transparent),
+    radial-gradient(4px 4px at 80px 120px, #c084fc, transparent),
+    radial-gradient(3px 3px at 150px 80px, #fb923c, transparent),
+    radial-gradient(4px 4px at 220px 180px, #a855f7, transparent),
+    radial-gradient(3.5px 3.5px at 290px 90px, #f97316, transparent);
+  background-size: 340px 340px;
+  animation: halloweenFloat 16s linear infinite;
+  opacity: 0.65;
+}
+
+@keyframes halloweenFloat {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-340px); }
+}
+
+html[data-festivity="halloween"] .btn-whatsapp-header::after {
+  content: "🎃";
+  font-size: 0.95rem;
+  margin-left: 5px;
+}
+
+/* Resplandor especial naranja/morado en botones y badges durante Halloween */
+html[data-festivity="halloween"] .hero-tag {
+  border-color: rgba(249, 115, 22, 0.45) !important;
+  color: #fb923c !important;
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.25) !important;
+}
+
+/* Carrusel Encadenado Tétrico (Halloween) */
+html[data-festivity="halloween"] .infinite-marquee-section {
+  position: relative;
+  background: linear-gradient(180deg, rgba(28, 8, 42, 0.98) 0%, rgba(14, 3, 22, 0.99) 100%) !important;
+  border-top: 2px dashed rgba(249, 115, 22, 0.6) !important;
+  border-bottom: 2px dashed rgba(168, 85, 247, 0.6) !important;
+  box-shadow: 0 0 30px rgba(249, 115, 22, 0.25), inset 0 0 20px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Versión clara del carrusel en Halloween */
+html[data-festivity="halloween"][data-theme="light"] .infinite-marquee-section {
+  background: linear-gradient(180deg, #fef3c7 0%, #ffedd5 50%, #fed7aa 100%) !important;
+  border-top: 2px dashed #ea580c !important;
+  border-bottom: 2px dashed #9333ea !important;
+  box-shadow: 0 4px 20px rgba(234, 88, 12, 0.15) !important;
+}
+
+html[data-festivity="halloween"][data-theme="light"] .marquee-item {
+  color: #7c2d12 !important;
+  text-shadow: none !important;
+}
+
+/* Eslabones de Cadenas Colgantes en el borde superior del carrusel */
+html[data-festivity="halloween"] .infinite-marquee-section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 16' preserveAspectRatio='none'%3E%3Cpath d='M10 2 C 16 2, 16 14, 10 14 C 4 14, 4 2, 10 2 Z M30 2 C 36 2, 36 14, 30 14 C 24 14, 24 2, 30 2 Z M50 2 C 56 2, 56 14, 50 14 C 44 14, 44 2, 50 2 Z M70 2 C 76 2, 76 14, 70 14 C 64 14, 64 2, 70 2 Z' fill='none' stroke='%23f97316' stroke-width='2' stroke-dasharray='2,2' opacity='0.8'/%3E%3Cline x1='14' y1='8' x2='26' y2='8' stroke='%23a855f7' stroke-width='2'/%3E%3Cline x1='34' y1='8' x2='46' y2='8' stroke='%23a855f7' stroke-width='2'/%3E%3Cline x1='54' y1='8' x2='66' y2='8' stroke='%23a855f7' stroke-width='2'/%3E%3C/svg%3E");
+  background-size: 80px 12px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+  z-index: 12;
+}
+
+html[data-festivity="halloween"] .marquee-item {
+  color: #fdba74 !important;
+  text-shadow: 0 0 8px rgba(249, 115, 22, 0.6);
+}
+
+html[data-festivity="halloween"] .marquee-divider {
+  font-size: 0 !important;
+  display: inline-flex;
+  align-items: center;
+}
+
+html[data-festivity="halloween"] .marquee-divider::before {
+  content: "💀";
+  font-size: 0.95rem;
+  filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8));
+}
+
+/* Araña realista suspendida de un hilo de seda bajando en las tarjetas */
+html[data-festivity="halloween"] .product-card::after {
+  content: "" !important;
+  position: absolute;
+  top: 0;
+  left: 22px;
+  width: 22px;
+  height: 48px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 64'%3E%3Cline x1='16' y1='0' x2='16' y2='40' stroke='rgba(255,255,255,0.4)' stroke-width='1'/%3E%3Cellipse cx='16' cy='48' rx='7' ry='6' fill='%23111827' stroke='%23f97316' stroke-width='1.2'/%3E%3Ccircle cx='16' cy='43' r='4' fill='%23000000'/%3E%3Ccircle cx='14.5' cy='42' r='1' fill='%23ef4444'/%3E%3Ccircle cx='17.5' cy='42' r='1' fill='%23ef4444'/%3E%3Cpath d='M10 46 Q 3 42, 5 36 M10 48 Q 2 48, 4 54 M22 46 Q 29 42, 27 36 M22 48 Q 30 48, 28 54 M11 51 Q 4 58, 8 62 M21 51 Q 28 58, 24 62' stroke='%23f97316' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 6;
+  animation: spiderSwing 4s ease-in-out infinite alternate;
+}
+
+@keyframes spiderSwing {
+  0% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(8px) rotate(4deg); }
+  100% { transform: translateY(2px) rotate(10deg); }
+}
+
+/* Calavera con ojos llameantes en el badge superior del Hero */
+html[data-festivity="halloween"] .hero-tag::before {
+  content: "💀 ";
+  font-size: 1rem;
+}
+
+/* Luces misteriosas moradas flotando sobre los métodos de pago */
+html[data-festivity="halloween"] .payment-methods-banner {
+  border-color: rgba(168, 85, 247, 0.4) !important;
+  box-shadow: 0 0 30px rgba(147, 51, 234, 0.25) !important;
+}
+
+/* 4. BUSCADOR HALLOWEEN: Ojo de Monstruo Parpadeante con Palito de Lupa Visible + Efecto Derrame Slime */
+html[data-festivity="halloween"] .search-toggle-btn {
+  background: radial-gradient(circle, #facc15 0%, #ea580c 55%, #7c2d12 100%) !important;
+  border: 2px solid #a855f7 !important;
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.6), inset 0 0 8px rgba(0, 0, 0, 0.7) !important;
+  position: relative;
+  overflow: visible !important;
+}
+
+/* Iris y Pupila de Monstruo acechante dentro de la lente de la lupa */
+html[data-festivity="halloween"] .search-toggle-btn::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 20px;
+  background: #000000;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: monsterEyeDilation 3.5s ease-in-out infinite;
+  box-shadow: 0 0 6px rgba(239, 68, 68, 0.9), inset 0 0 4px #ef4444;
+  z-index: 3;
+}
+
+/* Brillo de reflejo siniestro en la córnea */
+html[data-festivity="halloween"] .search-toggle-btn::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 4px;
+  height: 4px;
+  background: #ffffff;
+  border-radius: 50%;
+  z-index: 4;
+  opacity: 0.95;
+  box-shadow: 0 0 4px #ffffff;
+}
+
+@keyframes monsterEyeDilation {
+  0%, 100% { transform: translate(-50%, -50%) scaleX(0.7) scaleY(1); }
+  25% { transform: translate(-50%, -50%) scaleX(1.3) scaleY(1.1); }
+  50% { transform: translate(-50%, -50%) scaleX(0.2) scaleY(0.08); /* Parpadeo */ }
+  75% { transform: translate(-50%, -50%) scaleX(1) scaleY(1); }
+}
+
+/* Palito de la lupa claramente visible en Halloween */
+html[data-festivity="halloween"] .search-toggle-btn svg {
+  position: relative;
+  z-index: 5;
+  stroke: #fdba74 !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 3px rgba(249, 115, 22, 0.8));
+}
+/* Atenuar el círculo del SVG para que el globo ocular de fondo resalte con el palito */
+html[data-festivity="halloween"] .search-toggle-btn svg circle {
+  stroke: rgba(168, 85, 247, 0.6) !important;
+  stroke-width: 2.5;
+}
+html[data-festivity="halloween"] .search-toggle-btn svg line {
+  stroke: #fed7aa !important;
+  stroke-width: 3.5 !important;
+}
+
+/* Efecto Derrame / Goteo Gótico en los bordes del buscador al expandirse */
+html[data-festivity="halloween"] .search-box-header input {
+  background: rgba(22, 5, 34, 0.96) !important;
+  border: 2px solid #a855f7 !important;
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.4), inset 0 0 15px rgba(249, 115, 22, 0.3) !important;
+  color: #fdba74 !important;
+  position: relative;
+}
+
+/* Gotas de slime/derrame cayendo por el borde inferior del buscador expandido */
+html[data-festivity="halloween"] .search-input-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 30px;
+  right: 20px;
+  height: 10px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 16' preserveAspectRatio='none'%3E%3Cpath d='M0 0 L120 0 Q 110 14, 105 16 Q 100 14, 95 0 Q 80 0, 75 10 Q 70 14, 65 0 Q 50 0, 42 15 Q 38 16, 32 0 Q 20 0, 15 12 Q 10 14, 5 0 Z' fill='%23a855f7' opacity='0.85' filter='drop-shadow(0 2px 4px %23f97316)'/%3E%3C/svg%3E");
+  background-size: 100px 10px;
+  background-repeat: repeat-x;
+  pointer-events: none;
+  z-index: 10;
+  animation: dripGoo 2.5s ease-in-out infinite alternate;
+}
+
+@keyframes dripGoo {
+  0% { transform: scaleY(0.9); }
+  100% { transform: scaleY(1.2); }
+}

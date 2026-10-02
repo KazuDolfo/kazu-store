@@ -494,6 +494,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Restablecer Filtros
   resetFiltersBtn?.addEventListener('click', resetAllFilters);
 
+  // 8. Conmutador de Modo Oscuro / Claro con persistencia
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+  const savedTheme = localStorage.getItem('kazu_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+
+  themeToggleBtn?.addEventListener('click', () => {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    localStorage.setItem('kazu_theme', nextTheme);
+  });
+
   // Render inicial
   renderProducts();
 });
+
