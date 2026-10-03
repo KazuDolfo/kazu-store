@@ -472,10 +472,28 @@
             <p class="kazupuntos-desc">Cada compra y renovación te premia. Acumula sellos digitales y canjea cupones de descuento y crédito exclusivo en tu WhatsApp.</p>
           </div>
 
+          <!-- Selector de Modo: Nuevo o Ya Registrado -->
+          <div class="kp-mode-tabs" role="tablist" aria-label="Modo de consulta de KazuPuntos">
+            <button type="button" class="kp-tab-btn active" id="kp-tab-existing" role="tab" aria-selected="true">
+              <span>👤 Ya Tengo KazuPuntos</span>
+            </button>
+            <button type="button" class="kp-tab-btn" id="kp-tab-new" role="tab" aria-selected="false">
+              <span>🎁 Soy Nuevo (Reclamar 1er Sello)</span>
+            </button>
+          </div>
+
           <!-- Buscador o Verificador de Teléfono -->
           <div class="kazupuntos-search-box">
-            <label for="kp-client-phone" class="sr-only">Tu número de WhatsApp</label>
-            <input type="tel" id="kp-client-phone" placeholder="Ingresa tu WhatsApp (Ej: 987654321)" maxlength="15" autocomplete="tel">
+            <div class="kp-input-group flex-1">
+              <label for="kp-client-phone" class="sr-only">Tu número de WhatsApp</label>
+              <input type="tel" id="kp-client-phone" placeholder="Ingresa tu WhatsApp (Ej: 987654321)" maxlength="15" autocomplete="tel">
+            </div>
+            
+            <div class="kp-input-group flex-1 hidden" id="kp-ref-field-wrapper">
+              <label for="kp-referral-code-input" class="sr-only">Código de referido opcional</label>
+              <input type="text" id="kp-referral-code-input" placeholder="¿Código de referido? (Ej: KZ-9876)" maxlength="15">
+            </div>
+
             <button type="button" class="btn btn-kazupuntos" id="kp-search-btn">
               <span>Consultar Mis Puntos</span>
             </button>
@@ -491,8 +509,13 @@
                   <small id="kp-client-tag">Cliente Frecuente</small>
                 </div>
               </div>
-              <div class="stamp-balance-badge">
-                <span id="kp-stamps-count">0</span> / 10 PUNTOS
+              <div class="stamp-balances-group">
+                <div class="stamp-balance-badge">
+                  <span id="kp-stamps-count">0</span> / 10 PUNTOS
+                </div>
+                <div class="stamp-credits-badge" id="kp-credits-badge" title="Saldo disponible por amigos recomendados">
+                  💰 Crédito: <strong id="kp-credits-amount">S/ 0.00</strong>
+                </div>
               </div>
             </div>
 
@@ -501,13 +524,33 @@
               <!-- Renderizado dinámico de 10 sellos -->
             </div>
 
+            <!-- Panel de Monitoreo de Referidos del Cliente -->
+            <div class="referral-client-dashboard" id="referral-client-dashboard">
+              <div class="ref-dashboard-header">
+                <div class="ref-code-box">
+                  <span class="ref-label">Tu Código de Referido:</span>
+                  <strong class="ref-code-text" id="kp-my-ref-code">KZ-0000</strong>
+                  <button type="button" class="btn-copy-code" id="kp-copy-ref-link" title="Copiar enlace de invitación">
+                    📋 Copiar Enlace
+                  </button>
+                </div>
+                <div class="ref-stats-box">
+                  <span class="ref-label">Amigos con compra:</span>
+                  <strong class="ref-stats-count" id="kp-ref-friends-count">0 amigos (S/ 0.00 ganado)</strong>
+                </div>
+              </div>
+              <p class="ref-help-note">
+                💡 <em>Por cada amigo que use tu código y realice su compra (segundo sello), ganas <strong>S/ 1.00 de crédito</strong> para descontar en tu siguiente pedido.</em>
+              </p>
+            </div>
+
             <div class="stamp-card-footer">
               <p id="kp-reward-status">¡Acumula 5 puntos para S/ 3.00 OFF o 10 puntos para hasta S/ 8.00 de crédito en tu renovación!</p>
               <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-claim-reward hidden" id="kp-claim-btn">
                 <span>🎉 Canjear Premio por WhatsApp</span>
               </a>
               <small class="stamp-card-terms" style="display:block; margin-top:8px; font-size:0.72rem; color:var(--text-muted); opacity:0.85;">
-                * Cupón de 5 sellos aplicable en renovaciones o compras desde S/ 15.00. Crédito de 10 sellos aplicable en servicios mensuales estándar seleccionados. No canjeable por dinero ni aplicable a licencias permanentes.
+                * Cupón de 5 sellos aplicable en renovaciones o compras desde S/ 15.00. Crédito de 10 sellos aplicable en servicios mensuales estándar seleccionados. Créditos por referidos canjeables directo en WhatsApp al renovar o comprar.
               </small>
             </div>
           </div>

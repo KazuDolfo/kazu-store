@@ -1950,6 +1950,139 @@ html[data-theme="dark"] .icon-sun { display: none; }
   box-shadow: 0 6px 20px rgba(0, 230, 118, 0.35);
 }
 
+/* Selector de Pestañas Nuevo / Existente */
+.kp-mode-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.kp-tab-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  padding: 0.55rem 1.15rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.kp-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.kp-tab-btn.active {
+  background: rgba(0, 230, 118, 0.15);
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.2);
+}
+
+.kp-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.stamp-balances-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.stamp-credits-badge {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38bdf8;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.stamp-credits-badge strong {
+  color: #fff;
+}
+
+/* Dashboard de Referidos en la Tarjeta */
+.referral-client-dashboard {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  margin-bottom: 1.5rem;
+}
+
+.ref-dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.65rem;
+}
+
+.ref-code-box, .ref-stats-box {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.ref-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.ref-code-text {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: #00f2fe;
+  background: rgba(0, 242, 254, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  border: 1px dashed rgba(0, 242, 254, 0.4);
+  letter-spacing: 0.08em;
+}
+
+.btn-copy-code {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: #fff;
+  font-size: 0.78rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-copy-code:hover {
+  background: var(--accent-cyan);
+  color: #07090e;
+}
+
+.btn-copy-code.copied {
+  background: var(--accent-emerald) !important;
+  color: #07090e !important;
+}
+
+.ref-stats-count {
+  font-size: 0.9rem;
+  color: var(--accent-emerald);
+}
+
+.ref-help-note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0;
+}
+
 /* Tarjeta Digital KazuPuntos */
 .digital-stamp-card {
   background: linear-gradient(145deg, rgba(14, 22, 36, 0.95) 0%, rgba(8, 13, 22, 0.98) 100%);

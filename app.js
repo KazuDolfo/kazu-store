@@ -519,12 +519,57 @@ document.addEventListener('DOMContentLoaded', () => {
     const rewardStatus = document.getElementById('kp-reward-status');
     const claimBtn = document.getElementById('kp-claim-btn');
 
+    const tabExisting = document.getElementById('kp-tab-existing');
+    const tabNew = document.getElementById('kp-tab-new');
+    const refFieldWrapper = document.getElementById('kp-ref-field-wrapper');
+    const refCodeInput = document.getElementById('kp-referral-code-input');
+    const creditsBadge = document.getElementById('kp-credits-badge');
+    const creditsAmountEl = document.getElementById('kp-credits-amount');
+    const myRefCodeEl = document.getElementById('kp-my-ref-code');
+    const refFriendsCountEl = document.getElementById('kp-ref-friends-count');
+    const copyRefBtn = document.getElementById('kp-copy-ref-link');
+
+    let currentMode = 'existing'; // 'existing' | 'new'
+
+    tabExisting?.addEventListener('click', () => {
+      currentMode = 'existing';
+      tabExisting.classList.add('active');
+      tabExisting.setAttribute('aria-selected', 'true');
+      tabNew?.classList.remove('active');
+      tabNew?.setAttribute('aria-selected', 'false');
+      refFieldWrapper?.classList.add('hidden');
+      searchBtn.innerHTML = '<span>Consultar Mis Puntos</span>';
+    });
+
+    tabNew?.addEventListener('click', () => {
+      currentMode = 'new';
+      tabNew.classList.add('active');
+      tabNew.setAttribute('aria-selected', 'true');
+      tabExisting?.classList.remove('active');
+      tabExisting?.setAttribute('aria-selected', 'false');
+      refFieldWrapper?.classList.remove('hidden');
+      searchBtn.innerHTML = '<span>🎁 Reclamar Mi 1.er Sello Gratis</span>';
+      phoneInput.focus();
+    });
+
     if (!stampsGrid) return;
 
-    function renderStamps(balance = 0, historyStamps = [], isNewWelcome = false) {
+    function renderStamps(balance = 0, historyStamps = [], isNewWelcome = false, clientData = null) {
       stampsGrid.innerHTML = '';
       stampsCountEl.textContent = balance;
       const count = Math.min(10, Math.max(0, balance));
+
+      // Actualizar información de créditos y referidos
+      const credits = Number(clientData?.referral_credits || 0);
+      if (creditsAmountEl) creditsAmountEl.textContent = `S/ ${credits.toFixed(2)}`;
+      
+      const myCode = clientData?.referral_code || (clientData?.phone ? 'KZ-' + clientData.phone.slice(-4) : 'KZ-VIP');
+      if (myRefCodeEl) myRefCodeEl.textContent = myCode;
+
+      const friendsCount = clientData?.qualified_friends_count || 0;
+      if (refFriendsCountEl) {
+        refFriendsCountEl.textContent = `${friendsCount} amigo(s) con compra (S/ ${friendsCount.toFixed(2)} ganado)`;
+      }
 
       // Mapear iconos según la festividad histórica de cada sello
       const getStampTheme = (index) => {
@@ -558,12 +603,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (isNewWelcome) {
-        rewardStatus.innerHTML = '🎁 <strong>¡BIENVENIDO A KAZUSTORE!</strong> Te regalamos tu <strong>1.er KazuPunto GRATIS</strong> por unirte a nuestro Club.';
+        rewardStatus.innerHTML = '🎁 <strong>¡BIENVENIDO A KAZUSTORE!</strong> Te regalamos tu <strong>1.er KazuPunto GRATIS</strong>. Comparte tu código de referido para ganar S/ 1.00 por cada amigo.';
         claimBtn.classList.add('hidden');
-      } else if (balance >= 10) {
-        rewardStatus.innerHTML = '🎉 <strong>¡FELICIDADES!</strong> Has completado tu tarjeta. Tienes hasta <strong>S/ 8.00 de Crédito</strong> en tu próxima renovación mensual.';
+      } else if (balance >= 10 || credits > 0) {
+        let msg = '';
+        if (balance >= 10 && credits > 0) {
+          msg = `🎉 <strong>¡FELICIDADES!</strong> Tienes <strong>S/ 8.00 de Crédito</strong> por tarjeta llena + <strong>S/ ${credits.toFixed(2)} de saldo</strong> por amigos referidos.`;
+        } else if (balance >= 10) {
+          msg = '🎉 <strong>¡FELICIDADES!</strong> Has completado tu tarjeta. Tienes hasta <strong>S/ 8.00 de Crédito</strong> en tu próxima renovación mensual.';
+        } else {
+          msg = `⭐ Tienes <strong>${balance} KazuPuntos</strong> y <strong>S/ ${credits.toFixed(2)} de Crédito</strong> acumulado por tus amigos referidos. ¡Puedes aplicarlo en tu compra!`;
+        }
+        rewardStatus.innerHTML = msg;
         claimBtn.classList.remove('hidden');
-        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo canjear mi crédito de S/ 8.00 en la renovación de mi servicio mensual.`)}`;
+        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos y S/ ${credits.toFixed(2)} de crédito por referidos. Deseo aplicar mis beneficios en mi pedido.`)}`;
       } else if (balance >= 5) {
         rewardStatus.innerHTML = `⭐ Tienes <strong>${balance} KazuPuntos</strong>. Ya calificas para <strong>S/ 3.00 de Descuento</strong> en tu próxima renovación (mínimo S/ 15.00).`;
         claimBtn.classList.remove('hidden');
@@ -586,6 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         let client = null;
         let isNewClient = false;
+        const refCodeUsed = refCodeInput ? refCodeInput.value.trim().toUpperCase() : null;
 
         if (window.kazuDb && typeof window.kazuDb.getClientCard === 'function') {
           client = await window.kazuDb.getClientCard(phone);
@@ -597,14 +651,20 @@ document.addEventListener('DOMContentLoaded', () => {
           const userStamps = offlineLedger.filter(s => s.phone && s.phone.includes(phone));
           const totalOffline = userStamps.reduce((acc, curr) => acc + (curr.amount || 0), 0);
           if (totalOffline > 0) {
-            client = { stamps_balance: totalOffline, nickname: 'Cliente KazuStore', ledger: userStamps };
+            client = {
+              stamps_balance: totalOffline,
+              nickname: 'Cliente KazuStore',
+              ledger: userStamps,
+              referral_code: 'KZ-' + phone.slice(-4),
+              referral_credits: 0
+            };
           }
         }
 
         // SI ES NUEVO (no existe registro previo), REGALAR EL 1ER SELLO AUTOMÁTICAMENTE
         if (!client) {
           isNewClient = true;
-          const welcomeRes = await window.kazuDb?.claimWelcomeStamp(phone);
+          const welcomeRes = await window.kazuDb?.claimWelcomeStamp(phone, refCodeUsed);
           const currentFest = document.documentElement.getAttribute('data-festivity') || 'standard';
 
           // Guardar también en LocalStorage offline por si acaso
@@ -613,7 +673,7 @@ document.addEventListener('DOMContentLoaded', () => {
             phone: phone,
             amount: 1,
             action: 'earned',
-            reason: '🎁 Sello Gratis de Bienvenida KazuPuntos',
+            reason: refCodeUsed ? `🎁 Sello Gratis de Bienvenida + Ref: ${refCodeUsed}` : '🎁 Sello Gratis de Bienvenida KazuPuntos',
             festivity: currentFest,
             offline: true,
             id: 'welcome_' + Date.now()
@@ -622,8 +682,12 @@ document.addEventListener('DOMContentLoaded', () => {
           localStorage.setItem('kazustore_pending_stamps_v1', JSON.stringify(offlineLedger));
 
           client = {
+            phone: phone,
             stamps_balance: 1,
             nickname: '¡Bienvenido(a) a KazuPuntos!',
+            referral_code: 'KZ-' + phone.slice(-4),
+            referral_credits: 0,
+            qualified_friends_count: 0,
             ledger: [welcomeEntry]
           };
         }
@@ -644,16 +708,36 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }
 
-        renderStamps(balance, historyStamps, isNewClient);
+        renderStamps(balance, historyStamps, isNewClient, client);
 
       } catch (e) {
         console.warn('Error al consultar KazuPuntos:', e);
         renderStamps(0);
       } finally {
         searchBtn.disabled = false;
-        searchBtn.innerHTML = '<span>Consultar Mis Puntos</span>';
+        searchBtn.innerHTML = currentMode === 'new' 
+          ? '<span>🎁 Reclamar Mi 1.er Sello Gratis</span>' 
+          : '<span>Consultar Mis Puntos</span>';
       }
     }
+
+    // Copiar enlace de referido para compartir
+    copyRefBtn?.addEventListener('click', () => {
+      const code = myRefCodeEl?.textContent?.trim() || 'KZ-VIP';
+      const shareUrl = `https://kazudolfo.github.io/kazu-store/?ref=${encodeURIComponent(code)}#kazupuntos`;
+      const shareText = `🔥 ¡Únete a KazuPuntos en KazuStore! Usa mi código de referido *${code}* al registrarte y gana tu 1.er Sello Gratis de bienvenida: ${shareUrl}`;
+
+      navigator.clipboard.writeText(shareText).then(() => {
+        copyRefBtn.classList.add('copied');
+        copyRefBtn.textContent = '✅ ¡Enlace Copiado!';
+        setTimeout(() => {
+          copyRefBtn.classList.remove('copied');
+          copyRefBtn.textContent = '📋 Copiar Enlace';
+        }, 1800);
+      }).catch(() => {
+        prompt('Copia tu enlace de referido:', shareText);
+      });
+    });
 
     searchBtn?.addEventListener('click', () => {
       checkClientPoints(phoneInput.value.trim());
@@ -666,12 +750,19 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // Detección automática por URL query: ?tel=987654321
+    // Detección automática por URL query: ?tel=987654321 o ?ref=KZ-9876
     const urlParams = new URLSearchParams(window.location.search);
     const telParam = urlParams.get('tel') || urlParams.get('phone');
+    const refParam = urlParams.get('ref') || urlParams.get('codigo');
+
+    if (refParam) {
+      // Si viene con enlace de referido, activar pestaña Nuevo automáticamente
+      tabNew?.click();
+      if (refCodeInput) refCodeInput.value = refParam.toUpperCase();
+    }
+
     if (telParam) {
       checkClientPoints(telParam);
-      // Auto-scroll suave hacia la tarjeta
       setTimeout(() => {
         document.getElementById('kazupuntos')?.scrollIntoView({ behavior: 'smooth' });
       }, 500);
