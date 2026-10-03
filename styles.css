@@ -130,7 +130,13 @@ html {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scrollbar-gutter: stable;
+  scrollbar-gutter: auto;
+}
+
+@media (min-width: 993px) {
+  html {
+    scrollbar-gutter: stable;
+  }
 }
 
 body {
@@ -1989,6 +1995,34 @@ html[data-theme="dark"] .icon-sun { display: none; }
   }
   .custom-select {
     flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: min(100% - 1.5rem, 1220px);
+  }
+  .header-actions {
+    gap: 0.5rem;
+  }
+  .btn-whatsapp-header {
+    padding: 0.55rem 0.85rem;
+    font-size: 0.82rem;
+  }
+  .announcement-badges {
+    display: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .btn-whatsapp-header span {
+    display: none;
+  }
+  .btn-whatsapp-header {
+    padding: 0.55rem;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
   }
 }
 

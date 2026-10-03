@@ -309,6 +309,12 @@ html[data-festivity="halloween"] .btn-whatsapp-header::after {
   margin-left: 5px;
 }
 
+@media (max-width: 375px) {
+  html[data-festivity] .btn-whatsapp-header::after {
+    display: none;
+  }
+}
+
 /* Resplandor especial naranja/morado en botones y badges durante Halloween */
 html[data-festivity="halloween"] .hero-tag {
   border-color: rgba(249, 115, 22, 0.45) !important;
