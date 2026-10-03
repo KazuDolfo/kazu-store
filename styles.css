@@ -2039,6 +2039,51 @@ html[data-theme="dark"] .icon-sun { display: none; }
   box-shadow: 0 0 14px rgba(0, 230, 118, 0.2);
 }
 
+/* Sello Temático Histórico: Halloween */
+.stamp-slot.filled.theme-halloween {
+  background: rgba(249, 115, 22, 0.12);
+  border-color: #f97316;
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.35);
+}
+
+.stamp-slot.filled.theme-halloween .stamp-circle {
+  background: linear-gradient(135deg, #f97316 0%, #a855f7 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.5);
+}
+
+.stamp-slot.filled.theme-halloween .stamp-label {
+  color: #fb923c;
+}
+
+/* Sello Temático Histórico: Navidad */
+.stamp-slot.filled.theme-navidad {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: #ef4444;
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.35);
+}
+
+.stamp-slot.filled.theme-navidad .stamp-circle {
+  background: linear-gradient(135deg, #ef4444 0%, #10b981 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.5);
+}
+
+.stamp-slot.filled.theme-navidad .stamp-label {
+  color: #f87171;
+}
+
+/* Animación de Bienvenida para el 1er Sello Gratis */
+.stamp-pop-animation {
+  animation: stampPop 900ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes stampPop {
+  0% { transform: scale(0.6) rotate(-15deg); opacity: 0; }
+  50% { transform: scale(1.18) rotate(6deg); box-shadow: 0 0 25px rgba(0, 230, 118, 0.6); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
 .stamp-slot.jackpot {
   border-color: rgba(0, 242, 254, 0.6);
 }

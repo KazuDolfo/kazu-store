@@ -521,25 +521,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!stampsGrid) return;
 
-    function renderStamps(balance = 0) {
+    function renderStamps(balance = 0, historyStamps = [], isNewWelcome = false) {
       stampsGrid.innerHTML = '';
       stampsCountEl.textContent = balance;
       const count = Math.min(10, Math.max(0, balance));
 
+      // Mapear iconos según la festividad histórica de cada sello
+      const getStampTheme = (index) => {
+        if (historyStamps[index - 1]) {
+          const fest = historyStamps[index - 1].festivity || historyStamps[index - 1].theme;
+          if (fest === 'halloween') return { icon: '🎃', class: 'theme-halloween' };
+          if (fest === 'navidad') return { icon: '🎄', class: 'theme-navidad' };
+          if (fest === 'standard') return { icon: '⚡', class: 'theme-standard' };
+        }
+        // Fallback al tema de festividad activa de la página si fue otorgado ahora
+        const currentFest = document.documentElement.getAttribute('data-festivity');
+        if (currentFest === 'halloween') return { icon: '🎃', class: 'theme-halloween' };
+        if (currentFest === 'navidad') return { icon: '🎄', class: 'theme-navidad' };
+        return { icon: '⚡', class: 'theme-standard' };
+      };
+
       for (let i = 1; i <= 10; i++) {
         const stamp = document.createElement('div');
         const isFilled = i <= count;
-        stamp.className = `stamp-slot ${isFilled ? 'filled' : ''} ${i === 10 ? 'jackpot' : ''}`;
+        const theme = isFilled ? getStampTheme(i) : { icon: '', class: '' };
+        const isNewBonus = isNewWelcome && i === 1;
+
+        stamp.className = `stamp-slot ${isFilled ? 'filled ' + theme.class : ''} ${i === 10 ? 'jackpot' : ''} ${isNewBonus ? 'stamp-pop-animation' : ''}`;
         stamp.innerHTML = `
           <div class="stamp-circle">
-            ${isFilled ? '⚡' : `<span class="stamp-num">${i}</span>`}
+            ${isFilled ? theme.icon : `<span class="stamp-num">${i}</span>`}
           </div>
           <span class="stamp-label">${i === 5 ? 'S/ 5 OFF' : (i === 10 ? '¡MES GRATIS!' : `Sello ${i}`)}</span>
         `;
         stampsGrid.appendChild(stamp);
       }
 
-      if (balance >= 10) {
+      if (isNewWelcome) {
+        rewardStatus.innerHTML = '🎁 <strong>¡BIENVENIDO A KAZUSTORE!</strong> Te regalamos tu <strong>1.er KazuPunto GRATIS</strong> por unirte a nuestro Club.';
+        claimBtn.classList.add('hidden');
+      } else if (balance >= 10) {
         rewardStatus.innerHTML = '🎉 <strong>¡FELICIDADES!</strong> Has completado tu tarjeta. Tienes <strong>1 Mes Gratis</strong> disponible para canjear.';
         claimBtn.classList.remove('hidden');
         claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo canjear mi premio de 1 MES GRATIS.`)}`;
@@ -564,6 +585,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         let client = null;
+        let isNewClient = false;
+
         if (window.kazuDb && typeof window.kazuDb.getClientCard === 'function') {
           client = await window.kazuDb.getClientCard(phone);
         }
@@ -574,18 +597,55 @@ document.addEventListener('DOMContentLoaded', () => {
           const userStamps = offlineLedger.filter(s => s.phone && s.phone.includes(phone));
           const totalOffline = userStamps.reduce((acc, curr) => acc + (curr.amount || 0), 0);
           if (totalOffline > 0) {
-            client = { stamps_balance: totalOffline, nickname: 'Cliente KazuStore' };
+            client = { stamps_balance: totalOffline, nickname: 'Cliente KazuStore', ledger: userStamps };
           }
         }
 
-        if (client) {
-          const balance = client.stamps_balance || 0;
-          clientTag.textContent = client.nickname || `WhatsApp: ${phone}`;
-          renderStamps(balance);
-        } else {
-          clientTag.textContent = `WhatsApp: ${phone} (Nuevo)`;
-          renderStamps(0);
+        // SI ES NUEVO (no existe registro previo), REGALAR EL 1ER SELLO AUTOMÁTICAMENTE
+        if (!client) {
+          isNewClient = true;
+          const welcomeRes = await window.kazuDb?.claimWelcomeStamp(phone);
+          const currentFest = document.documentElement.getAttribute('data-festivity') || 'standard';
+
+          // Guardar también en LocalStorage offline por si acaso
+          const offlineLedger = JSON.parse(localStorage.getItem('kazustore_pending_stamps_v1') || '[]');
+          const welcomeEntry = {
+            phone: phone,
+            amount: 1,
+            action: 'earned',
+            reason: '🎁 Sello Gratis de Bienvenida KazuPuntos',
+            festivity: currentFest,
+            offline: true,
+            id: 'welcome_' + Date.now()
+          };
+          offlineLedger.push(welcomeEntry);
+          localStorage.setItem('kazustore_pending_stamps_v1', JSON.stringify(offlineLedger));
+
+          client = {
+            stamps_balance: 1,
+            nickname: '¡Bienvenido(a) a KazuPuntos!',
+            ledger: [welcomeEntry]
+          };
         }
+
+        const balance = client.stamps_balance || 0;
+        clientTag.textContent = client.nickname || `WhatsApp: ${phone}`;
+
+        // Extraer historial individual de cada sello ganado
+        const historyStamps = [];
+        if (client.ledger && Array.isArray(client.ledger)) {
+          client.ledger.forEach(entry => {
+            if (entry.action === 'earned') {
+              const count = Math.max(1, entry.amount || 1);
+              for (let k = 0; k < count; k++) {
+                historyStamps.push({ festivity: entry.festivity || 'standard' });
+              }
+            }
+          });
+        }
+
+        renderStamps(balance, historyStamps, isNewClient);
+
       } catch (e) {
         console.warn('Error al consultar KazuPuntos:', e);
         renderStamps(0);

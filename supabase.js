@@ -28,13 +28,75 @@ window.kazuDb = {
     async getClientCard(phone) {
         const client = getClient();
         if (!client || !phone) return null;
-        const { data, error } = await client
-            .from('clients')
-            .select('id, phone, nickname, stamps_balance')
-            .eq('phone', phone.trim())
-            .maybeSingle();
-        if (error) return null;
-        return data;
+        const cleanPhone = phone.trim();
+        try {
+            const { data, error } = await client
+                .from('clients')
+                .select('id, phone, nickname, stamps_balance')
+                .eq('phone', cleanPhone)
+                .maybeSingle();
+
+            if (error) return null;
+            if (!data) return null;
+
+            // Obtener historial de sellos para preservar estilo festivo histórico
+            const { data: ledger } = await client
+                .from('stamps_ledger')
+                .select('id, amount, action, reason, festivity, created_at')
+                .eq('client_id', data.id)
+                .order('created_at', { ascending: true });
+
+            return {
+                ...data,
+                ledger: ledger || []
+            };
+        } catch {
+            return null;
+        }
+    },
+
+    async claimWelcomeStamp(phone) {
+        const client = getClient();
+        const cleanPhone = (phone || "").trim().replace(/[^\d+]/g, "");
+        if (!cleanPhone || cleanPhone.length < 8) return null;
+
+        try {
+            // Verificar si el cliente ya existe
+            let { data: existing } = await client
+                .from('clients')
+                .select('id, stamps_balance')
+                .eq('phone', cleanPhone)
+                .maybeSingle();
+
+            if (existing) {
+                // Ya existe, no califica para bienvenida de nuevo
+                return { isNew: false, client: existing };
+            }
+
+            // Cliente 100% nuevo: crear y otorgar 1er sello gratis de bienvenida
+            const activeFestivity = document.documentElement.getAttribute('data-festivity') || 'standard';
+            const { data: newClient, error: clientErr } = await client
+                .from('clients')
+                .insert([{ phone: cleanPhone, stamps_balance: 1, nickname: 'Miembro VIP' }])
+                .select()
+                .single();
+
+            if (clientErr) throw clientErr;
+
+            await client.from('stamps_ledger').insert([{
+                client_id: newClient.id,
+                amount: 1,
+                action: 'earned',
+                reason: '🎁 Sello Gratis de Bienvenida KazuPuntos',
+                festivity: activeFestivity,
+                balance_after: 1
+            }]);
+
+            return { isNew: true, client: newClient, festivity: activeFestivity };
+        } catch (e) {
+            console.warn("Fallo al registrar bienvenida en Supabase, aplicando localmente:", e);
+            return { isNew: true, offline: true };
+        }
     },
 
     async registerOrGetClient(phone, nickname) {
