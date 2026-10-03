@@ -1866,6 +1866,255 @@ html[data-theme="dark"] .icon-sun { display: none; }
   margin-top: 2px;
 }
 
+/* 8.5. SECCIÓN KAZUPUNTOS (TARJETA DIGITAL DE SELLOS & FIDELIDAD) */
+.kazupuntos-section {
+  position: relative;
+  z-index: 1;
+  padding: 4.5rem 0 3.5rem;
+  background: radial-gradient(circle at 50% 10%, rgba(0, 230, 118, 0.08) 0%, transparent 70%);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.kazupuntos-card-container {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.kazupuntos-badge {
+  display: inline-block;
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  color: var(--accent-emerald);
+  padding: 0.35rem 0.95rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.kazupuntos-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.kazupuntos-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 1.75rem;
+}
+
+.kazupuntos-search-box {
+  display: flex;
+  gap: 0.65rem;
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  flex-wrap: wrap;
+}
+
+.kazupuntos-search-box input {
+  flex: 1;
+  min-width: 220px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 0.75rem 1.25rem;
+  color: #fff;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.kazupuntos-search-box input:focus {
+  border-color: var(--accent-emerald);
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.25);
+}
+
+.btn-kazupuntos {
+  background: var(--accent-gradient);
+  color: #07090e;
+  font-weight: 700;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-spring), box-shadow var(--transition-fast);
+}
+
+.btn-kazupuntos:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 230, 118, 0.35);
+}
+
+/* Tarjeta Digital KazuPuntos */
+.digital-stamp-card {
+  background: linear-gradient(145deg, rgba(14, 22, 36, 0.95) 0%, rgba(8, 13, 22, 0.98) 100%);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--accent-glow);
+  text-align: left;
+}
+
+.stamp-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.stamp-card-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.stamp-icon {
+  font-size: 2rem;
+}
+
+.stamp-card-brand strong {
+  display: block;
+  font-size: 1.15rem;
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  color: #fff;
+}
+
+.stamp-card-brand small {
+  color: var(--accent-emerald);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.stamp-balance-badge {
+  background: rgba(0, 230, 118, 0.15);
+  border: 1px solid var(--border-glow);
+  color: var(--accent-emerald);
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+/* Grilla de 10 Sellos */
+.stamps-grid-10 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 580px) {
+  .stamps-grid-10 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+}
+
+.stamp-slot {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.stamp-slot.filled {
+  background: rgba(0, 230, 118, 0.08);
+  border: 1px solid var(--accent-emerald);
+  box-shadow: 0 0 14px rgba(0, 230, 118, 0.2);
+}
+
+.stamp-slot.jackpot {
+  border-color: rgba(0, 242, 254, 0.6);
+}
+
+.stamp-slot.jackpot.filled {
+  background: rgba(0, 242, 254, 0.12);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 16px rgba(0, 242, 254, 0.35);
+}
+
+.stamp-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: grid;
+  place-items: center;
+  font-size: 1.25rem;
+}
+
+.stamp-slot.filled .stamp-circle {
+  background: var(--accent-gradient);
+  color: #07090e;
+  box-shadow: 0 4px 10px rgba(0, 230, 118, 0.4);
+}
+
+.stamp-num {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-faint);
+}
+
+.stamp-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.stamp-slot.filled .stamp-label {
+  color: var(--accent-emerald);
+}
+
+.stamp-card-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  text-align: center;
+}
+
+.stamp-card-footer p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.btn-claim-reward {
+  background: #25d366;
+  color: #07090e;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform var(--transition-spring), box-shadow var(--transition-fast);
+}
+
+.btn-claim-reward:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+}
+
 /* 9. FOOTER PROFESIONAL */
 .app-footer {
   position: relative;

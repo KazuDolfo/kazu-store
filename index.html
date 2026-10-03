@@ -67,6 +67,7 @@
       <nav class="header-actions" aria-label="Acciones principales">
         <a href="#catalogo" class="nav-link">Catálogo</a>
         <a href="#garantia" class="nav-link">Garantía & Soporte</a>
+        <a href="#kazupuntos" class="nav-link" id="nav-link-kazupuntos">🎁 KazuPuntos</a>
 
         <!-- Botón de Conmutación de Tema Claro / Oscuro -->
         <button type="button" class="theme-toggle-btn" id="theme-toggle-btn" aria-label="Cambiar entre tema claro y oscuro" title="Cambiar tema">
@@ -461,6 +462,54 @@
           </div>
         </div>
       </div>
+    <!-- Sección KazuPuntos: Tarjeta Digital de Fidelidad & Recompensas -->
+    <section class="kazupuntos-section" id="kazupuntos">
+      <div class="container">
+        <div class="kazupuntos-card-container">
+          <div class="kazupuntos-header">
+            <span class="kazupuntos-badge">✨ CLUB DE BENEFICIOS OFICIAL</span>
+            <h2 class="kazupuntos-title">Tu Tarjeta Digital <span class="gradient-text">KazuPuntos</span></h2>
+            <p class="kazupuntos-desc">Cada compra y renovación te premia. Acumula sellos digitales y canjea meses gratis, upgrades y descuentos directos en WhatsApp.</p>
+          </div>
+
+          <!-- Buscador o Verificador de Teléfono -->
+          <div class="kazupuntos-search-box">
+            <label for="kp-client-phone" class="sr-only">Tu número de WhatsApp</label>
+            <input type="tel" id="kp-client-phone" placeholder="Ingresa tu WhatsApp (Ej: 987654321)" maxlength="15" autocomplete="tel">
+            <button type="button" class="btn btn-kazupuntos" id="kp-search-btn">
+              <span>Consultar Mis Puntos</span>
+            </button>
+          </div>
+
+          <!-- Visualizador de Tarjeta de Sellos (10 Sellos) -->
+          <div class="digital-stamp-card" id="digital-stamp-card">
+            <div class="stamp-card-top">
+              <div class="stamp-card-brand">
+                <span class="stamp-icon">🎁</span>
+                <div>
+                  <strong>KAZUPUNTOS CLUB</strong>
+                  <small id="kp-client-tag">Cliente Frecuente</small>
+                </div>
+              </div>
+              <div class="stamp-balance-badge">
+                <span id="kp-stamps-count">0</span> / 10 PUNTOS
+              </div>
+            </div>
+
+            <!-- Grilla de 10 Sellos -->
+            <div class="stamps-grid-10" id="stamps-grid-10" role="group" aria-label="Sellos acumulados">
+              <!-- Renderizado dinámico de 10 sellos -->
+            </div>
+
+            <div class="stamp-card-footer">
+              <p id="kp-reward-status">¡Acumula 5 puntos para S/ 5.00 de descuento o 10 puntos para 1 mes de servicio gratis!</p>
+              <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-claim-reward hidden" id="kp-claim-btn">
+                <span>🎉 Canjear Premio por WhatsApp</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -512,6 +561,8 @@
   </footer>
 
   <!-- Scripts Vanilla Modulares -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
   <script src="data.js"></script>
   <script src="canvas.js"></script>
   <script src="app.js"></script>

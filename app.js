@@ -508,5 +508,118 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Render inicial
   renderProducts();
+
+  // 9. Módulo KazuPuntos: Tarjeta Digital de Sellos & Recompensas
+  function initKazuPuntos() {
+    const phoneInput = document.getElementById('kp-client-phone');
+    const searchBtn = document.getElementById('kp-search-btn');
+    const stampsGrid = document.getElementById('stamps-grid-10');
+    const stampsCountEl = document.getElementById('kp-stamps-count');
+    const clientTag = document.getElementById('kp-client-tag');
+    const rewardStatus = document.getElementById('kp-reward-status');
+    const claimBtn = document.getElementById('kp-claim-btn');
+
+    if (!stampsGrid) return;
+
+    function renderStamps(balance = 0) {
+      stampsGrid.innerHTML = '';
+      stampsCountEl.textContent = balance;
+      const count = Math.min(10, Math.max(0, balance));
+
+      for (let i = 1; i <= 10; i++) {
+        const stamp = document.createElement('div');
+        const isFilled = i <= count;
+        stamp.className = `stamp-slot ${isFilled ? 'filled' : ''} ${i === 10 ? 'jackpot' : ''}`;
+        stamp.innerHTML = `
+          <div class="stamp-circle">
+            ${isFilled ? '⚡' : `<span class="stamp-num">${i}</span>`}
+          </div>
+          <span class="stamp-label">${i === 5 ? 'S/ 5 OFF' : (i === 10 ? '¡MES GRATIS!' : `Sello ${i}`)}</span>
+        `;
+        stampsGrid.appendChild(stamp);
+      }
+
+      if (balance >= 10) {
+        rewardStatus.innerHTML = '🎉 <strong>¡FELICIDADES!</strong> Has completado tu tarjeta. Tienes <strong>1 Mes Gratis</strong> disponible para canjear.';
+        claimBtn.classList.remove('hidden');
+        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo canjear mi premio de 1 MES GRATIS.`)}`;
+      } else if (balance >= 5) {
+        rewardStatus.innerHTML = `⭐ Tienes <strong>${balance} KazuPuntos</strong>. Ya calificas para <strong>S/ 5.00 de Descuento</strong> en tu próxima renovación o compra.`;
+        claimBtn.classList.remove('hidden');
+        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo aplicar mi descuento de S/ 5.00 en mi compra.`)}`;
+      } else {
+        rewardStatus.textContent = `Acumulas 1 KazuPunto por cada compra o renovación. Te faltan ${5 - balance} para tu primer descuento.`;
+        claimBtn.classList.add('hidden');
+      }
+    }
+
+    async function checkClientPoints(rawPhone) {
+      if (!rawPhone) return;
+      const phone = rawPhone.replace(/[^\d+]/g, '');
+      if (phone.length < 8) return;
+
+      phoneInput.value = phone;
+      searchBtn.disabled = true;
+      searchBtn.innerHTML = '<span>Consultando...</span>';
+
+      try {
+        let client = null;
+        if (window.kazuDb && typeof window.kazuDb.getClientCard === 'function') {
+          client = await window.kazuDb.getClientCard(phone);
+        }
+
+        // Si no está en Supabase, verificar si existe en LocalStorage offline
+        if (!client) {
+          const offlineLedger = JSON.parse(localStorage.getItem('kazustore_pending_stamps_v1') || '[]');
+          const userStamps = offlineLedger.filter(s => s.phone && s.phone.includes(phone));
+          const totalOffline = userStamps.reduce((acc, curr) => acc + (curr.amount || 0), 0);
+          if (totalOffline > 0) {
+            client = { stamps_balance: totalOffline, nickname: 'Cliente KazuStore' };
+          }
+        }
+
+        if (client) {
+          const balance = client.stamps_balance || 0;
+          clientTag.textContent = client.nickname || `WhatsApp: ${phone}`;
+          renderStamps(balance);
+        } else {
+          clientTag.textContent = `WhatsApp: ${phone} (Nuevo)`;
+          renderStamps(0);
+        }
+      } catch (e) {
+        console.warn('Error al consultar KazuPuntos:', e);
+        renderStamps(0);
+      } finally {
+        searchBtn.disabled = false;
+        searchBtn.innerHTML = '<span>Consultar Mis Puntos</span>';
+      }
+    }
+
+    searchBtn?.addEventListener('click', () => {
+      checkClientPoints(phoneInput.value.trim());
+    });
+
+    phoneInput?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        checkClientPoints(phoneInput.value.trim());
+      }
+    });
+
+    // Detección automática por URL query: ?tel=987654321
+    const urlParams = new URLSearchParams(window.location.search);
+    const telParam = urlParams.get('tel') || urlParams.get('phone');
+    if (telParam) {
+      checkClientPoints(telParam);
+      // Auto-scroll suave hacia la tarjeta
+      setTimeout(() => {
+        document.getElementById('kazupuntos')?.scrollIntoView({ behavior: 'smooth' });
+      }, 500);
+    } else {
+      renderStamps(0);
+    }
+  }
+
+  initKazuPuntos();
 });
 
