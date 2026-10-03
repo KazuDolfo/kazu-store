@@ -552,7 +552,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="stamp-circle">
             ${isFilled ? theme.icon : `<span class="stamp-num">${i}</span>`}
           </div>
-          <span class="stamp-label">${i === 5 ? 'S/ 5 OFF' : (i === 10 ? '¡MES GRATIS!' : `Sello ${i}`)}</span>
+          <span class="stamp-label">${i === 5 ? 'S/ 3 OFF' : (i === 10 ? 'S/ 8 CRÉDITO' : `Sello ${i}`)}</span>
         `;
         stampsGrid.appendChild(stamp);
       }
@@ -561,15 +561,15 @@ document.addEventListener('DOMContentLoaded', () => {
         rewardStatus.innerHTML = '🎁 <strong>¡BIENVENIDO A KAZUSTORE!</strong> Te regalamos tu <strong>1.er KazuPunto GRATIS</strong> por unirte a nuestro Club.';
         claimBtn.classList.add('hidden');
       } else if (balance >= 10) {
-        rewardStatus.innerHTML = '🎉 <strong>¡FELICIDADES!</strong> Has completado tu tarjeta. Tienes <strong>1 Mes Gratis</strong> disponible para canjear.';
+        rewardStatus.innerHTML = '🎉 <strong>¡FELICIDADES!</strong> Has completado tu tarjeta. Tienes hasta <strong>S/ 8.00 de Crédito</strong> en tu próxima renovación mensual.';
         claimBtn.classList.remove('hidden');
-        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo canjear mi premio de 1 MES GRATIS.`)}`;
+        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo canjear mi crédito de S/ 8.00 en la renovación de mi servicio mensual.`)}`;
       } else if (balance >= 5) {
-        rewardStatus.innerHTML = `⭐ Tienes <strong>${balance} KazuPuntos</strong>. Ya calificas para <strong>S/ 5.00 de Descuento</strong> en tu próxima renovación o compra.`;
+        rewardStatus.innerHTML = `⭐ Tienes <strong>${balance} KazuPuntos</strong>. Ya calificas para <strong>S/ 3.00 de Descuento</strong> en tu próxima renovación (mínimo S/ 15.00).`;
         claimBtn.classList.remove('hidden');
-        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo aplicar mi descuento de S/ 5.00 en mi compra.`)}`;
+        claimBtn.href = `https://wa.me/${KAZU_CONFIG.whatsappNumber}?text=${encodeURIComponent(`¡Hola KazuStore! Tengo ${balance} KazuPuntos acumulados y deseo aplicar mi cupón de S/ 3.00 OFF en mi renovación o compra.`)}`;
       } else {
-        rewardStatus.textContent = `Acumulas 1 KazuPunto por cada compra o renovación. Te faltan ${5 - balance} para tu primer descuento.`;
+        rewardStatus.textContent = `Acumulas 1 KazuPunto por cada compra o renovación. Te faltan ${5 - balance} para tu primer cupón de descuento.`;
         claimBtn.classList.add('hidden');
       }
     }
