@@ -2895,6 +2895,46 @@ html[data-theme="light"] .stamp-slot.filled .stamp-label {
   color: #059669 !important;
 }
 
+/* Sello Halloween en Tema Claro */
+html[data-theme="light"] .stamp-slot.filled.theme-halloween {
+  background: rgba(249, 115, 22, 0.1) !important;
+  border-color: #ea580c !important;
+  box-shadow: 0 4px 14px rgba(234, 88, 12, 0.22) !important;
+}
+
+html[data-theme="light"] .stamp-slot.filled.theme-halloween .stamp-label {
+  color: #c2410c !important;
+}
+
+/* Sello Navidad en Tema Claro */
+html[data-theme="light"] .stamp-slot.filled.theme-navidad {
+  background: rgba(239, 68, 68, 0.1) !important;
+  border-color: #dc2626 !important;
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.22) !important;
+}
+
+html[data-theme="light"] .stamp-slot.filled.theme-navidad .stamp-label {
+  color: #b91c1c !important;
+}
+
+/* Sello Estándar en Tema Claro */
+html[data-theme="light"] .stamp-slot.filled.theme-standard {
+  background: rgba(14, 165, 233, 0.1) !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 4px 14px rgba(2, 132, 199, 0.22) !important;
+}
+
+html[data-theme="light"] .stamp-slot.filled.theme-standard .stamp-label {
+  color: #0369a1 !important;
+}
+
+/* Sello 10 Jackpot en Tema Claro */
+html[data-theme="light"] .stamp-slot.jackpot.filled {
+  background: linear-gradient(135deg, rgba(2, 132, 199, 0.12) 0%, rgba(5, 150, 105, 0.15) 100%) !important;
+  border-color: #0284c7 !important;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.25) !important;
+}
+
 html[data-theme="light"] .referral-client-dashboard {
   background: #f0fdf4 !important;
   border-color: rgba(5, 150, 105, 0.25) !important;
