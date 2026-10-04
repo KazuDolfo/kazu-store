@@ -2389,22 +2389,41 @@ html[data-theme="dark"] .icon-sun { display: none; }
   color: #34d399;
 }
 
-.kp-feedback-action-btn {
-  background: currentColor;
+.kp-feedback-banner.info .kp-feedback-action-btn {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+}
+
+.kp-feedback-banner.warning .kp-feedback-action-btn {
+  background: #f59e0b !important;
   color: #07090e !important;
-  font-weight: 700;
-  font-size: 0.82rem;
-  padding: 0.4rem 0.85rem;
+  box-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+}
+
+.kp-feedback-banner.success .kp-feedback-action-btn {
+  background: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(5, 150, 105, 0.4);
+}
+
+.kp-feedback-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
   border-radius: var(--radius-sm);
   border: none;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition: transform 0.15s ease, filter 0.15s ease;
 }
 
 .kp-feedback-action-btn:hover {
-  opacity: 0.9;
-  transform: scale(1.04);
+  filter: brightness(1.15);
+  transform: translateY(-1px) scale(1.03);
 }
 
 /* 9. FOOTER PROFESIONAL */
