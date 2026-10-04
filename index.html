@@ -497,10 +497,14 @@
             <button type="button" class="btn btn-kazupuntos" id="kp-search-btn">
               <span>Consultar Mis Puntos</span>
             </button>
+            <button type="button" class="btn btn-kp-toggle" id="kp-toggle-card-btn" aria-expanded="false" aria-controls="digital-stamp-card">
+              <span id="kp-toggle-icon">👁️</span>
+              <span id="kp-toggle-text">Ver Tarjeta</span>
+            </button>
           </div>
 
-          <!-- Visualizador de Tarjeta de Sellos (10 Sellos) -->
-          <div class="digital-stamp-card" id="digital-stamp-card">
+          <!-- Visualizador Dinámico de Tarjeta de Sellos (Colapsable / Ocultable) -->
+          <div class="digital-stamp-card kp-collapsed" id="digital-stamp-card" aria-hidden="true">
             <div class="stamp-card-top">
               <div class="stamp-card-brand">
                 <span class="stamp-icon">🎁</span>
@@ -516,6 +520,7 @@
                 <div class="stamp-credits-badge" id="kp-credits-badge" title="Saldo disponible por amigos recomendados">
                   💰 Crédito: <strong id="kp-credits-amount">S/ 0.00</strong>
                 </div>
+                <button type="button" class="btn-kp-close" id="kp-close-card-btn" aria-label="Ocultar Tarjeta de Puntos" title="Ocultar Tarjeta">✕</button>
               </div>
             </div>
 

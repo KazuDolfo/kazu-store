@@ -529,6 +529,45 @@ document.addEventListener('DOMContentLoaded', () => {
     const refFriendsCountEl = document.getElementById('kp-ref-friends-count');
     const copyRefBtn = document.getElementById('kp-copy-ref-link');
 
+    // Elementos interactivos para Mostrar/Ocultar Tarjeta
+    const stampCard = document.getElementById('digital-stamp-card');
+    const toggleCardBtn = document.getElementById('kp-toggle-card-btn');
+    const toggleCardIcon = document.getElementById('kp-toggle-icon');
+    const toggleCardText = document.getElementById('kp-toggle-text');
+    const closeCardBtn = document.getElementById('kp-close-card-btn');
+
+    function setCardVisibility(show, shouldScroll = false) {
+      if (!stampCard) return;
+      if (show) {
+        stampCard.classList.remove('kp-collapsed');
+        stampCard.setAttribute('aria-hidden', 'false');
+        toggleCardBtn?.setAttribute('aria-expanded', 'true');
+        if (toggleCardIcon) toggleCardIcon.textContent = '🙈';
+        if (toggleCardText) toggleCardText.textContent = 'Ocultar Tarjeta';
+        if (shouldScroll) {
+          setTimeout(() => {
+            stampCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 150);
+        }
+      } else {
+        stampCard.classList.add('kp-collapsed');
+        stampCard.setAttribute('aria-hidden', 'true');
+        toggleCardBtn?.setAttribute('aria-expanded', 'false');
+        if (toggleCardIcon) toggleCardIcon.textContent = '👁️';
+        if (toggleCardText) toggleCardText.textContent = 'Ver Tarjeta';
+      }
+    }
+
+    toggleCardBtn?.addEventListener('click', () => {
+      const isCollapsed = stampCard?.classList.contains('kp-collapsed');
+      setCardVisibility(isCollapsed, isCollapsed);
+    });
+
+    closeCardBtn?.addEventListener('click', () => {
+      setCardVisibility(false);
+      toggleCardBtn?.focus();
+    });
+
     let currentMode = 'existing'; // 'existing' | 'new'
 
     tabExisting?.addEventListener('click', () => {
@@ -709,10 +748,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         renderStamps(balance, historyStamps, isNewClient, client);
+        setCardVisibility(true, true);
 
       } catch (e) {
         console.warn('Error al consultar KazuPuntos:', e);
         renderStamps(0);
+        setCardVisibility(true, true);
       } finally {
         searchBtn.disabled = false;
         searchBtn.innerHTML = currentMode === 'new' 

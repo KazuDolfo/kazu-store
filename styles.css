@@ -2083,7 +2083,48 @@ html[data-theme="dark"] .icon-sun { display: none; }
   margin: 0;
 }
 
-/* Tarjeta Digital KazuPuntos */
+/* Botón Toggle Interactivo KazuPuntos */
+.btn-kp-toggle {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-glow);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-kp-toggle:hover {
+  background: rgba(0, 230, 118, 0.15);
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+}
+
+.btn-kp-close {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-kp-close:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border-color: #ef4444;
+}
+
+/* Tarjeta Digital KazuPuntos (Dinámica con Apertura/Cierre Suave) */
 .digital-stamp-card {
   background: linear-gradient(145deg, rgba(14, 22, 36, 0.95) 0%, rgba(8, 13, 22, 0.98) 100%);
   border: 1px solid rgba(0, 230, 118, 0.35);
@@ -2091,6 +2132,24 @@ html[data-theme="dark"] .icon-sun { display: none; }
   padding: 2rem;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--accent-glow);
   text-align: left;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), max-height 0.4s ease, margin 0.4s ease, padding 0.4s ease;
+  max-height: 1800px;
+  overflow: hidden;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.digital-stamp-card.kp-collapsed {
+  max-height: 0 !important;
+  opacity: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  border-color: transparent !important;
+  transform: translateY(-12px);
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .stamp-card-top {
@@ -2501,6 +2560,7 @@ html[data-theme="light"] .hero-title,
 html[data-theme="light"] .section-title,
 html[data-theme="light"] .product-title,
 html[data-theme="light"] .step-card h3,
+html[data-theme="light"] .trust-info strong,
 html[data-theme="light"] .payment-banner-title,
 html[data-theme="light"] .modal-title,
 html[data-theme="light"] .modal-specs-title,
@@ -2512,13 +2572,13 @@ html[data-theme="light"] .hero-description,
 html[data-theme="light"] .section-subtitle,
 html[data-theme="light"] .product-desc,
 html[data-theme="light"] .step-card p,
+html[data-theme="light"] .trust-info span,
 html[data-theme="light"] .payment-banner-desc,
 html[data-theme="light"] .footer-desc,
 html[data-theme="light"] .sugg-desc {
   color: #334e68 !important;
 }
 
-html[data-theme="light"] .product-card,
 html[data-theme="light"] .step-card,
 html[data-theme="light"] .trust-card,
 html[data-theme="light"] .payment-methods-banner,
@@ -2529,7 +2589,15 @@ html[data-theme="light"] .modal-content {
   box-shadow: 0 10px 30px rgba(2, 132, 199, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 
-html[data-theme="light"] .product-card::after {
+/* Tarjetas de Producto en Tema Claro */
+html[data-theme="light"] .product-card {
+  background: #ffffff !important;
+  border-color: rgba(2, 132, 199, 0.22) !important;
+  box-shadow: 0 10px 24px rgba(2, 132, 199, 0.08) !important;
+}
+
+/* Máscara interior en tema claro solo si no hay festividad activa que use ::after */
+html[data-theme="light"]:not([data-festivity="halloween"]) .product-card::after {
   background: #ffffff !important;
 }
 
@@ -2694,3 +2762,178 @@ html[data-theme="light"] .modal-close:hover {
   background: rgba(2, 132, 199, 0.16) !important;
   color: #0c1a30 !important;
 }
+
+/* 10. MÓDULO KAZUPUNTOS EN TEMA CLARO (ALTO CONTRASTE Y LEGIBILIDAD) */
+html[data-theme="light"] .kazupuntos-section {
+  background: radial-gradient(circle at 50% 10%, rgba(2, 132, 199, 0.08) 0%, #f8fafc 70%) !important;
+  border-top-color: rgba(2, 132, 199, 0.18) !important;
+}
+
+html[data-theme="light"] .kazupuntos-badge {
+  background: rgba(5, 150, 105, 0.1) !important;
+  border-color: rgba(5, 150, 105, 0.3) !important;
+  color: #059669 !important;
+}
+
+html[data-theme="light"] .kazupuntos-title {
+  color: #0c1a30 !important;
+}
+
+html[data-theme="light"] .kazupuntos-desc {
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .kp-tab-btn {
+  background: #ffffff !important;
+  border-color: rgba(2, 132, 199, 0.2) !important;
+  color: #334e68 !important;
+  box-shadow: 0 2px 8px rgba(2, 132, 199, 0.04) !important;
+}
+
+html[data-theme="light"] .kp-tab-btn:hover {
+  background: #f0f7ff !important;
+  color: #0c1a30 !important;
+}
+
+html[data-theme="light"] .kp-tab-btn.active {
+  background: linear-gradient(135deg, #059669 0%, #0284c7 100%) !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(5, 150, 105, 0.25) !important;
+}
+
+html[data-theme="light"] .kazupuntos-search-box input {
+  background: #ffffff !important;
+  color: #0c1a30 !important;
+  border-color: rgba(2, 132, 199, 0.25) !important;
+  box-shadow: 0 4px 16px rgba(2, 132, 199, 0.06) !important;
+}
+
+html[data-theme="light"] .kazupuntos-search-box input::placeholder {
+  color: #94a3b8 !important;
+}
+
+html[data-theme="light"] .btn-kp-toggle {
+  background: #ffffff !important;
+  color: #0c1a30 !important;
+  border-color: rgba(2, 132, 199, 0.28) !important;
+  box-shadow: 0 3px 12px rgba(2, 132, 199, 0.06) !important;
+}
+
+html[data-theme="light"] .btn-kp-toggle:hover {
+  background: #f0f7ff !important;
+  border-color: #0284c7 !important;
+  color: #0284c7 !important;
+}
+
+html[data-theme="light"] .digital-stamp-card {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) !important;
+  border-color: rgba(5, 150, 105, 0.3) !important;
+  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.1), 0 0 20px rgba(5, 150, 105, 0.08) !important;
+}
+
+html[data-theme="light"] .stamp-card-brand strong {
+  color: #0c1a30 !important;
+}
+
+html[data-theme="light"] .stamp-card-brand small {
+  color: #059669 !important;
+}
+
+html[data-theme="light"] .stamp-balance-badge {
+  background: rgba(5, 150, 105, 0.1) !important;
+  border-color: rgba(5, 150, 105, 0.3) !important;
+  color: #059669 !important;
+}
+
+html[data-theme="light"] .stamp-credits-badge {
+  background: rgba(2, 132, 199, 0.1) !important;
+  border-color: rgba(2, 132, 199, 0.3) !important;
+  color: #0284c7 !important;
+}
+
+html[data-theme="light"] .stamp-credits-badge strong {
+  color: #0c1a30 !important;
+}
+
+html[data-theme="light"] .btn-kp-close {
+  background: #f1f5f9 !important;
+  border-color: rgba(2, 132, 199, 0.15) !important;
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .btn-kp-close:hover {
+  background: #fee2e2 !important;
+  border-color: #ef4444 !important;
+  color: #dc2626 !important;
+}
+
+html[data-theme="light"] .stamp-slot {
+  background: #ffffff !important;
+  border-color: rgba(2, 132, 199, 0.22) !important;
+}
+
+html[data-theme="light"] .stamp-circle {
+  background: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .stamp-num {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .stamp-label {
+  color: #64748b !important;
+}
+
+html[data-theme="light"] .stamp-slot.filled {
+  background: rgba(5, 150, 105, 0.08) !important;
+  border-color: #059669 !important;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.18) !important;
+}
+
+html[data-theme="light"] .stamp-slot.filled .stamp-label {
+  color: #059669 !important;
+}
+
+html[data-theme="light"] .referral-client-dashboard {
+  background: #f0fdf4 !important;
+  border-color: rgba(5, 150, 105, 0.25) !important;
+}
+
+html[data-theme="light"] .ref-label {
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .ref-code-text {
+  background: #ffffff !important;
+  color: #0369a1 !important;
+  border-color: rgba(2, 132, 199, 0.35) !important;
+}
+
+html[data-theme="light"] .btn-copy-code {
+  background: #ffffff !important;
+  border-color: rgba(2, 132, 199, 0.25) !important;
+  color: #0c1a30 !important;
+}
+
+html[data-theme="light"] .btn-copy-code:hover {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] .ref-stats-count {
+  color: #059669 !important;
+}
+
+html[data-theme="light"] .ref-help-note {
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .stamp-card-footer {
+  border-top-color: rgba(2, 132, 199, 0.15) !important;
+}
+
+html[data-theme="light"] .stamp-card-footer p {
+  color: #334e68 !important;
+}
+

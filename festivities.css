@@ -392,6 +392,12 @@ html[data-festivity="halloween"] .product-card::after {
   animation: spiderSwing 4s ease-in-out infinite alternate;
 }
 
+/* En tema blanco, hilo de seda visible y araña con drop-shadow nítido */
+html[data-festivity="halloween"][data-theme="light"] .product-card::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 64'%3E%3Cline x1='16' y1='0' x2='16' y2='40' stroke='rgba(15,23,42,0.45)' stroke-width='1.2'/%3E%3Cellipse cx='16' cy='48' rx='7' ry='6' fill='%230f172a' stroke='%23ea580c' stroke-width='1.4'/%3E%3Ccircle cx='16' cy='43' r='4' fill='%23000000'/%3E%3Ccircle cx='14.5' cy='42' r='1' fill='%23dc2626'/%3E%3Ccircle cx='17.5' cy='42' r='1' fill='%23dc2626'/%3E%3Cpath d='M10 46 Q 3 42, 5 36 M10 48 Q 2 48, 4 54 M22 46 Q 29 42, 27 36 M22 48 Q 30 48, 28 54 M11 51 Q 4 58, 8 62 M21 51 Q 28 58, 24 62' stroke='%23ea580c' stroke-width='1.4' fill='none'/%3E%3C/svg%3E") !important;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
+}
+
 @keyframes spiderSwing {
   0% { transform: translateY(0) rotate(-8deg); }
   50% { transform: translateY(8px) rotate(4deg); }
