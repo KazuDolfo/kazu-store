@@ -8,6 +8,9 @@ function getClient() {
     return window._kazuSupabaseClient || null;
 }
 
+// Caché en memoria para evitar re-consultar a Supabase en cada pulsación
+const _cardCache = new Map();
+
 window.kazuDb = {
     getClient,
 
@@ -25,10 +28,18 @@ window.kazuDb = {
         return data;
     },
 
-    async getClientCard(phone) {
+    async getClientCard(phone, forceRefresh = false) {
         const client = getClient();
         if (!client || !phone) return null;
         const cleanPhone = phone.trim().replace(/[^\d+]/g, '');
+        if (!cleanPhone) return null;
+
+        // Retornar de inmediato si ya fue consultado recientemente (< 60 segundos)
+        const cached = _cardCache.get(cleanPhone);
+        if (!forceRefresh && cached && (Date.now() - cached.timestamp < 60000)) {
+            return cached.data;
+        }
+
         try {
             const { data, error } = await client
                 .from('clients')
@@ -61,16 +72,19 @@ window.kazuDb = {
             // Amigos calificados: tienen 2 o más sellos (compra completada)
             const qualifiedFriends = refFriends.filter(f => (f.stamps_balance || 0) >= 2);
 
-            return {
+            const cardResult = {
                 ...data,
                 referral_code: userRefCode,
                 referral_credits: data.referral_credits !== undefined && data.referral_credits !== null 
                     ? Number(data.referral_credits) 
                     : qualifiedFriends.length, // Si no hay columna aún, calcula 1 sol por amigo con compra
                 qualified_friends_count: qualifiedFriends.length,
-                total_friends_count: (refFriends || []).length,
-                ledger: ledger || []
+                total_friends_count: refFriends.length,
+                ledger: ledger
             };
+
+            _cardCache.set(cleanPhone, { timestamp: Date.now(), data: cardResult });
+            return cardResult;
         } catch {
             return null;
         }
