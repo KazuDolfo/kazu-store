@@ -43,44 +43,27 @@ window.kazuDb = {
         try {
             const { data, error } = await client
                 .from('clients')
-                .select('id, phone, nickname, stamps_balance, referral_credits, referred_by, referral_code')
+                .select('id, phone, nickname, stamps_balance')
                 .eq('phone', cleanPhone)
                 .maybeSingle();
 
-            if (error) return null;
-            if (!data) return null;
+            if (error || !data) return null;
 
-            // Obtener historial de sellos y amigos referidos en paralelo (50% menos latencia)
-            const userRefCode = data.referral_code || ('KZ-' + cleanPhone.slice(-4));
-            const [ledgerRes, refFriendsRes] = await Promise.all([
-                client
-                    .from('stamps_ledger')
-                    .select('id, amount, action, reason, festivity, created_at')
-                    .eq('client_id', data.id)
-                    .order('created_at', { ascending: true })
-                    .limit(20),
-                client
-                    .from('clients')
-                    .select('id, phone, stamps_balance')
-                    .eq('referred_by', userRefCode)
-                    .limit(50)
-            ]);
-
-            const ledger = ledgerRes.data || [];
-            const refFriends = refFriendsRes.data || [];
-
-            // Amigos calificados: tienen 2 o más sellos (compra completada)
-            const qualifiedFriends = refFriends.filter(f => (f.stamps_balance || 0) >= 2);
+            const userRefCode = 'KZ-' + cleanPhone.slice(-4);
+            const { data: ledger } = await client
+                .from('stamps_ledger')
+                .select('id, amount, action, reason, festivity, created_at')
+                .eq('client_id', data.id)
+                .order('created_at', { ascending: true })
+                .limit(20);
 
             const cardResult = {
                 ...data,
                 referral_code: userRefCode,
-                referral_credits: data.referral_credits !== undefined && data.referral_credits !== null 
-                    ? Number(data.referral_credits) 
-                    : qualifiedFriends.length, // Si no hay columna aún, calcula 1 sol por amigo con compra
-                qualified_friends_count: qualifiedFriends.length,
-                total_friends_count: refFriends.length,
-                ledger: ledger
+                referral_credits: 0,
+                qualified_friends_count: 0,
+                total_friends_count: 0,
+                ledger: ledger || []
             };
 
             _cardCache.set(cleanPhone, { timestamp: Date.now(), data: cardResult });
@@ -99,31 +82,27 @@ window.kazuDb = {
             // Verificar si el cliente ya existe
             let { data: existing } = await client
                 .from('clients')
-                .select('id, stamps_balance, referral_credits')
+                .select('id, phone, nickname, stamps_balance')
                 .eq('phone', cleanPhone)
                 .maybeSingle();
 
             if (existing) {
-                // Ya existe, no califica para bienvenida de nuevo
+                // Ya existe, NO califica para nuevo sello de bienvenida
                 return { isNew: false, client: existing };
             }
 
-            // Generar código de referido propio para este nuevo usuario
             const myRefCode = 'KZ-' + cleanPhone.slice(-4);
-
-            // Cliente 100% nuevo: crear y otorgar 1er sello gratis de bienvenida
             const activeFestivity = document.documentElement.getAttribute('data-festivity') || 'standard';
+
+            // Insertar únicamente las columnas existentes en la tabla
             const { data: newClient, error: clientErr } = await client
                 .from('clients')
                 .insert([{
                     phone: cleanPhone,
                     stamps_balance: 1,
-                    nickname: 'Miembro VIP',
-                    referral_code: myRefCode,
-                    referred_by: refCodeUsed ? String(refCodeUsed).trim().toUpperCase() : null,
-                    referral_credits: 0
+                    nickname: 'Miembro VIP'
                 }])
-                .select()
+                .select('id, phone, nickname, stamps_balance')
                 .single();
 
             if (clientErr) throw clientErr;
@@ -132,15 +111,29 @@ window.kazuDb = {
                 client_id: newClient.id,
                 amount: 1,
                 action: 'earned',
-                reason: refCodeUsed ? `🎁 1er Sello Gratis + Amigo Referido (${refCodeUsed})` : '🎁 Sello Gratis de Bienvenida KazuPuntos',
+                reason: refCodeUsed ? `🎁 1er Sello Gratis + Ref: ${refCodeUsed}` : '🎁 Sello Gratis de Bienvenida KazuPuntos',
                 festivity: activeFestivity,
                 balance_after: 1
             }]);
 
-            return { isNew: true, client: newClient, festivity: activeFestivity, refCode: myRefCode };
+            const newResult = {
+                ...newClient,
+                referral_code: myRefCode,
+                referral_credits: 0,
+                ledger: [{
+                    amount: 1,
+                    action: 'earned',
+                    reason: '🎁 Sello Gratis de Bienvenida KazuPuntos',
+                    festivity: activeFestivity,
+                    created_at: new Date().toISOString()
+                }]
+            };
+
+            _cardCache.set(cleanPhone, { timestamp: Date.now(), data: newResult });
+            return { isNew: true, client: newResult, festivity: activeFestivity, refCode: myRefCode };
         } catch (e) {
             console.warn("Fallo al registrar bienvenida en Supabase, aplicando localmente:", e);
-            return { isNew: true, offline: true, refCode: 'KZ-' + cleanPhone.slice(-4) };
+            return null;
         }
     },
 

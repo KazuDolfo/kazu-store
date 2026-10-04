@@ -2352,6 +2352,61 @@ html[data-theme="dark"] .icon-sun { display: none; }
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
 }
 
+/* Banner Interactivo de Retroalimentación de KazuPuntos */
+.kp-feedback-banner {
+  margin: 1rem 0 1.5rem;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  animation: bannerSlideIn 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: all var(--transition-fast);
+}
+
+@keyframes bannerSlideIn {
+  0% { opacity: 0; transform: translateY(-8px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.kp-feedback-banner.info {
+  background: rgba(2, 132, 199, 0.12);
+  border: 1px solid rgba(2, 132, 199, 0.4);
+  color: #38bdf8;
+}
+
+.kp-feedback-banner.warning {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  color: #fbbf24;
+}
+
+.kp-feedback-banner.success {
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #34d399;
+}
+
+.kp-feedback-action-btn {
+  background: currentColor;
+  color: #07090e !important;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.kp-feedback-action-btn:hover {
+  opacity: 0.9;
+  transform: scale(1.04);
+}
+
 /* 9. FOOTER PROFESIONAL */
 .app-footer {
   position: relative;

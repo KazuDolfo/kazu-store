@@ -666,18 +666,61 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
+    const feedbackMsgEl = document.getElementById('kp-feedback-msg');
+
+    function showFeedback(type, text, actionText = null, actionCallback = null) {
+      if (!feedbackMsgEl) return;
+      feedbackMsgEl.className = `kp-feedback-banner ${type}`;
+      feedbackMsgEl.innerHTML = '';
+
+      const textSpan = document.createElement('span');
+      textSpan.innerHTML = text;
+      feedbackMsgEl.appendChild(textSpan);
+
+      if (actionText && typeof actionCallback === 'function') {
+        const actBtn = document.createElement('button');
+        actBtn.type = 'button';
+        actBtn.className = 'kp-feedback-action-btn';
+        actBtn.textContent = actionText;
+        actBtn.addEventListener('click', () => {
+          actionCallback();
+        });
+        feedbackMsgEl.appendChild(actBtn);
+      }
+
+      feedbackMsgEl.classList.remove('hidden');
+    }
+
+    function clearFeedback() {
+      if (feedbackMsgEl) {
+        feedbackMsgEl.classList.add('hidden');
+        feedbackMsgEl.innerHTML = '';
+      }
+    }
+
+    tabExisting?.addEventListener('click', () => {
+      clearFeedback();
+    });
+
+    tabNew?.addEventListener('click', () => {
+      clearFeedback();
+    });
+
     async function checkClientPoints(rawPhone) {
       if (!rawPhone) return;
       const phone = rawPhone.replace(/[^\d+]/g, '');
-      if (phone.length < 8) return;
+      if (phone.length < 8) {
+        showFeedback('warning', '⚠️ Ingresa un número de WhatsApp válido (mínimo 8 dígitos).');
+        return;
+      }
 
       phoneInput.value = phone;
       searchBtn.disabled = true;
       searchBtn.innerHTML = '<span>Consultando...</span>';
+      clearFeedback();
 
       try {
         let client = null;
-        let isNewClient = false;
         const refCodeUsed = refCodeInput ? refCodeInput.value.trim().toUpperCase() : null;
 
         if (window.kazuDb && typeof window.kazuDb.getClientCard === 'function') {
@@ -700,66 +743,107 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // SI ES NUEVO (no existe registro previo), REGALAR EL 1ER SELLO AUTOMÁTICAMENTE
-        if (!client) {
-          isNewClient = true;
-          const welcomeRes = await window.kazuDb?.claimWelcomeStamp(phone, refCodeUsed);
-          const currentFest = document.documentElement.getAttribute('data-festivity') || 'standard';
-
-          // Guardar también en LocalStorage offline por si acaso
-          const offlineLedger = JSON.parse(localStorage.getItem('kazustore_pending_stamps_v1') || '[]');
-          const welcomeEntry = {
-            phone: phone,
-            amount: 1,
-            action: 'earned',
-            reason: refCodeUsed ? `🎁 Sello Gratis de Bienvenida + Ref: ${refCodeUsed}` : '🎁 Sello Gratis de Bienvenida KazuPuntos',
-            festivity: currentFest,
-            offline: true,
-            id: 'welcome_' + Date.now()
-          };
-          offlineLedger.push(welcomeEntry);
-          localStorage.setItem('kazustore_pending_stamps_v1', JSON.stringify(offlineLedger));
-
-          client = {
-            phone: phone,
-            stamps_balance: 1,
-            nickname: '¡Bienvenido(a) a KazuPuntos!',
-            referral_code: 'KZ-' + phone.slice(-4),
-            referral_credits: 0,
-            qualified_friends_count: 0,
-            ledger: [welcomeEntry]
-          };
-        }
-
-        const balance = client.stamps_balance || 0;
-        clientTag.textContent = client.nickname || `WhatsApp: ${phone}`;
-
-        // Extraer historial individual de cada sello ganado
-        const historyStamps = [];
-        if (client.ledger && Array.isArray(client.ledger)) {
-          client.ledger.forEach(entry => {
-            if (entry.action === 'earned') {
-              const count = Math.max(1, entry.amount || 1);
-              for (let k = 0; k < count; k++) {
-                historyStamps.push({ festivity: entry.festivity || 'standard' });
+        // =========================================================================
+        // MANEJO ESTRICTO DE ESTADO: "SOY NUEVO" VS "YA TENGO KAZUPUNTOS"
+        // =========================================================================
+        if (currentMode === 'new') {
+          // CASO A: Usuario ingresó a "Soy Nuevo", pero YA EXISTE en la base de datos
+          if (client) {
+            showFeedback(
+              'warning',
+              `ℹ️ <strong>Usted ya está registrado</strong> en nuestro Club con <strong>${client.stamps_balance || 0} KazuPunto(s)</strong>. El sello de bienvenida solo aplica 1 vez por cliente nuevo.`,
+              'Ver Mi Tarjeta',
+              () => {
+                tabExisting?.click();
+                checkClientPoints(phone);
               }
-            }
-          });
+            );
+            // Renderizar su tarjeta real sin otorgarle nuevos sellos
+            renderClientCardData(client, false);
+            return;
+          }
+
+          // CASO B: Es 100% NUEVO -> Otorgar 1er sello de bienvenida oficial
+          const welcomeRes = await window.kazuDb?.claimWelcomeStamp(phone, refCodeUsed);
+          if (welcomeRes && welcomeRes.client) {
+            client = welcomeRes.client;
+          } else {
+            // Contingencia local si hubo corte de conexión
+            const currentFest = document.documentElement.getAttribute('data-festivity') || 'standard';
+            client = {
+              phone: phone,
+              stamps_balance: 1,
+              nickname: '¡Bienvenido(a) a KazuPuntos!',
+              referral_code: 'KZ-' + phone.slice(-4),
+              referral_credits: 0,
+              ledger: [{
+                amount: 1,
+                action: 'earned',
+                reason: refCodeUsed ? `🎁 Sello Gratis + Ref: ${refCodeUsed}` : '🎁 Sello Gratis de Bienvenida KazuPuntos',
+                festivity: currentFest,
+                created_at: new Date().toISOString()
+              }]
+            };
+          }
+
+          showFeedback(
+            'success',
+            `🎉 <strong>¡Bienvenido(a) a KazuPuntos!</strong> Te hemos obsequiado tu <strong>1.er Sello GRATIS</strong>. Comparte tu código de referido para ganar crédito.`
+          );
+          renderClientCardData(client, true);
+          return;
         }
 
-        renderStamps(balance, historyStamps, isNewClient, client);
-        setCardVisibility(true, true);
+        // =========================================================================
+        // CASO C: Usuario ingresó a "Ya Tengo KazuPuntos", pero NO ESTÁ REGISTRADO
+        // =========================================================================
+        if (!client) {
+          setCardVisibility(false);
+          showFeedback(
+            'info',
+            `🔍 <strong>Usted no está registrado aún</strong> con el número <strong>${phone}</strong>. ¡Empieza gratis reclamando tu primer sello de bienvenida!`,
+            '🎁 Reclamar 1.er Sello Gratis',
+            () => {
+              tabNew?.click();
+              phoneInput.value = phone;
+              searchBtn.click();
+            }
+          );
+          return;
+        }
+
+        // CASO D: Cliente existente consultando normalmente
+        renderClientCardData(client, false);
 
       } catch (e) {
         console.warn('Error al consultar KazuPuntos:', e);
-        renderStamps(0);
-        setCardVisibility(true, true);
+        showFeedback('warning', '⚠️ Ocurrió una interrupción de conexión con la nube. Intenta nuevamente.');
       } finally {
         searchBtn.disabled = false;
         searchBtn.innerHTML = currentMode === 'new' 
           ? '<span>🎁 Reclamar Mi 1.er Sello Gratis</span>' 
           : '<span>Consultar Mis Puntos</span>';
       }
+    }
+
+    function renderClientCardData(client, isNewClient = false) {
+      const balance = client.stamps_balance || 0;
+      clientTag.textContent = client.nickname || `WhatsApp: ${client.phone || ''}`;
+
+      const historyStamps = [];
+      if (client.ledger && Array.isArray(client.ledger)) {
+        client.ledger.forEach(entry => {
+          if (entry.action === 'earned') {
+            const count = Math.max(1, entry.amount || 1);
+            for (let k = 0; k < count; k++) {
+              historyStamps.push({ festivity: entry.festivity || 'standard' });
+            }
+          }
+        });
+      }
+
+      renderStamps(balance, historyStamps, isNewClient, client);
+      setCardVisibility(true, true);
     }
 
     // Copiar enlace de referido para compartir
